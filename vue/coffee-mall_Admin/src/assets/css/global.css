@@ -1,0 +1,7 @@
+/* 全局样式 */
+HTML,body,#app
+{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
