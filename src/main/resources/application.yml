@@ -1,12 +1,28 @@
-# mysql
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: # mysql urL jdbc:mysql://localhost:3306/sportplay?serverTimezone=UTC
-    username: # input ur username root
-    password: # password for my sql
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.code59.caffemall.bean #bean层实体对象
+    datasource:
+        dynamic:
+            primary: master #设置默认的数据源或者数据源组,默认值即为master
+            strict: false #设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候回抛出异常,不启动会使用默认数据源.
+            datasource:
+                master: #coffee
+                    url: jdbc:mysql://localhost:3306/coffee?serverTimezone=UTC
+                    username: root
+                    password: #
+                    driver-class-name: com.mysql.cj.jdbc.Driver
+                coffee_guest:
+                    url: jdbc:mysql://localhost:3306/coffee_guest?serverTimezone=UTC
+                    username: root
+                    password: #
+                    driver-class-name: com.mysql.cj.jdbc.Driver
+                coffee_shop:
+                    url: jdbc:mysql://localhost:3306/coffee_shop?serverTimezone=UTC
+                    username: root
+                    password: #
+                    driver-class-name: com.mysql.cj.jdbc.Driver
+
 server:
   port: 80
+
+mybatis-plus:
+    configuration:
+        log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
