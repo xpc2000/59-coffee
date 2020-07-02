@@ -1,19 +1,11 @@
-# coffee-mall
+# coffee-mall-Admin
 
-## Project setup
-```
-npm install
-```
+#### 项目配置
+-----
+1.安装vue及vue-cli脚手架
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+2.于命令行输入vue ui
 
-### Compiles and minifies for production
-```
-npm run build
-```
+3.导入项目后安装插件：axios,core-js, element-ui, less, less-loader, vue, vue-router, vue-template-compiler
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+4.任务编译中，启动APP，即可打开网页
