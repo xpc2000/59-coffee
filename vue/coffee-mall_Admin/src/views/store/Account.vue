@@ -14,19 +14,19 @@
         <!-- 搜索栏 新建按钮-->
         <el-form class="user-search" :inline="true" label-width="90px">
             <el-form-item prop="store" label="门店ID: ">
-                <el-input v-model="value" placeholder="请输入门店ID" clearable></el-input>
+                <el-input v-model="storeID" placeholder="请输入门店ID" clearable></el-input>
             </el-form-item>
             <el-form-item label="">
                 <el-button size="small" type="primary"  icon="iconfont icon-chazhao" class="title" round @click="Search()"> 查询门店 </el-button>
             </el-form-item>
             <el-form-item label="">
-                <el-button size="small" type="primary" icon="iconfont icon-tianjiaxindeyangbenhe" round @click="handleEdit()"> 添加门店</el-button>
+                <el-button size="small" type="primary" icon="iconfont icon-tianjiaxindeyangbenhe" round @click="handleEdit()"> 添加门店 </el-button>
             </el-form-item>
         </el-form>
 
         <!-- 列表 -->
         <el-table :data="tempList":fit="true" :show-header="true"
-                  :default-sort = "{prop: 'storeID', order: 'descending'}" border="true" max-height="430">
+                  :default-sort = "{prop: 'storeID', order: 'descending'}" :border="true" max-height="430" v-loading = "loading">
             <el-table-column prop="storeID" label="门店账号" align="center">
             </el-table-column>
             <el-table-column prop="password" label="门店密码" align="center">
@@ -82,7 +82,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button size="small" @click='closeDialog()'>取消</el-button>
-                <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">保存</el-button>
+                <el-button size="small" type="primary"  class="title" @click="submitForm('editForm')">保存</el-button>
             </div>
         </el-dialog>
     </div>
@@ -94,6 +94,17 @@
         data()
         {
             return{
+
+                loading: false,   // 加载中
+                storeID:'',   // 搜索框 门店ID
+                editFormVisible:false,   // 控制编辑页面显示与隐藏
+                title:"添加门店",
+
+                /* 分页 */
+                pageSize:10,
+                currentPage:1,
+                totalSize:20,   // 总条数，用于死数据
+                tempList: [],   // 分页数据
 
                 /* 暂时填充用户列表 */
                 UserList:
@@ -184,12 +195,6 @@
                         },
                     ],
 
-                /* 分页 */
-                pageSize:10,
-                currentPage:1,
-                totalSize:20,   // 总条数，用于死数据
-                tempList: [],   // 用于死数据
-
                 /* 编辑页面样式 */
                 editForm: {
                     storeID: '',
@@ -198,9 +203,6 @@
                     address: '',
                     tel: '',
                 },
-
-                editFormVisible:false,   // 控制编辑页面显示与隐藏
-                title:"添加门店",
 
                 /* rules表单验证 */
                 rules: {
@@ -230,11 +232,31 @@
             }
         },
 
+        /* 初始化 */
+        mounted() {
+            this.getList();
+        },
+
         methods: {
-            /* TO DO:查询 */
+
+            /* 获得列表 */
+            async getList() {
+                this.loading = true;
+
+                const {data: res} = await this.$http.post("SearchStore", this.storeID);
+
+                //设置列表数据
+                this.UserList = res;
+
+                this.loading = false;
+            },
+
+            /* 查询 */
             Search()
             {
-
+                this.getList();
+                this.totalSize = this.UserList.length;   // 更新总条数
+                this.handleSizeChange(this.pageSize);   // 更新分页 界面
             },
 
             /* 分页更新功能 */
@@ -247,7 +269,7 @@
             /* 分页与排序不可兼得 */
             handleCurrentChange(val)
             {
-                this.totalSize = this.UserList.length;   // 更新总条数，用于死数据
+                //   this.totalSize = this.UserList.length;   // 更新总条数，用于死数据
                 this.currentPage = val;
                 let from = (this.currentPage - 1) * this.pageSize;
                 let to = this.currentPage * this.pageSize;
@@ -300,7 +322,6 @@
                         userSave(this.editForm)
                             .then(res => {
                                 this.editFormVisible = false
-                                this.loading = false
                                 if (res.success)
                                 {
                                     this.getdata(this.formInline)
@@ -319,7 +340,6 @@
                             })
                             .catch(err => {
                                 this.editFormVisible = false
-                                this.loading = false
                                 this.$message.error('保存失败，请稍后再试！')
                             })
                     }
@@ -358,7 +378,6 @@
                                 }
                             })
                             .catch(err => {
-                                this.loading = false
                                 this.$message.error('数据删除失败，请稍后再试！')
                             })
                     })

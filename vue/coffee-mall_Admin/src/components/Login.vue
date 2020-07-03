@@ -72,15 +72,15 @@ export default
             {
                 if(!valid)
                      return;
-                //const {data:res} = await this.$http.post("test", this.loginForm);
-                if(true)
+                const {data:res} = await this.$http.post("AdminLogin", this.loginForm);
+                if(res === "ok")
                 {
                     this.$message.success("登录成功");   // 信息提示
-                    this.$router.push({path: "/home"});   // 页面路由跳转
+                    await this.$router.push({path: "/home"});   // 页面路由跳转
                 }
                 else
                 {
-                    this.$message.error("操作失败");   // 错误提示
+                    this.$message.error("账号或者密码错误");   // 错误提示
                 }
             })
         }

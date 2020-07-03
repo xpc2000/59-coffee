@@ -8,7 +8,7 @@ import  './assets/font/iconfont.css'   // 引入iconfont
 import axios from 'axios'// 导入axios跨域
 
 Vue.prototype.$http = axios   // 挂在axios
-axios.defaults.baseURL = "http://localhost:9000"   // 设置访问根路径
+axios.defaults.baseURL = "http://localhost:80"   // 设置访问根路径 后端路径
 
 Vue.config.productionTip = false
 
