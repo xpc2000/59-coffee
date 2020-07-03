@@ -14,7 +14,7 @@
         <!-- 搜索栏 新建按钮-->
         <el-form class="user-search" :inline="true" label-width="90px">
             <el-form-item prop="store" label="餐品名称: ">
-                <el-input v-model="value" placeholder="请输入餐品名称" clearable></el-input>
+                <el-input v-model="foodName" placeholder="请输入餐品名称" clearable></el-input>
             </el-form-item>
             <el-form-item label="">
                 <el-button size="small" type="primary"  icon="iconfont icon-chazhao" class="title" round @click="Search()"> 查询餐品 </el-button>
@@ -99,7 +99,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button size="small" @click='closeDialog()'>取消</el-button>
-                <el-button size="small" type="primary" :loading="loading" class="title" @click="submitForm('editForm')">保存</el-button>
+                <el-button size="small" type="primary"  class="title" @click="submitForm('editForm')">保存</el-button>
             </div>
         </el-dialog>
     </div>
@@ -111,8 +111,20 @@
         data() {
             return {
 
+                imageUrl:'',   // 图片路径
+                foodName:'',   // 搜索框 餐品名称
+                title: "添加餐品",
+                editFormVisible: false,   // 控制编辑页面显示与隐藏
+
+                /* 分页 */
+                pageSize: 4,
+                currentPage: 1,
+                totalSize: 20,   // 总条数，用于死数据
+                tempList: [],   // 分页数据
+
+
                 /* 死数据 循环卡片列表的数据源 */
-                tabledata: [
+                tableData: [
                     {
                         foodID: '1',
                         foodName: '餐品1',
@@ -120,90 +132,84 @@
                         foodMoney: '单价',
                     },
                     {
-                        foodID: '1',
+                        foodID: '2',
                         foodName: '餐品2',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '3',
                         foodName: '餐品3',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '4',
                         foodName: '餐品4',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '5',
                         foodName: '餐品5',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '6',
                         foodName: '餐品6',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '7',
                         foodName: '餐品7',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '8',
                         foodName: '餐品8',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '9',
                         foodName: '餐品9',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '10',
                         foodName: '餐品10',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '11',
                         foodName: '餐品11',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '12',
                         foodName: '餐品12',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '13',
                         foodName: '餐品13',
                         foodType: '3',
                         foodMoney: '4',
                     },
                     {
-                        foodID: '1',
+                        foodID: '14',
                         foodName: '餐品14',
                         foodType: '3',
                         foodMoney: '4',
                     },
                 ],
-
-                /* 分页 */
-                pageSize: 4,
-                currentPage: 1,
-                totalSize: 20,   // 总条数，用于死数据
-                tempList: [],   // 用于死数据
 
                 /* 编辑页面样式 */
                 editForm: {
@@ -212,12 +218,6 @@
                     foodType: '',
                     foodMoney: '',
                 },
-
-                /* 图片路径 */
-                imageUrl:'',
-
-                editFormVisible: false,   // 控制编辑页面显示与隐藏
-                title: "添加餐品",
 
                 /* rules表单验证 */
                 rules: {
@@ -243,11 +243,29 @@
             }
         },
 
+        /* 初始化 */
+        mounted() {
+            this.getList();
+        },
+
         methods: {
-            /* TO DO:查询 */
+
+            /* 获得列表 */
+            async getList() {
+
+                const {data: res} = await this.$http.post("SearchFood", this.foodName);
+
+                //设置列表数据
+                this.tableData = res;
+
+            },
+
+            /* 查询 */
             Search()
             {
-
+                this.getList();
+                this.totalSize = this.tableData.length;   // 更新总条数
+                this.handleSizeChange(this.pageSize);   // 更新分页 界面
             },
 
             /* 分页更新功能 */
@@ -257,19 +275,19 @@
                 this.handleCurrentChange(this.currentPage);
             },
 
-            /* TO-DO: 死数据 */
+            /* 更新 */
             handleCurrentChange(val)
             {
-                this.totalSize = this.tabledata.length;   // 更新总条数，用于死数据
+             //   this.totalSize = this.tableData.length;   // 更新总条数，用于死数据
                 this.currentPage = val;
                 let from = (this.currentPage - 1) * this.pageSize;
                 let to = this.currentPage * this.pageSize;
                 this.tempList = [];
                 for (; from < to; from++)
                 {
-                    if (this.tabledata[from])
+                    if (this.tableData[from])
                     {
-                        this.tempList.push(this.tabledata[from]);
+                        this.tempList.push(this.tableData[from]);
                     }
                 }
             },
@@ -331,7 +349,6 @@
                         userSave(this.editForm)
                             .then(res => {
                                 this.editFormVisible = false
-                                this.loading = false
                                 if (res.success)
                                 {
                                     this.getdata(this.formInline)
@@ -350,7 +367,6 @@
                             })
                             .catch(err => {
                                 this.editFormVisible = false
-                                this.loading = false
                                 this.$message.error('保存失败，请稍后再试！')
                             })
                     }
@@ -389,7 +405,6 @@
                                 }
                             })
                             .catch(err => {
-                                this.loading = false
                                 this.$message.error('数据删除失败，请稍后再试！')
                             })
                     })
