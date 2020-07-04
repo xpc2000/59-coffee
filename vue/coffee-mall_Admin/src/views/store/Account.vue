@@ -233,7 +233,7 @@
         },
 
         /* 初始化 */
-        mounted() {
+        created() {
             this.getList();
         },
 
@@ -316,32 +316,26 @@
 
             // 编辑、添加提交方法
             submitForm(editData) {
-                this.$refs[editData].validate(valid => {
+                this.$refs[editData].validate(async valid => {
                     if (valid) {
-                        // 请求方法
-                        userSave(this.editForm)
-                            .then(res => {
-                                this.editFormVisible = false
-                                if (res.success)
-                                {
-                                    this.getdata(this.formInline)
-                                    this.$message({
-                                        type: 'success',
-                                        message: '数据保存成功！'
-                                    })
-                                }
-                                else
-                                {
-                                    this.$message({
-                                        type: 'info',
-                                        message: res.msg
-                                    })
-                                }
+                        const {data:res} = await this.$http.post("storeSave", editData);
+                        this.editFormVisible = false
+                        if (res === "ok")
+                        {
+                            await this.getList();
+                            this.$message({
+                                type: 'success',
+                                message: '数据保存成功！'
                             })
-                            .catch(err => {
-                                this.editFormVisible = false
-                                this.$message.error('保存失败，请稍后再试！')
+                        }
+                        else
+                        {
+                            this.$message({
+                                type: 'info',
+                                message: res.msg
                             })
+                        }
+
                     }
                     else
                     {
@@ -357,29 +351,27 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 })
-                    .then(() => {
+                    .then(async () => {
                         // 删除
-                        userDelete(row.id)
-                            .then(res => {
-                                if (res.success)
-                                {
-                                    this.$message({
-                                        type: 'success',
-                                        message: '数据已删除!'
-                                    })
-                                    this.getdata(this.formInline)
-                                }
-                                else
-                                {
-                                    this.$message({
-                                        type: 'info',
-                                        message: res.msg
-                                    })
-                                }
+                        const {data:res} = await this.$http.post("storeDelete", row.storeID);
+                        if (res === "ok")
+                        {
+                            await this.getList();
+                            this.$message({
+                                type: 'success',
+                                message: '数据已删除!'
                             })
-                            .catch(err => {
-                                this.$message.error('数据删除失败，请稍后再试！')
+                        }
+                        else
+                        {
+                            this.$message({
+                                type: 'info',
+                                message: "删除失败"
                             })
+                        }
+                    })
+                    .catch(err => {
+                        this.$message.error('数据删除失败，请稍后再试！')
                     })
                     .catch(() => {
                         this.$message({

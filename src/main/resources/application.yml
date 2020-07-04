@@ -2,9 +2,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: # mysql urL jdbc:mysql://localhost:3306/sportplay?serverTimezone=UTC
-    username: # input ur username root
-    password: # password for my sql
+    url: jdbc:mysql://localhost:3306/sportplay?serverTimezone=UTC
+    username: 123
+    password: 456
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.code59.caffemall.bean #bean层实体对象

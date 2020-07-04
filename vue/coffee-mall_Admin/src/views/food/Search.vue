@@ -32,7 +32,7 @@
                 <el-col :span="4" v-for="(item) in tempList" :key="item.foodID" :offset="1">
                     <div style="margin-top:15px">
                         <el-card :body-style="{ padding: '0px'}"  shadow="hover">
-                            <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+                            <img :src="item.foodImage" class="image">
                             <div style="padding: 14px;">
                                 <span>{{item.foodName}}</span>
                                 <div style="padding-bottom: 14px; padding-top: 14px">
@@ -91,7 +91,7 @@
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
                         :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <img v-if="editForm.foodImage" :src="editForm.foodImage" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
                 </el-form-item>
@@ -130,84 +130,98 @@
                         foodName: '餐品1',
                         foodType: '类型',
                         foodMoney: '单价',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '2',
                         foodName: '餐品2',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '3',
                         foodName: '餐品3',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '4',
                         foodName: '餐品4',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '5',
                         foodName: '餐品5',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '6',
                         foodName: '餐品6',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '7',
                         foodName: '餐品7',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '8',
                         foodName: '餐品8',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '9',
                         foodName: '餐品9',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '10',
                         foodName: '餐品10',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '11',
                         foodName: '餐品11',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '12',
                         foodName: '餐品12',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '13',
                         foodName: '餐品13',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
                         foodID: '14',
                         foodName: '餐品14',
                         foodType: '3',
                         foodMoney: '4',
+                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                 ],
 
@@ -217,6 +231,7 @@
                     foodName: '',
                     foodType: '',
                     foodMoney: '',
+                    foodImage:'',
                 },
 
                 /* rules表单验证 */
@@ -244,7 +259,7 @@
         },
 
         /* 初始化 */
-        mounted() {
+        created() {
             this.getList();
         },
 
@@ -303,6 +318,7 @@
                     this.editForm.foodName = item.foodName;
                     this.editForm.foodType = item.foodType;
                     this.editForm.foodMoney = item.foodMoney;
+                    this.editForm.foodImage = item.foodImage;
                 }
                 else
                 {
@@ -311,6 +327,7 @@
                     this.editForm.foodName = '';
                     this.editForm.foodType = '';
                     this.editForm.foodMoney = '';
+                    this.editForm.foodImage = '';
                 }
 
             },
@@ -343,32 +360,26 @@
 
             // 编辑、添加提交方法
             submitForm(editData) {
-                this.$refs[editData].validate(valid => {
+                this.$refs[editData].validate(async valid => {
                     if (valid) {
-                        // 请求方法
-                        userSave(this.editForm)
-                            .then(res => {
-                                this.editFormVisible = false
-                                if (res.success)
-                                {
-                                    this.getdata(this.formInline)
-                                    this.$message({
-                                        type: 'success',
-                                        message: '数据保存成功！'
-                                    })
-                                }
-                                else
-                                {
-                                    this.$message({
-                                        type: 'info',
-                                        message: res.msg
-                                    })
-                                }
+                        const {data:res} = await this.$http.post("foodSave", editData);
+                        this.editFormVisible = false
+                        if (res === "ok")
+                        {
+                            await this.getList();
+                            this.$message({
+                                type: 'success',
+                                message: '数据保存成功！'
                             })
-                            .catch(err => {
-                                this.editFormVisible = false
-                                this.$message.error('保存失败，请稍后再试！')
+                        }
+                        else
+                        {
+                            this.$message({
+                                type: 'info',
+                                message: res.msg
                             })
+                        }
+
                     }
                     else
                     {
@@ -384,29 +395,27 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 })
-                    .then(() => {
+                    .then(async () => {
                         // 删除
-                        userDelete(item.id)
-                            .then(res => {
-                                if (res.success)
-                                {
-                                    this.$message({
-                                        type: 'success',
-                                        message: '数据已删除!'
-                                    })
-                                    this.getdata(this.formInline)
-                                }
-                                else
-                                {
-                                    this.$message({
-                                        type: 'info',
-                                        message: res.msg
-                                    })
-                                }
+                        const {data:res} = await this.$http.post("foodDelete", item.foodID);
+                        if (res.success)
+                        {
+                            this.$message({
+                                type: 'success',
+                                message: '数据已删除!'
                             })
-                            .catch(err => {
-                                this.$message.error('数据删除失败，请稍后再试！')
+                            await this.getList();
+                        }
+                        else
+                        {
+                            this.$message({
+                                type: 'info',
+                                message: res.msg
                             })
+                        }
+                    })
+                    .catch(err => {
+                        this.$message.error('数据删除失败，请稍后再试！')
                     })
                     .catch(() => {
                         this.$message({
