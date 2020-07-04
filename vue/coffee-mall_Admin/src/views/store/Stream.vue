@@ -109,7 +109,7 @@
         },
 
         /* 初始化 */
-        mounted() {
+        created() {
             this.getNameList();
             this.getList();
         },
@@ -119,7 +119,7 @@
             /* 获得门店选择器列表 */
             async getNameList() {
 
-                const {data: res} = await this.$http.post("SelectStore", "getName");
+                const {data: res} = await this.$http.get("SelectStore");
 
                 //设置列表数据
                 this.option = res;
