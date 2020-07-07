@@ -49,4 +49,17 @@ public class LoginController
             return "ok";
         }
     }
+    @RequestMapping("/GuestRegister")
+    public String Register(@RequestBody Guest guest)
+    {
+        System.out.println(guest);
+        Guest t = userService.get(guest.getId());
+        if(t==null)
+        {
+            userService.add(guest);
+            return "ok";
+        }else {
+            return "the id is already used by others";
+        }
+    }
 }
