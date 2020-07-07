@@ -45,9 +45,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Guest> getUserByMessage(String username, String password) {
+    public List<Guest> getUserByMessage(String id, String password) {
         QueryWrapper wrapper = new QueryWrapper();
-        wrapper.eq("name",username);
+        wrapper.eq("id",id);
         wrapper.eq("password",password);
         return guestDao.selectList(wrapper);
     }
