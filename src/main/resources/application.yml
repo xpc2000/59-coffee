@@ -7,17 +7,17 @@ spring:
                 master: #coffee
                     url: jdbc:mysql://localhost:3306/coffee?serverTimezone=UTC
                     username: root
-                    password: #
+                    password: alex20000211
                     driver-class-name: com.mysql.cj.jdbc.Driver
                 coffee_guest:
                     url: jdbc:mysql://localhost:3306/coffee_guest?serverTimezone=UTC
                     username: root
-                    password: #
+                    password: alex20000211
                     driver-class-name: com.mysql.cj.jdbc.Driver
                 coffee_shop:
                     url: jdbc:mysql://localhost:3306/coffee_shop?serverTimezone=UTC
                     username: root
-                    password: #
+                    password: alex20000211
                     driver-class-name: com.mysql.cj.jdbc.Driver
 
 server:

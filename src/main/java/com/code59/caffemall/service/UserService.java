@@ -14,6 +14,6 @@ public interface UserService {
     public int update(Guest guest);
     public Guest get(String id);
     public List<Guest> list();
-    public List<Guest> getUserByMessage(String username,String password);
+    public List<Guest> getUserByMessage(String id,String password);
     public List<Shop> getAdminByMessage(String id,String password);
 }
