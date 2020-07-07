@@ -7,7 +7,7 @@
 
 |接口 名称| 功能| 前端给出|所需后端数据 |
 |-|-|-|-|
-|AdminLogin|管理员登录 |{用户名username，密码password}loginForm对象 |"ok"登录成功/其他登录失败 |
+|AdminLogin|管理员登录 |{用户名id，密码password}loginForm对象 |"ok"登录成功/其他登录失败 |
 |SearchStore|通过门店ID查找门店信息 |筛选条件:门店账号storeID  (为空字符串则无筛选条件)  |筛选到的门店数 , 符合条件的门店列表 |
 |SearchFood|通过餐品名称查找餐品信息 |筛选条件:餐品名称 foodName  (为空字符串则无筛选条件)  |筛选到的餐品数 , 符合条件的餐品列表 |
 |SelectStore(暂时不用)|更新门店名称选择器 | 无| 筛选到的option列表数 , 全部{value，label}的option对象列表|
