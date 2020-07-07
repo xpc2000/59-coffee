@@ -1,24 +1,52 @@
 package com.code59.caffemall.controller;
 
-import com.code59.caffemall.bean.Customer;
-import com.code59.caffemall.service.CustomerService;
+import com.code59.caffemall.bean.Guest;
+import com.code59.caffemall.bean.Shop;
+import com.code59.caffemall.service.UserService;
+import com.code59.caffemall.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-public class LoginController {
+public class LoginController
+{
     @Autowired
-    CustomerService customerService;
-    @RequestMapping("/login")
-    public String login(@RequestBody Customer customer)
+    UserService userService;
+    @RequestMapping("/AdminLogin")
+    public String login()
     {
-        if(customer.getPassWord()==customerService.get(customer.getId()).getPassWord())
+        return "ok";
+    }
+
+    @RequestMapping("/GuestLogin")
+    public String login(@RequestBody Guest guest)
+    {
+        System.out.println(guest);
+        List<Guest> guests = userService.getUserByMessage(guest.getId(),guest.getPassword());
+        if(null==guests||guests.size()==0)
         {
-            return "";
+            return "fall";
         }else{
-            return "";
+            return "ok";
+        }
+    }
+
+    @RequestMapping("/ShopAdminLogin")
+    public String login(@RequestBody Shop shop)
+    {
+
+        List<Shop> shops = userService.getAdminByMessage(shop.getId(),shop.getPassword());//name->id
+        if(null==shops||shops.size()==0)
+        {
+            return "fall";
+        }else
+        {
+            return "ok";
         }
     }
 }
