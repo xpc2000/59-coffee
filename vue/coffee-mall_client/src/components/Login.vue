@@ -9,10 +9,10 @@
                     <el-input size="small" v-model="editForm.id" auto-complete="off" prefix-icon="iconfont icon-denglu" placeholder="请输入客户账号" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password"  required>
-                    <el-input size="small" v-model="editForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码" clearable show-password></el-input>
+                    <el-input size="small" v-model="editForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码"  show-password></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="passwordConfirm"  required>
-                    <el-input size="small" v-model="editForm.passwordConfirm" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码" clearable show-password></el-input>
+                    <el-input size="small" v-model="editForm.passwordConfirm" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码"  show-password></el-input>
                 </el-form-item>
                 <el-form-item label="客户名称" prop="name"  required>
                     <el-input size="small" v-model="editForm.name" prefix-icon="iconfont icon-denglu" placeholder="请输入门店名称" clearable></el-input>
@@ -51,7 +51,7 @@
 
                 <!-- 密码 -->
                 <el-form-item prop="password">
-                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-mima" type="password" placeholder="密码" show-password clearable></el-input>
+                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-mima" type="password" placeholder="密码" show-password ></el-input>
                 </el-form-item>
 
                 <!-- 选择器 客户注册界面 -->
@@ -145,8 +145,8 @@ export default
                     { required: true, message: '请输入客户账号', trigger: 'change' },
                 ],
                 password: [
-                    { required: true, message: '请输入门店密码', trigger: 'blur' },
-                    { required: true, message: '请输入门店密码', trigger: 'change' },
+                    { required: true, message: '请输入客户密码', trigger: 'blur' },
+                    { required: true, message: '请输入客户密码', trigger: 'change' },
                 ],
                 passwordConfirm: [
                     { required: true, message: '请确认密码', trigger: 'blur'},
@@ -205,14 +205,17 @@ export default
                 else {
                     url = "ShopAdminLogin"
                 }
-                const {data:res} = await this.$http.post(url, this.loginForm);
-                if(res === "ok")
+                //const {data:res} = await this.$http.post(url, this.loginForm);
+                if(true)
                 {
                     this.$message.success("登录成功");   // 信息提示
                     if(this.loginForm.value === "客户")
                         await this.$router.push({path: "/GuestHome"});   // 页面路由跳转
                     else if(this.loginForm.value === "门店")
                         await this.$router.push({path: "/ShopHome"});   // 页面路由跳转
+                    if(window.sessionStorage.getItem("username") === null) {
+                        window.sessionStorage.setItem("username", this.loginForm.id);
+                    }
                 }
                 else
                 {

@@ -26,3 +26,5 @@
 |GuestLogin|客户登录|{username, password} |返回"ok"则成功登录|
 |ShopAdminLogin|门店登录|{username, password} |返回"ok"则成功登录|
 |GuestRegister|客户注册|{id, password, passwordConfirm, name, tel} |返回"ok"则成功注册|
+|getMessage|客户个人信息修改初始化|id |返回{password, passwordConfirm, name, tel, address ,delivery_address}|
+|GuestRegister|客户个人信息修改|{password, passwordConfirm, name, tel, address ,delivery_address}|返回"ok"则成功修改|
