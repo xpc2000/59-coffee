@@ -25,3 +25,4 @@
 |-|-|-|-|
 |GuestLogin|客户登录|{username, password} |返回"ok"则成功登录|
 |ShopAdminLogin|门店登录|{username, password} |返回"ok"则成功登录|
+|GuestRegister|客户注册|{id, password, passwordConfirm, name, tel} |返回"ok"则成功注册|
