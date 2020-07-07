@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Login from "../components/Login.vue"
 import ShopHome from '../components/ShopHome'
 import GuestHome from '../components/GuestHome'
+import Message from '../views/Message'
 
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -23,13 +24,19 @@ Vue.use(VueRouter)
             component: Login
           },
           {
-              path: "/ShopHome",
-              component: ShopHome
+              path: "/GuestHome",
+              component: GuestHome,
+              redirect: "/Message",
+              children:[
+                  {path: "/Message", component: Message},
+              ]
           },
           {
-              path: "/GuestHome",
-              component: GuestHome
-          }
+              path: "/ShopHome",
+              component: ShopHome,
+
+          },
+
       ]
 
 const router = new VueRouter({

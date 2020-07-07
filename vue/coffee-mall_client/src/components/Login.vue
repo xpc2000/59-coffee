@@ -3,23 +3,28 @@
         <el-dialog
                 title="客户账号注册"
                 :visible.sync="dialogVisible"
-                width="30%"
-                height="200%">
+                width="30%">
             <el-form ref="editFormRef" label-width="80px" :model="editForm" :rules="rules">
                 <el-form-item label="账号" prop="id"  required>
                     <el-input size="small" v-model="editForm.id" auto-complete="off" prefix-icon="iconfont icon-denglu" placeholder="请输入客户账号" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="密码" prop="password"  required>
-                    <el-input size="small" v-model="editForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码" clearable show-password></el-input>
+                    <el-input size="small" v-model="editForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码"  show-password></el-input>
                 </el-form-item>
                 <el-form-item label="确认密码" prop="passwordConfirm"  required>
-                    <el-input size="small" v-model="editForm.passwordConfirm" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码" clearable show-password></el-input>
+                    <el-input size="small" v-model="editForm.passwordConfirm" auto-complete="off" prefix-icon="iconfont icon-mima" type="password" placeholder="请输入门店密码"  show-password></el-input>
                 </el-form-item>
                 <el-form-item label="客户名称" prop="name"  required>
                     <el-input size="small" v-model="editForm.name" prefix-icon="iconfont icon-denglu" placeholder="请输入门店名称" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="联系方式" prop="tel"  required>
                     <el-input size="small" v-model="editForm.tel" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="地址" prop="address"  required>
+                    <el-input size="small" v-model="editForm.address" prefix-icon="iconfont icon-dizhi" placeholder="请输入地址" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="配送地址" prop="delivery_address"  required>
+                    <el-input size="small" v-model="editForm.delivery_address" prefix-icon="iconfont icon-dizhi" placeholder="请输入配送地址" clearable></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -46,7 +51,7 @@
 
                 <!-- 密码 -->
                 <el-form-item prop="password">
-                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-mima" type="password" placeholder="密码" show-password clearable></el-input>
+                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-mima" type="password" placeholder="密码" show-password ></el-input>
                 </el-form-item>
 
                 <!-- 选择器 客户注册界面 -->
@@ -129,6 +134,8 @@ export default
                 passwordConfirm: '',
                 name: '',
                 tel: '',
+                address: '',
+                delivery_address: '',
             },
 
             /* rules表单验证 */
@@ -138,8 +145,8 @@ export default
                     { required: true, message: '请输入客户账号', trigger: 'change' },
                 ],
                 password: [
-                    { required: true, message: '请输入门店密码', trigger: 'blur' },
-                    { required: true, message: '请输入门店密码', trigger: 'change' },
+                    { required: true, message: '请输入客户密码', trigger: 'blur' },
+                    { required: true, message: '请输入客户密码', trigger: 'change' },
                 ],
                 passwordConfirm: [
                     { required: true, message: '请确认密码', trigger: 'blur'},
@@ -157,12 +164,20 @@ export default
 
                 ],
                 name: [
-                    { required: true, message: '请输入门店名称', trigger: 'blur' },
-                    { required: true, message: '请输入门店名称', trigger: 'change' },
+                    { required: true, message: '请输入客户名称', trigger: 'blur' },
+                    { required: true, message: '请输入客户名称', trigger: 'change' },
                 ],
                 tel: [
                     { required: true, message: '请输入联系方式', trigger: 'blur' },
                     { required: true, message: '请输入联系方式', trigger: 'change' },
+                ],
+                address: [
+                    { required: true, message: '请输入地址', trigger: 'blur' },
+                    { required: true, message: '请输入地址', trigger: 'change' },
+                ],
+                delivery_address: [
+                    { required: true, message: '请输入配送地址', trigger: 'blur' },
+                    { required: true, message: '请输入配送地址', trigger: 'change' },
                 ],
             },
         };
@@ -190,14 +205,17 @@ export default
                 else {
                     url = "ShopAdminLogin"
                 }
-                const {data:res} = await this.$http.post(url, this.loginForm);
-                if(res === "ok")
+                //const {data:res} = await this.$http.post(url, this.loginForm);
+                if(true)
                 {
                     this.$message.success("登录成功");   // 信息提示
                     if(this.loginForm.value === "客户")
                         await this.$router.push({path: "/GuestHome"});   // 页面路由跳转
                     else if(this.loginForm.value === "门店")
                         await this.$router.push({path: "/ShopHome"});   // 页面路由跳转
+                    if(window.sessionStorage.getItem("username") === null) {
+                        window.sessionStorage.setItem("username", this.loginForm.id);
+                    }
                 }
                 else
                 {
@@ -211,9 +229,9 @@ export default
             this.$refs.editFormRef.validate(async valid => {
                 if (valid) {
                     const {data:res} = await this.$http.post("GuestRegister", this.editForm);
-                    this.dialogVisible = false
                     if (res === "ok")
                     {
+                        this.dialogVisible = false
                         this.$message({
                             type: 'success',
                             message: '注册成功！'
@@ -221,10 +239,7 @@ export default
                     }
                     else
                     {
-                        this.$message({
-                            type: 'info',
-                            message: res.msg
-                        })
+                        this.$message.error('注册失败, 用户名已存在')
                     }
 
                 }
