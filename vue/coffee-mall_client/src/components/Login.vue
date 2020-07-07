@@ -13,8 +13,8 @@
             <el-form ref="loginFormRef"  :model="loginForm" :rules="loginRules" class="login_form"  label-width="0px">
 
                 <!-- 用户名 -->
-                <el-form-item prop="username">
-                    <el-input v-model="loginForm.username" prefix-icon="iconfont icon-denglu" placeholder="账号"></el-input>
+                <el-form-item prop="id">
+                    <el-input v-model="loginForm.id" prefix-icon="iconfont icon-denglu" placeholder="账号"></el-input>
                 </el-form-item>
 
                 <!-- 密码 -->
@@ -53,7 +53,7 @@ export default
             /* 表单对象 */
             loginForm:
             {
-                username:'',
+                id:'',
                 password:'',
                 value:'',
             },
@@ -61,7 +61,7 @@ export default
             /* 验证对象 */
             loginRules:
                 {
-                    username: [
+                    id: [
                         {required: true, message: '请输入账号', trigger: 'blur'},
                     ],
                     password: [
