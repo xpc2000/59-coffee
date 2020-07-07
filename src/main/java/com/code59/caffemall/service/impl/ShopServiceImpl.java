@@ -20,8 +20,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public int delete(Shop shop) {
-        return shopDao.deleteById(shop.getId());
+    public int delete(String id) {
+        return shopDao.deleteById(id);
     }
 
     @Override
@@ -30,8 +30,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
-    public Shop get(Shop shop) {
-        return shopDao.selectById(shop.getId());
+    public Shop get(String id) {
+        return shopDao.selectById(id);
     }
 
     @Override

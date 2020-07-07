@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/*
+完成用户登录，门店登录，用户注册
+ */
 @RestController
 public class LoginController
 {
     @Autowired
     UserService userService;
-    @RequestMapping("/AdminLogin")
-    public String login()
-    {
-        return "ok";
-    }
 
     @RequestMapping("/GuestLogin")
     public String login(@RequestBody Guest guest)
@@ -40,6 +38,7 @@ public class LoginController
     public String login(@RequestBody Shop shop)
     {
 
+        System.out.println(shop);
         List<Shop> shops = userService.getAdminByMessage(shop.getId(),shop.getPassword());//name->id
         if(null==shops||shops.size()==0)
         {
