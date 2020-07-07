@@ -34,8 +34,9 @@ public class UserController {
         System.out.println(id);
         id = id.substring(0,id.length()-1);
         Guest guest = userService.get(id);
-        ArrayList<Guest> tmp = new ArrayList<Guest>();
-        tmp.add(guest);
-        return JSON.toJSONString(tmp);
+//        ArrayList<Guest> tmp = new ArrayList<Guest>();
+//        tmp.add(guest);
+        System.out.println(guest);
+        return JSON.toJSONString(guest);
     }
 }

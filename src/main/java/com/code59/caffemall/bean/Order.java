@@ -2,15 +2,15 @@ package com.code59.caffemall.bean;
 
 public class Order {
     private String id;
-    private String id_food;
+    private String idFood;
     private int num;
-    private boolean order_type;
+    private boolean orderType;
     private String time;
-    private String deliver_address;
-    private String id_guest;
+    private String deliverAddress;
+    private String idGuest;
     private String phone;
-    private boolean be_over;
-    private boolean be_deliver;
+    private boolean beOver;
+    private boolean beDeliver;
 
     public String getId() {
         return id;
@@ -20,12 +20,12 @@ public class Order {
         this.id = id;
     }
 
-    public String getId_food() {
-        return id_food;
+    public String getIdFood() {
+        return idFood;
     }
 
-    public void setId_food(String id_food) {
-        this.id_food = id_food;
+    public void setIdFood(String idFood) {
+        this.idFood = idFood;
     }
 
     public int getNum() {
@@ -36,12 +36,12 @@ public class Order {
         this.num = num;
     }
 
-    public boolean isOrder_type() {
-        return order_type;
+    public boolean getOrderType() {
+        return orderType;
     }
 
-    public void setOrder_type(boolean order_type) {
-        this.order_type = order_type;
+    public void setOrderType(boolean orderType) {
+        this.orderType = orderType;
     }
 
     public String getTime() {
@@ -52,20 +52,20 @@ public class Order {
         this.time = time;
     }
 
-    public String getDeliver_address() {
-        return deliver_address;
+    public String getDeliverAddress() {
+        return deliverAddress;
     }
 
-    public void setDeliver_address(String deliver_address) {
-        this.deliver_address = deliver_address;
+    public void setDeliverAddress(String deliverAddress) {
+        this.deliverAddress = deliverAddress;
     }
 
-    public String getId_guest() {
-        return id_guest;
+    public String getIdGuest() {
+        return idGuest;
     }
 
-    public void setId_guest(String id_guest) {
-        this.id_guest = id_guest;
+    public void setIdGuest(String idGuest) {
+        this.idGuest = idGuest;
     }
 
     public String getPhone() {
@@ -76,19 +76,19 @@ public class Order {
         this.phone = phone;
     }
 
-    public boolean getBe_over() {
-        return be_over;
+    public boolean getBeOver() {
+        return beOver;
     }
 
-    public void setBe_over(boolean be_over) {
-        this.be_over = be_over;
+    public void setBeOver(boolean beOver) {
+        this.beOver = beOver;
     }
 
-    public boolean getBe_deliver() {
-        return be_deliver;
+    public boolean getBeDeliver() {
+        return beDeliver;
     }
 
-    public void setBe_deliver(boolean be_deliver) {
-        this.be_deliver = be_deliver;
+    public void setBeDeliver(boolean beDeliver) {
+        this.beDeliver = beDeliver;
     }
 }

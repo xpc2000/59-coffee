@@ -1,19 +1,28 @@
 package com.code59.caffemall.bean;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+
 public class Guest {
     private String id;
     private String name;
     private String phone;
     private String password;
     private String address;
-    private String delivery_address;
-
+    private String deliveryAddress;
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getDeliveryAddress() {
+        return deliveryAddress;
+    }
+
+    public void setDeliveryAddress(String deliveryAddress) {
+        this.deliveryAddress = deliveryAddress;
     }
 
     public String getName() {
@@ -48,14 +57,6 @@ public class Guest {
         this.address = address;
     }
 
-    public String getDelivery_address() {
-        return delivery_address;
-    }
-
-    public void setDelivery_address(String delivery_address) {
-        this.delivery_address = delivery_address;
-    }
-
     @Override
     public String toString() {
         return "Guest{" +
@@ -64,7 +65,7 @@ public class Guest {
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", address='" + address + '\'' +
-                ", delivery_address='" + delivery_address + '\'' +
+                ", delivery_address='" + deliveryAddress + '\'' +
                 '}';
     }
 }
