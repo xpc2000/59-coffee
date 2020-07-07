@@ -68,7 +68,7 @@
                     <el-input size="small" v-model="NewForm.storeID" auto-complete="off" prefix-icon="iconfont icon-denglu" placeholder="请输入门店账号"></el-input>
                 </el-form-item>
                 <el-form-item label="门店密码" prop="password"  required>
-                    <el-input size="small" v-model="NewForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码"></el-input>
+                    <el-input size="small" v-model="NewForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码" type="password" show-password></el-input>
                 </el-form-item>
                 <el-form-item label="门店名称" prop="name"  required>
                     <el-input size="small" v-model="NewForm.name" prefix-icon="iconfont icon-mendian" placeholder="请输入门店名称"></el-input>
@@ -90,7 +90,7 @@
         <el-dialog title="编辑门店" :visible.sync="ModifyFormVisible" width="30%">
             <el-form ref="ModifyFormRef" label-width="80px" :model="editForm" :rules="ModifyRules" >
                 <el-form-item label="门店密码" prop="password"  required>
-                    <el-input size="small" v-model="ModifyForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码"></el-input>
+                    <el-input size="small" v-model="ModifyForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码" type="password" show-password></el-input>
                 </el-form-item>
                 <el-form-item label="门店名称" prop="name"  required>
                     <el-input size="small" v-model="ModifyForm.name" prefix-icon="iconfont icon-mendian" placeholder="请输入门店名称"></el-input>

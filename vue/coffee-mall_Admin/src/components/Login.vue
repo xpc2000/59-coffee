@@ -14,12 +14,12 @@
 
                 <!-- 用户名 -->
                 <el-form-item prop="username">
-                    <el-input v-model="loginForm.username" prefix-icon="iconfont icon-denglu" placeholder="账号"></el-input>
+                    <el-input v-model="loginForm.username" prefix-icon="iconfont icon-denglu" placeholder="账号" clearable></el-input>
                 </el-form-item>
 
                 <!-- 密码 -->
                 <el-form-item prop="password">
-                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-mima" type="password" placeholder="密码"></el-input>
+                    <el-input v-model="loginForm.password" prefix-icon="iconfont icon-mima" type="password" placeholder="密码" show-password></el-input>
                 </el-form-item>
 
                 <!-- 按钮 -->
