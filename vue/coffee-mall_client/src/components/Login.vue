@@ -52,7 +52,7 @@
                 <!-- 选择器 客户注册界面 -->
                 <el-row prop="value" class="MyAdd">
                     <el-col :span="8">
-                    <el-button ref="btnRegister" type="text" @click="dialogVisible = true"></el-button>
+                    <el-button ref="btnRegister" type="text" @click="dialogVisible = true">客户账号注册</el-button>
                     </el-col>
 
                     <el-col :span="5">
@@ -173,6 +173,7 @@ export default
         resetLoginForm()
         {
             this.$refs.loginFormRef.resetFields();
+            this.loginForm.value='';
         },
 
         /* 登录 按钮 */
@@ -247,7 +248,7 @@ export default
         {
             newValue(val)
             {
-                if(val === '客户')
+                if(val !== '门店')
                 {
                     this.$refs.btnRegister.$el.innerText = this.RegisterName;
                 }
