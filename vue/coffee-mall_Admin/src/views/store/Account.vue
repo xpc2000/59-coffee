@@ -61,28 +61,50 @@
             </el-pagination>
         </div>
 
-        <!-- 编辑界面 -->
-        <el-dialog :title="title" :visible.sync="editFormVisible" width="30%">
-            <el-form label-width="80px" :model="editForm" :rules="rules" >
+        <!-- 新建界面 -->
+        <el-dialog title="新建门店" :visible.sync="NewFormVisible" width="30%">
+            <el-form ref="NewFormRef" label-width="80px" :model="NewForm" :rules="NewRules" >
                 <el-form-item label="门店账号" prop="storeID"  required>
-                    <el-input size="small" v-model="editForm.storeID" auto-complete="off" prefix-icon="iconfont icon-denglu" placeholder="请输入门店账号"></el-input>
+                    <el-input size="small" v-model="NewForm.storeID" auto-complete="off" prefix-icon="iconfont icon-denglu" placeholder="请输入门店账号"></el-input>
                 </el-form-item>
                 <el-form-item label="门店密码" prop="password"  required>
-                    <el-input size="small" v-model="editForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码"></el-input>
+                    <el-input size="small" v-model="NewForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码"></el-input>
                 </el-form-item>
                 <el-form-item label="门店名称" prop="name"  required>
-                    <el-input size="small" v-model="editForm.name" prefix-icon="iconfont icon-mendian" placeholder="请输入门店名称"></el-input>
+                    <el-input size="small" v-model="NewForm.name" prefix-icon="iconfont icon-mendian" placeholder="请输入门店名称"></el-input>
                 </el-form-item>
                 <el-form-item label="门店地址" prop="address"  required>
-                    <el-input size="small" v-model="editForm.address" prefix-icon="iconfont icon-dizhi" placeholder="请输入门店地址"></el-input>
+                    <el-input size="small" v-model="NewForm.address" prefix-icon="iconfont icon-dizhi" placeholder="请输入门店地址"></el-input>
                 </el-form-item>
                 <el-form-item label="联系方式" prop="tel"  required>
-                    <el-input size="small" v-model="editForm.tel" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式"></el-input>
+                    <el-input size="small" v-model="NewForm.tel" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button size="small" @click='closeDialog()'>取消</el-button>
-                <el-button size="small" type="primary"  class="title" @click="submitForm('editForm')">保存</el-button>
+                <el-button size="small" @click='NewFormVisible = false'>取消</el-button>
+                <el-button size="small" type="primary"  class="title" @click="newForm()">保存</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 修改界面 -->
+        <el-dialog title="编辑门店" :visible.sync="ModifyFormVisible" width="30%">
+            <el-form ref="ModifyFormRef" label-width="80px" :model="editForm" :rules="ModifyRules" >
+                <el-form-item label="门店密码" prop="password"  required>
+                    <el-input size="small" v-model="ModifyForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码"></el-input>
+                </el-form-item>
+                <el-form-item label="门店名称" prop="name"  required>
+                    <el-input size="small" v-model="ModifyForm.name" prefix-icon="iconfont icon-mendian" placeholder="请输入门店名称"></el-input>
+                </el-form-item>
+                <el-form-item label="门店地址" prop="address"  required>
+                    <el-input size="small" v-model="ModifyForm.address" prefix-icon="iconfont icon-dizhi" placeholder="请输入门店地址"></el-input>
+                </el-form-item>
+                <el-form-item label="联系方式" prop="tel"  required>
+                    <el-input size="small" v-model="ModifyForm.tel" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button size="small" @click='ModifyFormVisible = false'>取消</el-button>
+                <el-button size="small" type="primary"  class="title" @click="modifyForm()">保存</el-button>
             </div>
         </el-dialog>
     </div>
@@ -97,8 +119,8 @@
 
                 loading: false,   // 加载中
                 storeID:'',   // 搜索框 门店ID
-                editFormVisible:false,   // 控制编辑页面显示与隐藏
-                title:"添加门店",
+                NewFormVisible:false,   // 控制新建页面显示与隐藏
+                ModifyFormVisible:false,   // 控制修改页面显示与隐藏
 
                 /* 分页 */
                 pageSize:10,
@@ -195,8 +217,8 @@
                         },
                     ],
 
-                /* 编辑页面样式 */
-                editForm: {
+                /* 新建页面样式 */
+                NewForm: {
                     storeID: '',
                     password: '',
                     name: '',
@@ -204,14 +226,39 @@
                     tel: '',
                 },
 
-                /* rules表单验证 */
-                rules: {
+                /* 新建表单验证 */
+                NewRules: {
                     storeID: [
                         { required: true, message: '请输入门店账号', trigger: 'blur' },
-                        { pattern: /^S[A-Za-z0-9]+/, required: true, message: '请输入正确门店账号(以S开头)', trigger: 'blur'},
                         { required: true, message: '请输入门店账号', trigger: 'change' },
-                        { pattern: /^S[A-Za-z0-9]+/, required: true, message: '请输入正确门店账号(以S开头)', trigger: 'change'},
                     ],
+                    password: [
+                        { required: true, message: '请输入门店密码', trigger: 'blur' },
+                        { required: true, message: '请输入门店密码', trigger: 'change' },
+                    ],
+                    name: [
+                        { required: true, message: '请输入门店名称', trigger: 'blur' },
+                        { required: true, message: '请输入门店名称', trigger: 'change' },
+                    ],
+                    address: [
+                        { required: true, message: '请输入门店地址', trigger: 'blur' },
+                        { required: true, message: '请输入门店地址', trigger: 'change' },
+                    ],
+                    tel: [
+                        { required: true, message: '请输入联系方式', trigger: 'blur' },
+                        { required: true, message: '请输入联系方式', trigger: 'change' },
+                    ],
+                },
+                /* 编辑页面样式 */
+                ModifyForm: {
+                    password: '',
+                    name: '',
+                    address: '',
+                    tel: '',
+                },
+
+                /* 编辑表单验证 */
+                ModifyRules: {
                     password: [
                         { required: true, message: '请输入门店密码', trigger: 'blur' },
                         { required: true, message: '请输入门店密码', trigger: 'change' },
@@ -249,6 +296,8 @@
                 this.UserList = res;
 
                 this.loading = false;
+
+                this.handleSizeChange(this.pageSize);   // 更新分页 界面
             },
 
             /* 查询 */
@@ -283,57 +332,74 @@
                 }
             },
 
-            /* 显示编辑界面 */
+            /* 显示 新建，编辑 界面 */
             handleEdit: function(index, row)
             {
-                this.editFormVisible = true
+
                 if (row !== undefined && row !== 'undefined')
                 {
-                    this.title = '修改门店'
-                    this.editForm.storeID = row.storeID;
-                    this.editForm.password = row.password;
-                    this.editForm.name = row.name;
-                    this.editForm.address = row.address;
-                    this.editForm.tel = row.tel;
+                    this.ModifyFormVisible = true;
+                    this.ModifyForm.password = row.password;
+                    this.ModifyForm.name = row.name;
+                    this.ModifyForm.address = row.address;
+                    this.ModifyForm.tel = row.tel;
                 }
                 else
                 {
-                    this.title = '添加门店'
-                    this.editForm.storeID = '';
-                    this.editForm.password = '';
-                    this.editForm.name = '';
-                    this.editForm.address = '';
-                    this.editForm.tel = '';
+                    this.NewFormVisible = true;
+                    this.NewForm.storeID = '';
+                    this.NewForm.password = '';
+                    this.NewForm.name = '';
+                    this.NewForm.address = '';
+                    this.NewForm.tel = '';
                 }
 
             },
 
-            /* 关闭编辑栏 */
-            closeDialog()
-            {
-                this.editFormVisible = false
-            },
-
-            // 编辑、添加提交方法
-            submitForm(editData) {
-                this.$refs[editData].validate(async valid => {
+            // 新建 方法
+            newForm() {
+                this.$refs.editFormRef.validate(async valid => {
                     if (valid) {
-                        const {data:res} = await this.$http.post("storeSave", editData);
-                        this.editFormVisible = false
+                        const {data:res} = await this.$http.post("storeNew", this.NewForm);
                         if (res === "ok")
                         {
+                            this.editFormVisible = false
                             await this.getList();
                             this.$message({
                                 type: 'success',
-                                message: '数据保存成功！'
+                                message: '新建门店成功'
                             })
                         }
                         else
                         {
+                            this.$message.error('新建失败，门店账号已存在');
+                        }
+
+                    }
+                    else
+                    {
+                        return false
+                    }
+                })
+            },
+
+            // 编辑 方法
+            modifyForm() {
+                this.$refs.editFormRef.validate(async valid => {
+                    if (valid) {
+                        const {data:res} = await this.$http.post("storeEdit", this.ModifyForm);
+                        if (res === "ok")
+                        {
+                            this.editFormVisible = false
+                            await this.getList();
                             this.$message({
-                                type: 'info',
-                                message: res.msg
+                                type: 'success',
+                                message: '修改门店成功'
                             })
+                        }
+                        else
+                        {
+                            this.$message.error('修改门店失败');
                         }
 
                     }
@@ -359,7 +425,7 @@
                             await this.getList();
                             this.$message({
                                 type: 'success',
-                                message: '数据已删除!'
+                                message: '数据已删除'
                             })
                         }
                         else
@@ -371,12 +437,12 @@
                         }
                     })
                     .catch(err => {
-                        this.$message.error('数据删除失败，请稍后再试！')
+                        this.$message.error('数据删除失败')
                     })
                     .catch(() => {
                         this.$message({
                             type: 'info',
-                            message: '已取消删除！'
+                            message: '已取消删除'
                         })
                     })
             },

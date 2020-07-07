@@ -12,7 +12,7 @@
         </el-divider>
 
         <!-- 搜索栏 新建按钮-->
-        <el-form class="user-search" :inline="true" label-width="90px">
+        <el-form ref="editFormRef" class="user-search" :inline="true" label-width="90px">
             <el-form-item prop="store" label="餐品名称: ">
                 <el-input v-model="foodName" placeholder="请输入餐品名称" clearable></el-input>
             </el-form-item>
@@ -67,12 +67,45 @@
             </div>
         </div>
 
-        <!-- 编辑界面 -->
-        <el-dialog :title="title" :visible.sync="editFormVisible" width="30%">
-            <el-form label-width="80px" :model="editForm" :rules="rules" >
+        <!-- 新建界面 -->
+        <el-dialog title="添加餐品" :visible.sync="NewFormVisible" width="30%">
+            <el-form label-width="80px" :model="NewForm" :rules="NewRules" >
                 <el-form-item label="餐品ID" prop="foodID"  required>
-                    <el-input size="small" v-model="editForm.foodID" auto-complete="off" prefix-icon="iconfont icon-id" placeholder="请输入餐品ID"></el-input>
+                    <el-input size="small" v-model="NewForm.foodID" auto-complete="off" prefix-icon="iconfont icon-id" placeholder="请输入餐品ID"></el-input>
                 </el-form-item>
+                <el-form-item label="餐品名称" prop="foodName"  required>
+                    <el-input size="small" v-model="NewForm.foodName" auto-complete="off" prefix-icon="iconfont icon-mingcheng" placeholder="请输入餐品名称"></el-input>
+                </el-form-item>
+                <el-form-item label="餐品类型" prop="foodType"  required>
+                    <el-input size="small" v-model="NewForm.foodType" prefix-icon="iconfont icon-17" placeholder="请输入餐品类型"></el-input>
+                </el-form-item>
+                <el-form-item label="单价" prop="foodMoney"  required>
+                    <el-input size="small" v-model="NewForm.foodMoney" prefix-icon="iconfont icon-RectangleCopy" placeholder="请输入餐品单价"></el-input>
+                </el-form-item>
+
+                <!-- 照片上传 -->
+                <el-form-item label="商品图片" prop=""  required>
+                    <el-upload
+                            class="avatar-uploader"
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :show-file-list="false"
+                            :on-success="handleAvatarSuccess"
+                            :before-upload="beforeAvatarUpload">
+                        <img v-if="NewForm.foodImage" :src="NewForm.foodImage" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button size="small" @click='NewFormVisible = false'>取消</el-button>
+                <el-button size="small" type="primary"  class="title" @click="newForm()">保存</el-button>
+            </div>
+        </el-dialog>
+
+        <!-- 编辑界面 -->
+        <el-dialog title="编辑餐品" :visible.sync="editFormVisible" width="30%">
+            <el-form label-width="80px" :model="editForm" :rules="editRules" >
                 <el-form-item label="餐品名称" prop="foodName"  required>
                     <el-input size="small" v-model="editForm.foodName" auto-complete="off" prefix-icon="iconfont icon-mingcheng" placeholder="请输入餐品名称"></el-input>
                 </el-form-item>
@@ -98,8 +131,8 @@
 
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button size="small" @click='closeDialog()'>取消</el-button>
-                <el-button size="small" type="primary"  class="title" @click="submitForm('editForm')">保存</el-button>
+                <el-button size="small" @click='editFormVisible = false'>取消</el-button>
+                <el-button size="small" type="primary"  class="title" @click="editForm()">保存</el-button>
             </div>
         </el-dialog>
     </div>
@@ -113,7 +146,7 @@
 
                 imageUrl:'',   // 图片路径
                 foodName:'',   // 搜索框 餐品名称
-                title: "添加餐品",
+                NewFormVisible: false,   // 控制新建页面显示与隐藏
                 editFormVisible: false,   // 控制编辑页面显示与隐藏
 
                 /* 分页 */
@@ -225,8 +258,8 @@
                     },
                 ],
 
-                /* 编辑页面样式 */
-                editForm: {
+                /* 新建 页面样式 */
+                NewForm: {
                     foodID: '',
                     foodName: '',
                     foodType: '',
@@ -234,14 +267,36 @@
                     foodImage:'',
                 },
 
-                /* rules表单验证 */
-                rules: {
+                /* 编辑 表单验证 */
+                NewRules: {
                     foodID: [
                         {required: true, message: '请输入餐品ID', trigger: 'blur'},
-                        {pattern: /^F[A-Za-z0-9]+/, required: true, message: '请输入正确餐品ID(以开头)', trigger: 'blur'},
                         {required: true, message: '请输入餐品ID', trigger: 'change'},
-                        {pattern: /^F[A-Za-z0-9]+/, required: true, message: '请输入正确餐品ID(以F开头)', trigger: 'change'},
                     ],
+                    foodName: [
+                        {required: true, message: '请输入餐品名称', trigger: 'blur'},
+                        {required: true, message: '请输入餐品名称', trigger: 'change'},
+                    ],
+                    foodType: [
+                        {required: true, message: '请输入餐品类型', trigger: 'blur'},
+                        {required: true, message: '请输入餐品类型', trigger: 'change'},
+                    ],
+                    foodMoney: [
+                        {required: true, message: '请输入餐品单价', trigger: 'blur'},
+                        {required: true, message: '请输入餐品单价', trigger: 'change'},
+                    ],
+                },
+
+                /* 编辑 页面样式 */
+                editForm: {
+                    foodName: '',
+                    foodType: '',
+                    foodMoney: '',
+                    foodImage:'',
+                },
+
+                /* 编辑 表单验证 */
+                editRules: {
                     foodName: [
                         {required: true, message: '请输入餐品名称', trigger: 'blur'},
                         {required: true, message: '请输入餐品名称', trigger: 'change'},
@@ -272,7 +327,7 @@
 
                 //设置列表数据
                 this.tableData = res;
-
+                this.handleSizeChange(this.pageSize);   // 更新分页 界面
             },
 
             /* 查询 */
@@ -310,10 +365,9 @@
             /* 显示编辑界面 */
             handleEdit: function(item)
             {
-                this.editFormVisible = true
                 if (item !== undefined && item !== 'undefined')
                 {
-                    this.title = '修改餐品'
+                    this.editFormVisible = true
                     this.editForm.foodID = item.foodID;
                     this.editForm.foodName = item.foodName;
                     this.editForm.foodType = item.foodType;
@@ -322,23 +376,15 @@
                 }
                 else
                 {
-                    this.title = '添加餐品'
-                    this.editForm.foodID = '';
-                    this.editForm.foodName = '';
-                    this.editForm.foodType = '';
-                    this.editForm.foodMoney = '';
-                    this.editForm.foodImage = '';
+                    this.NewFormVisible = true
+                    this.NewForm.foodID = '';
+                    this.NewForm.foodName = '';
+                    this.NewForm.foodType = '';
+                    this.NewForm.foodMoney = '';
+                    this.NewForm.foodImage = '';
                 }
 
             },
-
-            /* 关闭编辑栏 */
-            closeDialog()
-            {
-                this.editFormVisible = false
-            },
-
-
 
             /* 图片上传控制 */
             handleAvatarSuccess(res, file) {
@@ -357,27 +403,50 @@
                 return isJPG && isLt2M;
             },
 
-
-            // 编辑、添加提交方法
-            submitForm(editData) {
-                this.$refs[editData].validate(async valid => {
+            // 编辑 方法
+            newForm() {
+                this.$refs.editFormRef.validate(async valid => {
                     if (valid) {
-                        const {data:res} = await this.$http.post("foodSave", editData);
-                        this.editFormVisible = false
+                        const {data:res} = await this.$http.post("foodNew", this.NewForm);
                         if (res === "ok")
                         {
+                            this.NewFormVisible = false;
                             await this.getList();
                             this.$message({
                                 type: 'success',
-                                message: '数据保存成功！'
+                                message: '新建餐品成功'
                             })
                         }
                         else
                         {
+                            this.$message.error('新建餐品失败');
+                        }
+
+                    }
+                    else
+                    {
+                        return false
+                    }
+                })
+            },
+
+            // 编辑 方法
+            editForm() {
+                this.$refs.editFormRef.validate(async valid => {
+                    if (valid) {
+                        const {data:res} = await this.$http.post("foodEdit", this.editForm);
+                        if (res === "ok")
+                        {
+                            this.editFormVisible = false;
+                            await this.getList();
                             this.$message({
-                                type: 'info',
-                                message: res.msg
+                                type: 'success',
+                                message: '编辑餐品成功'
                             })
+                        }
+                        else
+                        {
+                            this.$message.error('编辑餐品失败');
                         }
 
                     }
@@ -402,7 +471,7 @@
                         {
                             this.$message({
                                 type: 'success',
-                                message: '数据已删除!'
+                                message: '数据已删除'
                             })
                             await this.getList();
                         }
@@ -410,17 +479,17 @@
                         {
                             this.$message({
                                 type: 'info',
-                                message: res.msg
+                                message: '删除失败'
                             })
                         }
                     })
                     .catch(err => {
-                        this.$message.error('数据删除失败，请稍后再试！')
+                        this.$message.error('数据删除失败')
                     })
                     .catch(() => {
                         this.$message({
                             type: 'info',
-                            message: '已取消删除！'
+                            message: '已取消删除'
                         })
                     })
             },
