@@ -5,7 +5,9 @@ import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.code59.caffemall.bean.DataSourceDTO;
+import com.code59.caffemall.bean.Food;
 import com.code59.caffemall.bean.Shop;
+import com.code59.caffemall.service.MenuService;
 import com.code59.caffemall.service.ShopService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,8 @@ public class SuperAdminController {
     @Autowired
     DataSourceCreator dataSourceCreator;
     /*忽略这个警告，实际上是可以正常运行的*/
-
+    @Autowired
+    MenuService menuService;
 
 
     @RequestMapping("/storeNew")
@@ -130,6 +133,53 @@ public class SuperAdminController {
             return "ok";
         }
         return "fall";
+    }
+
+    @RequestMapping("/foodNew")
+    public String foodNew(@RequestBody Food food)
+    {
+        food.setUnsell(false);
+        if(menuService.add(food)==1)
+        {
+            return "ok";
+        }
+        return "false";
+    }
+
+    @RequestMapping("/SearchFood")
+    public String getFood(@RequestBody String name)
+    {
+        if(name.equals("null="))
+        {
+            return JSON.toJSONString(menuService.list());
+        }else {
+            name = name.substring(0,name.length()-1);
+            return JSON.toJSONString(menuService.getFoodByName(name));
+        }
+    }
+
+    @RequestMapping("/foodDelete")
+    public String deleteFood(@RequestBody String id)
+    {
+        id = id.substring(0,id.length()-1);
+        if (menuService.delete(id)==1)
+        {
+            return "ok";
+        }else {
+            return "fall";
+        }
+    }
+
+    @RequestMapping("/foodEdit")
+    public String editFood(@RequestBody Food food)
+    {
+        if(menuService.update(food)==1)
+        {
+            return "ok";
+        }else {
+            return "failed";
+        }
+
     }
     /*删除数据源，随着删除店铺把数据源也删除*/
     /**/
