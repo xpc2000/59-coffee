@@ -12,9 +12,9 @@
         </el-divider>
 
         <!-- 搜索栏 新建按钮-->
-        <el-form ref="editFormRef" class="user-search" :inline="true" label-width="90px">
+        <el-form class="user-search" :inline="true" label-width="90px">
             <el-form-item prop="store" label="餐品名称: ">
-                <el-input v-model="foodName" placeholder="请输入餐品名称" clearable></el-input>
+                <el-input v-model="name" placeholder="请输入餐品名称" clearable></el-input>
             </el-form-item>
             <el-form-item label="">
                 <el-button size="small" type="primary"  icon="iconfont icon-chazhao" class="title" round @click="Search()"> 查询餐品 </el-button>
@@ -29,14 +29,17 @@
         <!-- 循环卡片列表 -->
         <div style="margin-left:0.5%;margin-right:1%">
             <el-row>
-                <el-col :span="4" v-for="(item) in tempList" :key="item.foodID" :offset="1">
+                <el-col :span="4" v-for="(item) in tempList" :key="item.id" :offset="1">
                     <div style="margin-top:15px">
                         <el-card :body-style="{ padding: '0px'}"  shadow="hover">
-                            <img :src="item.foodImage" class="image">
+                            <img :src="item.url" class="image">
                             <div style="padding: 14px;">
-                                <span>{{item.foodName}}</span>
                                 <div style="padding-bottom: 14px; padding-top: 14px">
-                                    <span>  ¥ {{item.foodMoney}}</span>
+                                    <span><i class="el-icon-star-on"> {{item.name}}</i></span>
+                                </div>
+                                <span><i class="el-icon-menu"> {{item.type}}</i> </span>
+                                <div style="padding-bottom: 14px; padding-top: 14px">
+                                    <span>  ¥ {{item.price}}</span>
                                     <div style="padding-top: 14px">
                                         <el-row type="flex">
                                         <el-button type="success" size="mini" round @click="handleEdit(item)">编辑</el-button>
@@ -69,29 +72,29 @@
 
         <!-- 新建界面 -->
         <el-dialog title="添加餐品" :visible.sync="NewFormVisible" width="30%">
-            <el-form label-width="80px" :model="NewForm" :rules="NewRules" >
-                <el-form-item label="餐品ID" prop="foodID"  required>
-                    <el-input size="small" v-model="NewForm.foodID" auto-complete="off" prefix-icon="iconfont icon-id" placeholder="请输入餐品ID"></el-input>
+            <el-form label-width="80px" :model="NewForm" :rules="NewRules" ref="NewFormRef">
+                <el-form-item label="餐品ID" prop="id"  required>
+                    <el-input size="small" v-model="NewForm.id" auto-complete="off" prefix-icon="iconfont icon-id" placeholder="请输入餐品ID"></el-input>
                 </el-form-item>
-                <el-form-item label="餐品名称" prop="foodName"  required>
-                    <el-input size="small" v-model="NewForm.foodName" auto-complete="off" prefix-icon="iconfont icon-mingcheng" placeholder="请输入餐品名称"></el-input>
+                <el-form-item label="餐品名称" prop="name"  required>
+                    <el-input size="small" v-model="NewForm.name" auto-complete="off" prefix-icon="iconfont icon-mingcheng" placeholder="请输入餐品名称"></el-input>
                 </el-form-item>
-                <el-form-item label="餐品类型" prop="foodType"  required>
-                    <el-input size="small" v-model="NewForm.foodType" prefix-icon="iconfont icon-17" placeholder="请输入餐品类型"></el-input>
+                <el-form-item label="餐品类型" prop="type"  required>
+                    <el-input size="small" v-model="NewForm.type" prefix-icon="iconfont icon-17" placeholder="请输入餐品类型"></el-input>
                 </el-form-item>
-                <el-form-item label="单价" prop="foodMoney"  required>
-                    <el-input size="small" v-model="NewForm.foodMoney" prefix-icon="iconfont icon-RectangleCopy" placeholder="请输入餐品单价"></el-input>
+                <el-form-item label="单价" prop="price"  required>
+                    <el-input size="small" v-model="NewForm.price" prefix-icon="iconfont icon-RectangleCopy" placeholder="请输入餐品单价"></el-input>
                 </el-form-item>
 
                 <!-- 照片上传 -->
                 <el-form-item label="商品图片" prop=""  required>
                     <el-upload
                             class="avatar-uploader"
-                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :action=uploadURL
                             :show-file-list="false"
                             :on-success="handleAvatarSuccess"
                             :before-upload="beforeAvatarUpload">
-                        <img v-if="NewForm.foodImage" :src="NewForm.foodImage" class="avatar">
+                        <img v-if="NewForm.url" :src="NewForm.url" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
@@ -104,34 +107,35 @@
         </el-dialog>
 
         <!-- 编辑界面 -->
-        <el-dialog title="编辑餐品" :visible.sync="editFormVisible" width="30%">
-            <el-form label-width="80px" :model="editForm" :rules="editRules" >
-                <el-form-item label="餐品名称" prop="foodName"  required>
-                    <el-input size="small" v-model="editForm.foodName" auto-complete="off" prefix-icon="iconfont icon-mingcheng" placeholder="请输入餐品名称"></el-input>
+        <el-dialog title="编辑餐品" :visible.sync="EditFormVisible" width="30%">
+            <el-form label-width="80px" :model="EditForm" :rules="editRules" ref="EditFormRef" >
+                <el-form-item label="餐品名称" prop="name"  required>
+                    <el-input size="small" v-model="EditForm.name" auto-complete="off" prefix-icon="iconfont icon-mingcheng" placeholder="请输入餐品名称"></el-input>
                 </el-form-item>
-                <el-form-item label="餐品类型" prop="foodType"  required>
-                    <el-input size="small" v-model="editForm.foodType" prefix-icon="iconfont icon-17" placeholder="请输入餐品类型"></el-input>
+                <el-form-item label="餐品类型" prop="type"  required>
+                    <el-input size="small" v-model="EditForm.type" prefix-icon="iconfont icon-17" placeholder="请输入餐品类型"></el-input>
                 </el-form-item>
-                <el-form-item label="单价" prop="foodMoney"  required>
-                    <el-input size="small" v-model="editForm.foodMoney" prefix-icon="iconfont icon-RectangleCopy" placeholder="请输入餐品单价"></el-input>
+                <el-form-item label="单价" prop="price"  required>
+                    <el-input size="small" v-model="EditForm.price" prefix-icon="iconfont icon-RectangleCopy" placeholder="请输入餐品单价"></el-input>
                 </el-form-item>
 
                 <!-- 照片上传 -->
                 <el-form-item label="商品图片" prop=""  required>
                 <el-upload
                         class="avatar-uploader"
-                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :action=uploadURL
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload">
-                    <img v-if="editForm.foodImage" :src="editForm.foodImage" class="avatar">
+                        :before-upload="beforeAvatarUpload"
+                        :headers="header">
+                    <img v-if="EditForm.url" :src="EditForm.url" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
                 </el-form-item>
 
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button size="small" @click='editFormVisible = false'>取消</el-button>
+                <el-button size="small" @click='EditFormVisible = false'>取消</el-button>
                 <el-button size="small" type="primary"  class="title" @click="editForm()">保存</el-button>
             </div>
         </el-dialog>
@@ -144,10 +148,11 @@
         data() {
             return {
 
-                imageUrl:'',   // 图片路径
-                foodName:'',   // 搜索框 餐品名称
+                uploadURL: "https://api.superbed.cn/upload?token=d9add37aec764da091cf31b9e3e5cf93",
+
+                name:'',   // 搜索框 餐品名称
                 NewFormVisible: false,   // 控制新建页面显示与隐藏
-                editFormVisible: false,   // 控制编辑页面显示与隐藏
+                EditFormVisible: false,   // 控制编辑页面显示与隐藏
 
                 /* 分页 */
                 pageSize: 4,
@@ -159,153 +164,154 @@
                 /* 死数据 循环卡片列表的数据源 */
                 tableData: [
                     {
-                        foodID: '1',
-                        foodName: '餐品1',
-                        foodType: '类型',
-                        foodMoney: '单价',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '1',
+                        name: '餐品1',
+                        type: '类型',
+                        price: '单价',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '2',
-                        foodName: '餐品2',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '2',
+                        name: '餐品2',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '3',
-                        foodName: '餐品3',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '3',
+                        name: '餐品3',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '4',
-                        foodName: '餐品4',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '4',
+                        name: '餐品4',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '5',
-                        foodName: '餐品5',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '5',
+                        name: '餐品5',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '6',
-                        foodName: '餐品6',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '6',
+                        name: '餐品6',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '7',
-                        foodName: '餐品7',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '7',
+                        name: '餐品7',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '8',
-                        foodName: '餐品8',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '8',
+                        name: '餐品8',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '9',
-                        foodName: '餐品9',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '9',
+                        name: '餐品9',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '10',
-                        foodName: '餐品10',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '10',
+                        name: '餐品10',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '11',
-                        foodName: '餐品11',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '11',
+                        name: '餐品11',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '12',
-                        foodName: '餐品12',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '12',
+                        name: '餐品12',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '13',
-                        foodName: '餐品13',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '13',
+                        name: '餐品13',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                     {
-                        foodID: '14',
-                        foodName: '餐品14',
-                        foodType: '3',
-                        foodMoney: '4',
-                        foodImage:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                        id: '14',
+                        name: '餐品14',
+                        type: '3',
+                        price: '4',
+                        url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                     },
                 ],
 
                 /* 新建 页面样式 */
                 NewForm: {
-                    foodID: '',
-                    foodName: '',
-                    foodType: '',
-                    foodMoney: '',
-                    foodImage:'',
+                    id: '',
+                    name: '',
+                    type: '',
+                    price: '',
+                    url:'',
                 },
 
                 /* 编辑 表单验证 */
                 NewRules: {
-                    foodID: [
+                    id: [
                         {required: true, message: '请输入餐品ID', trigger: 'blur'},
                         {required: true, message: '请输入餐品ID', trigger: 'change'},
                     ],
-                    foodName: [
+                    name: [
                         {required: true, message: '请输入餐品名称', trigger: 'blur'},
                         {required: true, message: '请输入餐品名称', trigger: 'change'},
                     ],
-                    foodType: [
+                    type: [
                         {required: true, message: '请输入餐品类型', trigger: 'blur'},
                         {required: true, message: '请输入餐品类型', trigger: 'change'},
                     ],
-                    foodMoney: [
+                    price: [
                         {required: true, message: '请输入餐品单价', trigger: 'blur'},
                         {required: true, message: '请输入餐品单价', trigger: 'change'},
                     ],
                 },
 
                 /* 编辑 页面样式 */
-                editForm: {
-                    foodName: '',
-                    foodType: '',
-                    foodMoney: '',
-                    foodImage:'',
+                EditForm: {
+                    id: '',
+                    name: '',
+                    type: '',
+                    price: '',
+                    url:'',
                 },
 
                 /* 编辑 表单验证 */
                 editRules: {
-                    foodName: [
+                    name: [
                         {required: true, message: '请输入餐品名称', trigger: 'blur'},
                         {required: true, message: '请输入餐品名称', trigger: 'change'},
                     ],
-                    foodType: [
+                    type: [
                         {required: true, message: '请输入餐品类型', trigger: 'blur'},
                         {required: true, message: '请输入餐品类型', trigger: 'change'},
                     ],
-                    foodMoney: [
+                    price: [
                         {required: true, message: '请输入餐品单价', trigger: 'blur'},
                         {required: true, message: '请输入餐品单价', trigger: 'change'},
                     ],
@@ -323,7 +329,11 @@
             /* 获得列表 */
             async getList() {
 
-                const {data: res} = await this.$http.post("SearchFood", this.foodName);
+                if(this.name === '')
+                {
+                    this.name = "null";
+                }
+                const {data: res} = await this.$http.post("SearchFood", this.name);
 
                 //设置列表数据
                 this.tableData = res;
@@ -367,28 +377,30 @@
             {
                 if (item !== undefined && item !== 'undefined')
                 {
-                    this.editFormVisible = true
-                    this.editForm.foodID = item.foodID;
-                    this.editForm.foodName = item.foodName;
-                    this.editForm.foodType = item.foodType;
-                    this.editForm.foodMoney = item.foodMoney;
-                    this.editForm.foodImage = item.foodImage;
+                    this.EditFormVisible = true
+                    this.EditForm.id = item.id;
+                    this.EditForm.name = item.name;
+                    this.EditForm.type = item.type;
+                    this.EditForm.price = item.price;
+                    this.EditForm.url = item.url;
                 }
                 else
                 {
                     this.NewFormVisible = true
-                    this.NewForm.foodID = '';
-                    this.NewForm.foodName = '';
-                    this.NewForm.foodType = '';
-                    this.NewForm.foodMoney = '';
-                    this.NewForm.foodImage = '';
+                    this.NewForm.id = '';
+                    this.NewForm.name = '';
+                    this.NewForm.type = '';
+                    this.NewForm.price = '';
+                    this.NewForm.url = '';
                 }
 
             },
 
             /* 图片上传控制 */
             handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw);
+                console.log(res.url);
+                this.NewForm.url = res.url;
+                this.EditForm.url = res.url;
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -403,9 +415,9 @@
                 return isJPG && isLt2M;
             },
 
-            // 编辑 方法
+            // 新建 方法
             newForm() {
-                this.$refs.editFormRef.validate(async valid => {
+                this.$refs.NewFormRef.validate(async valid => {
                     if (valid) {
                         const {data:res} = await this.$http.post("foodNew", this.NewForm);
                         if (res === "ok")
@@ -432,12 +444,12 @@
 
             // 编辑 方法
             editForm() {
-                this.$refs.editFormRef.validate(async valid => {
+                this.$refs.EditFormRef.validate(async valid => {
                     if (valid) {
-                        const {data:res} = await this.$http.post("foodEdit", this.editForm);
+                        const {data:res} = await this.$http.post("foodEdit", this.EditForm);
                         if (res === "ok")
                         {
-                            this.editFormVisible = false;
+                            this.EditFormVisible = false;
                             await this.getList();
                             this.$message({
                                 type: 'success',
@@ -457,7 +469,7 @@
                 })
             },
 
-            // 删除用户
+            // 删除餐品
             deleteUser(item) {
                 this.$confirm('确定要删除吗?', '信息', {
                     confirmButtonText: '确定',
@@ -466,8 +478,8 @@
                 })
                     .then(async () => {
                         // 删除
-                        const {data:res} = await this.$http.post("foodDelete", item.foodID);
-                        if (res.success)
+                        const {data:res} = await this.$http.post("foodDelete", item.id);
+                        if (res === "ok")
                         {
                             this.$message({
                                 type: 'success',
@@ -509,17 +521,21 @@
         border-color: #409EFF;
     }
     .avatar-uploader-icon {
-        font-size: 28px;
+        font-size: 100px;
         color: #8c939d;
         width: 100px;
         height: 100px;
         line-height: 100px;
         text-align: center;
-
     }
     .avatar {
         width: 100px;
         height: 100px;
         display: block;
+    }
+    .image{
+        width: 210px;
+        height: 235px;
+        align-content: center;
     }
 </style>
