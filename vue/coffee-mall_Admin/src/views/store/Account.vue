@@ -14,7 +14,7 @@
         <!-- 搜索栏 新建按钮-->
         <el-form class="user-search" :inline="true" label-width="90px">
             <el-form-item prop="store" label="门店ID: ">
-                <el-input v-model="storeID" placeholder="请输入门店ID" clearable></el-input>
+                <el-input v-model="id" placeholder="请输入门店ID" clearable></el-input>
             </el-form-item>
             <el-form-item label="">
                 <el-button size="small" type="primary"  icon="iconfont icon-chazhao" class="title" round @click="Search()"> 查询门店 </el-button>
@@ -26,8 +26,8 @@
 
         <!-- 列表 -->
         <el-table :data="tempList":fit="true" :show-header="true"
-                  :default-sort = "{prop: 'storeID', order: 'descending'}" :border="true" max-height="430" v-loading = "loading">
-            <el-table-column prop="storeID" label="门店账号" align="center">
+                  :default-sort = "{prop: 'id', order: 'descending'}" :border="true" max-height="430" v-loading = "loading">
+            <el-table-column prop="id" label="门店账号" align="center">
             </el-table-column>
             <el-table-column prop="password" label="门店密码" align="center">
             </el-table-column>
@@ -35,7 +35,7 @@
             </el-table-column>
             <el-table-column prop="address" label="门店地址" align="center">
             </el-table-column>
-            <el-table-column prop="tel" label="联系方式" align="center">
+            <el-table-column prop="phone" label="联系方式" align="center">
             </el-table-column>
             <el-table-column label="操作" fixed="right" align="center" width="200px">
                 <template slot-scope="scope">
@@ -64,8 +64,8 @@
         <!-- 新建界面 -->
         <el-dialog title="新建门店" :visible.sync="NewFormVisible" width="30%">
             <el-form ref="NewFormRef" label-width="80px" :model="NewForm" :rules="NewRules" >
-                <el-form-item label="门店账号" prop="storeID"  required>
-                    <el-input size="small" v-model="NewForm.storeID" auto-complete="off" prefix-icon="iconfont icon-denglu" placeholder="请输入门店账号"></el-input>
+                <el-form-item label="门店账号" prop="id"  required>
+                    <el-input size="small" v-model="NewForm.id" auto-complete="off" prefix-icon="iconfont icon-denglu" placeholder="请输入门店账号"></el-input>
                 </el-form-item>
                 <el-form-item label="门店密码" prop="password"  required>
                     <el-input size="small" v-model="NewForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码" type="password" show-password></el-input>
@@ -76,8 +76,8 @@
                 <el-form-item label="门店地址" prop="address"  required>
                     <el-input size="small" v-model="NewForm.address" prefix-icon="iconfont icon-dizhi" placeholder="请输入门店地址"></el-input>
                 </el-form-item>
-                <el-form-item label="联系方式" prop="tel"  required>
-                    <el-input size="small" v-model="NewForm.tel" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式"></el-input>
+                <el-form-item label="联系方式" prop="phone"  required>
+                    <el-input size="small" v-model="NewForm.phone" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -88,7 +88,7 @@
 
         <!-- 修改界面 -->
         <el-dialog title="编辑门店" :visible.sync="ModifyFormVisible" width="30%">
-            <el-form ref="ModifyFormRef" label-width="80px" :model="editForm" :rules="ModifyRules" >
+            <el-form ref="ModifyFormRef" label-width="80px" :model="ModifyForm" :rules="ModifyRules" >
                 <el-form-item label="门店密码" prop="password"  required>
                     <el-input size="small" v-model="ModifyForm.password" auto-complete="off" prefix-icon="iconfont icon-mima" placeholder="请输入门店密码" type="password" show-password></el-input>
                 </el-form-item>
@@ -98,8 +98,8 @@
                 <el-form-item label="门店地址" prop="address"  required>
                     <el-input size="small" v-model="ModifyForm.address" prefix-icon="iconfont icon-dizhi" placeholder="请输入门店地址"></el-input>
                 </el-form-item>
-                <el-form-item label="联系方式" prop="tel"  required>
-                    <el-input size="small" v-model="ModifyForm.tel" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式"></el-input>
+                <el-form-item label="联系方式" prop="phone"  required>
+                    <el-input size="small" v-model="ModifyForm.phone" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -118,7 +118,7 @@
             return{
 
                 loading: false,   // 加载中
-                storeID:'',   // 搜索框 门店ID
+                id:'',   // 搜索框 门店ID
                 NewFormVisible:false,   // 控制新建页面显示与隐藏
                 ModifyFormVisible:false,   // 控制修改页面显示与隐藏
 
@@ -132,103 +132,103 @@
                 UserList:
                     [
                         {
-                            storeID: 'halo7',
+                            id: 'halo7',
                             password: '7777777',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                         {
-                            storeID: 'halo6',
+                            id: 'halo6',
                             password: '6666666',
                             name: '福建',
                             address: 'fujian',
-                            tel: '123456',
+                            phone: '123456',
                         },
                     ],
 
                 /* 新建页面样式 */
                 NewForm: {
-                    storeID: '',
+                    id: '',
                     password: '',
                     name: '',
                     address: '',
-                    tel: '',
+                    phone: '',
                 },
 
                 /* 新建表单验证 */
                 NewRules: {
-                    storeID: [
+                    id: [
                         { required: true, message: '请输入门店账号', trigger: 'blur' },
                         { required: true, message: '请输入门店账号', trigger: 'change' },
                     ],
@@ -244,7 +244,7 @@
                         { required: true, message: '请输入门店地址', trigger: 'blur' },
                         { required: true, message: '请输入门店地址', trigger: 'change' },
                     ],
-                    tel: [
+                    phone: [
                         { required: true, message: '请输入联系方式', trigger: 'blur' },
                         { required: true, message: '请输入联系方式', trigger: 'change' },
                     ],
@@ -254,7 +254,7 @@
                     password: '',
                     name: '',
                     address: '',
-                    tel: '',
+                    phone: '',
                 },
 
                 /* 编辑表单验证 */
@@ -271,7 +271,7 @@
                         { required: true, message: '请输入门店地址', trigger: 'blur' },
                         { required: true, message: '请输入门店地址', trigger: 'change' },
                     ],
-                    tel: [
+                    phone: [
                         { required: true, message: '请输入联系方式', trigger: 'blur' },
                         { required: true, message: '请输入联系方式', trigger: 'change' },
                     ],
@@ -290,7 +290,12 @@
             async getList() {
                 this.loading = true;
 
-                const {data: res} = await this.$http.post("SearchStore", this.storeID);
+                if(this.id === '')
+                {
+                    this.id = "null";
+                }
+                console.log("haha " + this.id);
+                const {data: res} = await this.$http.post("SearchStore", this.id);
 
                 //设置列表数据
                 this.UserList = res;
@@ -342,23 +347,23 @@
                     this.ModifyForm.password = row.password;
                     this.ModifyForm.name = row.name;
                     this.ModifyForm.address = row.address;
-                    this.ModifyForm.tel = row.tel;
+                    this.ModifyForm.phone = row.phone;
                 }
                 else
                 {
                     this.NewFormVisible = true;
-                    this.NewForm.storeID = '';
+                    this.NewForm.id = '';
                     this.NewForm.password = '';
                     this.NewForm.name = '';
                     this.NewForm.address = '';
-                    this.NewForm.tel = '';
+                    this.NewForm.phone = '';
                 }
 
             },
 
             // 新建 方法
             newForm() {
-                this.$refs.editFormRef.validate(async valid => {
+                this.$refs.NewFormRef.validate(async valid => {
                     if (valid) {
                         const {data:res} = await this.$http.post("storeNew", this.NewForm);
                         if (res === "ok")
@@ -385,7 +390,7 @@
 
             // 编辑 方法
             modifyForm() {
-                this.$refs.editFormRef.validate(async valid => {
+                this.$refs.ModifyFormRef.validate(async valid => {
                     if (valid) {
                         const {data:res} = await this.$http.post("storeEdit", this.ModifyForm);
                         if (res === "ok")
@@ -419,7 +424,7 @@
                 })
                     .then(async () => {
                         // 删除
-                        const {data:res} = await this.$http.post("storeDelete", row.storeID);
+                        const {data:res} = await this.$http.post("storeDelete", row.id);
                         if (res === "ok")
                         {
                             await this.getList();

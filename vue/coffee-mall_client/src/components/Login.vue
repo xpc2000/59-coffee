@@ -17,8 +17,8 @@
                 <el-form-item label="客户名称" prop="name"  required>
                     <el-input size="small" v-model="editForm.name" prefix-icon="iconfont icon-denglu" placeholder="请输入门店名称" clearable></el-input>
                 </el-form-item>
-                <el-form-item label="联系方式" prop="tel"  required>
-                    <el-input size="small" v-model="editForm.tel" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式" clearable></el-input>
+                <el-form-item label="联系方式" prop="phone"  required>
+                    <el-input size="small" v-model="editForm.phone" prefix-icon="iconfont icon-lianxifangshi" placeholder="请输入联系方式" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="地址" prop="address"  required>
                     <el-input size="small" v-model="editForm.address" prefix-icon="iconfont icon-dizhi" placeholder="请输入地址" clearable></el-input>
@@ -133,7 +133,7 @@ export default
                 password: '',
                 passwordConfirm: '',
                 name: '',
-                tel: '',
+                phone: '',
                 address: '',
                 delivery_address: '',
             },
@@ -167,7 +167,7 @@ export default
                     { required: true, message: '请输入客户名称', trigger: 'blur' },
                     { required: true, message: '请输入客户名称', trigger: 'change' },
                 ],
-                tel: [
+                phone: [
                     { required: true, message: '请输入联系方式', trigger: 'blur' },
                     { required: true, message: '请输入联系方式', trigger: 'change' },
                 ],
