@@ -205,17 +205,17 @@ export default
                 else {
                     url = "ShopAdminLogin"
                 }
-                //const {data:res} = await this.$http.post(url, this.loginForm);
-                if(true)
+                const {data:res} = await this.$http.post(url, this.loginForm);
+                if(res === "ok")
                 {
                     this.$message.success("登录成功");   // 信息提示
+                    if(window.sessionStorage.getItem("username") === null) {
+                        window.sessionStorage.setItem("username", this.loginForm.id);
+                    }
                     if(this.loginForm.value === "客户")
                         await this.$router.push({path: "/GuestHome"});   // 页面路由跳转
                     else if(this.loginForm.value === "门店")
                         await this.$router.push({path: "/ShopHome"});   // 页面路由跳转
-                    if(window.sessionStorage.getItem("username") === null) {
-                        window.sessionStorage.setItem("username", this.loginForm.id);
-                    }
                 }
                 else
                 {

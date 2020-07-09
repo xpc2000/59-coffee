@@ -90,6 +90,7 @@
                 <el-form-item label="商品图片" prop=""  required>
                     <el-upload
                             class="avatar-uploader"
+                            name="Filedata"
                             :action=uploadURL
                             :show-file-list="false"
                             :on-success="handleAvatarSuccess"
@@ -126,8 +127,7 @@
                         :action=uploadURL
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess"
-                        :before-upload="beforeAvatarUpload"
-                        :headers="header">
+                        :before-upload="beforeAvatarUpload">
                     <img v-if="EditForm.url" :src="EditForm.url" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
@@ -148,7 +148,7 @@
         data() {
             return {
 
-                uploadURL: "https://api.superbed.cn/upload?token=d9add37aec764da091cf31b9e3e5cf93",
+                uploadURL: "https://api.uomg.com/api/image.ali?file=multipart",
 
                 name:'',   // 搜索框 餐品名称
                 NewFormVisible: false,   // 控制新建页面显示与隐藏
@@ -398,9 +398,9 @@
 
             /* 图片上传控制 */
             handleAvatarSuccess(res, file) {
-                console.log(res.url);
-                this.NewForm.url = res.url;
-                this.EditForm.url = res.url;
+                this.NewForm.url = res.imgurl;
+                this.EditForm.url = res.imgurl;
+                console.log(res.imgurl);
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
