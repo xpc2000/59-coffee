@@ -251,6 +251,7 @@
                 },
                 /* 编辑页面样式 */
                 ModifyForm: {
+                    id: '',
                     password: '',
                     name: '',
                     address: '',
@@ -344,6 +345,7 @@
                 if (row !== undefined && row !== 'undefined')
                 {
                     this.ModifyFormVisible = true;
+                    this.ModifyForm.id = row.id;
                     this.ModifyForm.password = row.password;
                     this.ModifyForm.name = row.name;
                     this.ModifyForm.address = row.address;
