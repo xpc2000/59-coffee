@@ -1,20 +1,20 @@
 package com.code59.caffemall.bean;
 
 public class Collection {
-    private String id_guest;
-    private String id_food;
+    private String idGuest;
+    private String idFood;
     private String name;
     private String type;
     private double price;
     private double discount;
     private String sellout;
 
-    public String getId_guest(){
-        return id_guest;
+    public String getIdGuest(){
+        return idGuest;
     }
 
-    public void setId_guest(String id_guest1){
-        this.id_guest=id_guest1;
+    public void setIdGuest(String id_guest1){
+        this.idGuest=id_guest1;
     }
 
     public String getName(){
@@ -33,12 +33,12 @@ public class Collection {
         this.type=type1;
     }
 
-    public String getId_food(){
-        return id_food;
+    public String getIdFood(){
+        return idFood;
     }
 
-    public void setId_food(String id_food1){
-        this.id_food=id_food1;
+    public void setIdFood(String id_food1){
+        this.idFood=id_food1;
     }
 
     public double getPrice(){

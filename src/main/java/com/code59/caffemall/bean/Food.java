@@ -2,8 +2,6 @@ package com.code59.caffemall.bean;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import javax.xml.bind.PrintConversionEvent;
-
 /*总数据库中所拥有的食品*/
 @TableName(value = "menu_total")
 public class Food {
@@ -12,7 +10,7 @@ public class Food {
     private String type;
     private double price;
     private double discount;
-    private boolean unsell;
+    private String unsell;
     private String url;
 
     public String getId() {
@@ -55,11 +53,11 @@ public class Food {
         this.discount = discount;
     }
 
-    public boolean getUnsell() {
+    public String getUnsell() {
         return unsell;
     }
 
-    public void setUnsell(boolean unsell) {
+    public void setUnsell(String unsell) {
         this.unsell = unsell;
     }
 

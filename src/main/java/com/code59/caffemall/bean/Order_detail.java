@@ -1,26 +1,26 @@
 package com.code59.caffemall.bean;
 
 public class Order_detail {
-    private String id_order;
-    private String id_food;
+    private String idOrder;
+    private String idFood;
     private int num;
     private double single_price;
     private double total_price;
 
     public String getId_order(){
-        return id_order;
+        return idOrder;
     }
 
     public void setId_order(String id_order1){
-        this.id_order=id_order1;
+        this.idOrder=id_order1;
     }
 
     public String getId_food(){
-        return id_food;
+        return idFood;
     }
 
     public void setId_food(String id_food1){
-        this.id_food=id_food1;
+        this.idFood=id_food1;
     }
 
     public int getNum(){

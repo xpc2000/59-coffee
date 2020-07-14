@@ -2,15 +2,15 @@ package com.code59.caffemall.bean;
 
 public class Order {
     private String id;
-    private String idFood;
-    private int num;
-    private boolean orderType;
+    private String idGuest;
+    private String orderType;
     private String time;
     private String deliverAddress;
-    private String idGuest;
+    private String idShop;
     private String phone;
-    private boolean beOver;
-    private boolean beDeliver;
+    private String beOver;
+    private String beDeliver;
+    private double totalPrice;
 
     public String getId() {
         return id;
@@ -20,27 +20,19 @@ public class Order {
         this.id = id;
     }
 
-    public String getIdFood() {
-        return idFood;
+    public String getId_guest() {
+        return idGuest;
     }
 
-    public void setIdFood(String idFood) {
-        this.idFood = idFood;
+    public void setId_guest(String id_guest1) {
+        this.idGuest = id_guest1;
     }
 
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
-    }
-
-    public boolean getOrderType() {
+    public String getOrderType() {
         return orderType;
     }
 
-    public void setOrderType(boolean orderType) {
+    public void setOrderType(String orderType) {
         this.orderType = orderType;
     }
 
@@ -60,12 +52,12 @@ public class Order {
         this.deliverAddress = deliverAddress;
     }
 
-    public String getIdGuest() {
-        return idGuest;
+    public String getIdShop() {
+        return idShop;
     }
 
-    public void setIdGuest(String idGuest) {
-        this.idGuest = idGuest;
+    public void setIdShop(String id_shop1) {
+        this.idShop = id_shop1;
     }
 
     public String getPhone() {
@@ -76,19 +68,27 @@ public class Order {
         this.phone = phone;
     }
 
-    public boolean getBeOver() {
+    public String getBeOver() {
         return beOver;
     }
 
-    public void setBeOver(boolean beOver) {
+    public void setBeOver(String beOver) {
         this.beOver = beOver;
     }
 
-    public boolean getBeDeliver() {
+    public String getBeDeliver() {
         return beDeliver;
     }
 
-    public void setBeDeliver(boolean beDeliver) {
+    public void setBeDeliver(String beDeliver) {
         this.beDeliver = beDeliver;
+    }
+
+    public double getTotal_price(){
+        return totalPrice;
+    }
+
+    public void setTotal_price(double total_price1){
+        this.totalPrice=total_price1;
     }
 }

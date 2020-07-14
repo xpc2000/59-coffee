@@ -40,7 +40,7 @@ public class OrderServiceImpl implements OrderServices {
 
         while(cartIterator.hasNext()){
             Cart cart=cartIterator.next();
-            sum+=cart.getPrice_after_discount();
+            sum+=cart.getPriceAfterDiscount();
         }
         //折扣管理尚未添加，正在施工中
         if(sum>=discount.getPayments_1()&&sum<discount.getPayments_2())
@@ -56,19 +56,18 @@ public class OrderServiceImpl implements OrderServices {
         entry_plus.setBeDeliver("0");
         entry_plus.setBeOver("0");
         entry_plus.setDeliverAddress(guest.getDelivery_address());
-        entry_plus.setId_guest(id_guest);
-        entry_plus.setId_shop(id_shop);
+        entry_plus.setIdGuest(guest.getId());
+        entry_plus.setIdShop(id_shop);
         entry_plus.setOrderType("0");
         entry_plus.setPhone(guest.getPhone());
         entry_plus.setTime(time_);
-        entry_plus.setTotal_price(sum);
+        entry_plus.setTotalPrice(sum);
         state=orderShopDao.insert(entry_plus);
-
 
         for(int i=0;i<cartList.size()&&state==1;i++)
         {
-            entry.setId_food(cartList.get(i).getId_food());
-            entry.setSingle_price(cartList.get(i).getPrice_after_discount());
+            entry.setId_food(cartList.get(i).getIdFood());
+            entry.setSingle_price(cartList.get(i).getPriceAfterDiscount());
             entry.setNum(cartList.get(i).getNumber());
             entry.setTotal_price(sum);
             entry.setId_order(s);

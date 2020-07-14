@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("stock_shop")
 public class ShopStock {
-    private String idFood;
+    private String idfood;
     private int num;
 
-    public String getIdFood() {
-        return idFood;
+    public String getIdfood() {
+        return idfood;
     }
 
-    public void setIdFood(String idFood) {
-        this.idFood = idFood;
+    public void setIdfood(String id_food) {
+        this.idfood = idfood;
     }
 
     public int getNum() {

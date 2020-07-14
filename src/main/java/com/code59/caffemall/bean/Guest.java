@@ -1,7 +1,4 @@
 package com.code59.caffemall.bean;
-
-import com.baomidou.mybatisplus.annotation.TableField;
-
 public class Guest {
     private String id;
     private String name;
@@ -9,20 +6,13 @@ public class Guest {
     private String password;
     private String address;
     private String deliveryAddress;
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public void setDeliveryAddress(String deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
     }
 
     public String getName() {
@@ -55,6 +45,14 @@ public class Guest {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getDelivery_address() {
+        return deliveryAddress;
+    }
+
+    public void setDelivery_address(String delivery_address) {
+        this.deliveryAddress = delivery_address;
     }
 
     @Override

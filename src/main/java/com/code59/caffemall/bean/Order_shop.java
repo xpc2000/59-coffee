@@ -2,15 +2,15 @@ package com.code59.caffemall.bean;
 
 public class Order_shop {
     private String id;
-    private String id_guest;
+    private String idGuest;
     private String orderType;
     private String time;
     private String deliverAddress;
-    private String id_shop;
+    private String idShop;
     private String phone;
     private String beOver;
     private String beDeliver;
-    private double total_price;
+    private double totalPrice;
 
     public String getId() {
         return id;
@@ -20,12 +20,12 @@ public class Order_shop {
         this.id = id;
     }
 
-    public String getId_guest() {
-        return id_guest;
+    public String getIdGuest() {
+        return idGuest;
     }
 
-    public void setId_guest(String id_guest1) {
-        this.id_guest = id_guest1;
+    public void setIdGuest(String id_guest1) {
+        this.idGuest = id_guest1;
     }
 
     public String getOrderType() {
@@ -52,12 +52,12 @@ public class Order_shop {
         this.deliverAddress = deliverAddress;
     }
 
-    public String getId_shop() {
-        return id_shop;
+    public String getIdShop() {
+        return idShop;
     }
 
-    public void setId_shop(String id_shop1) {
-        this.id_shop = id_shop1;
+    public void setIdShop(String id_shop1) {
+        this.idShop = id_shop1;
     }
 
     public String getPhone() {
@@ -84,11 +84,11 @@ public class Order_shop {
         this.beDeliver = beDeliver;
     }
 
-    public double getTotal_price(){
-        return total_price;
+    public double getTotalPrice(){
+        return totalPrice;
     }
 
-    public void setTotal_price(double total_price1){
-        this.total_price=total_price1;
+    public void setTotalPrice(double total_price1){
+        this.totalPrice=total_price1;
     }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @Service
 @DS("master")
 public class ShopServiceImpl implements ShopService {
-
     @Autowired
     ShopDao shopDao;
     @Override
