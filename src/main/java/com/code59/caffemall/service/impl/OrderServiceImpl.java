@@ -1,23 +1,20 @@
 package com.code59.caffemall.service.impl;
 
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.code59.caffemall.bean.Cart;
-import com.code59.caffemall.bean.Guest;
-import com.code59.caffemall.bean.Order;
-import com.code59.caffemall.bean.Order_detail;
-import com.code59.caffemall.dao.GuestDao;
-import com.code59.caffemall.dao.OrderDao;
+import com.code59.caffemall.bean.*;
 import com.code59.caffemall.dao.OrderDetailDao;
 import com.code59.caffemall.dao.OrderShopDao;
 import com.code59.caffemall.service.OrderServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.*;
 
+@Service
+@DS("coffee_shop")
 public class OrderServiceImpl implements OrderServices {
-    @Autowired
-    OrderDao orderDao;
 
     @Autowired
     OrderDetailDao orderDetailDao;
@@ -25,11 +22,9 @@ public class OrderServiceImpl implements OrderServices {
     @Autowired
     OrderShopDao orderShopDao;
 
-    @Autowired
-    GuestDao guestDao;
 
     @Override
-    public Order add(List<Cart> cartList, String id_shop){
+    public Order_shop add(List<Cart> cartList, String id_shop, Guest guest, Discount discount){
 
         String s = UUID.randomUUID().toString();
         LocalTime time=LocalTime.now();
@@ -40,8 +35,7 @@ public class OrderServiceImpl implements OrderServices {
         double sum=0;
         String id_guest = null;
         Order_detail entry=new Order_detail();
-        Order entry_plus=new Order();
-        id_guest=cartList.get(0).getId_guest();
+        Order_shop entry_plus=new Order_shop();
         Iterator<Cart> cartIterator=cartList.iterator();
 
         while(cartIterator.hasNext()){
@@ -49,8 +43,14 @@ public class OrderServiceImpl implements OrderServices {
             sum+=cart.getPrice_after_discount();
         }
         //折扣管理尚未添加，正在施工中
+        if(sum>=discount.getPayments_1()&&sum<discount.getPayments_2())
+            sum-=discount.getMinus_1();
+        else if(sum>=discount.getPayments_2()&&sum<discount.getPayments_3())
+            sum-=discount.getminus_2();
+        else if(sum>=discount.getPayments_3())
+            sum-=discount.getMinus_3();
 
-        Guest guest= guestDao.selectById(id_guest);
+        //guest=guestDao.selectById(cartList.get(0).getId_guest());
         String time_=deliverytime.toString();
         entry_plus.setId(s);
         entry_plus.setBeDeliver("0");
@@ -62,7 +62,7 @@ public class OrderServiceImpl implements OrderServices {
         entry_plus.setPhone(guest.getPhone());
         entry_plus.setTime(time_);
         entry_plus.setTotal_price(sum);
-        state=orderDao.insert(entry_plus);
+        state=orderShopDao.insert(entry_plus);
 
 
         for(int i=0;i<cartList.size()&&state==1;i++)
@@ -80,8 +80,8 @@ public class OrderServiceImpl implements OrderServices {
 
 
     @Override
-    public int update(Order order){
-        return orderDao.updateById(order);
+    public int update(Order_shop order){
+        return orderShopDao.updateById(order);
     }
 
     @Override
@@ -89,13 +89,13 @@ public class OrderServiceImpl implements OrderServices {
         Map<String,Object>columMap=new HashMap<String,Object>();
         columMap.put("id_order",id);
         orderDetailDao.deleteByMap(columMap);
-        return orderDao.deleteById(id);
+        return orderShopDao.deleteById(id);
 
     }
 
     @Override
-    public Order get(String id){
-        return orderDao.selectById(id);
+    public Order_shop get(String id){
+        return orderShopDao.selectById(id);
     }
 
     @Override

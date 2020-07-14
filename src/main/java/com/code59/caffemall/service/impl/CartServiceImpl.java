@@ -2,7 +2,9 @@ package com.code59.caffemall.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.code59.caffemall.bean.Cart;
+import com.code59.caffemall.bean.Food;
 import com.code59.caffemall.dao.CartDao;
+import com.code59.caffemall.dao.FoodDao;
 import com.code59.caffemall.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,15 @@ public class CartServiceImpl implements CartService {
     @Autowired
     CartDao cartdao;
 
+    @Autowired
+    FoodDao foodDao;
+
     @Override
-    public int add(Cart cart1){
+    public int add(Cart cart1,Food food){
+        //Food food=foodDao.selectById(cart1.getId_food());
+        double price=food.getPrice();
+        double discount=food.getDiscount();
+        cart1.setPrice_after_discount(price*discount);
         return cartdao.insert(cart1);
     }
 
@@ -33,6 +42,13 @@ public class CartServiceImpl implements CartService {
     @Override
     public int update(Cart cart1){
         return cartdao.updateById(cart1);
+    }
+
+    @Override
+    public int clear(String id_guest){
+        Map<String,Object>columMap=new HashMap<String,Object>();
+        columMap.put("id_guest",id_guest);
+        return cartdao.deleteByMap(columMap);
     }
 
     @Override
