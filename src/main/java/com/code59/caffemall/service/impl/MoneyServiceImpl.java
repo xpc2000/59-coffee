@@ -62,6 +62,4 @@ public class MoneyServiceImpl implements MoneyService {
         return result;
     }
 
-
-
 }

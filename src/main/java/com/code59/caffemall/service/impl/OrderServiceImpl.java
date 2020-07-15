@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.code59.caffemall.bean.*;
 import com.code59.caffemall.dao.OrderDetailDao;
 import com.code59.caffemall.dao.OrderShopDao;
+import com.code59.caffemall.dao.ShopStockDao;
 import com.code59.caffemall.service.OrderServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -22,15 +24,20 @@ public class OrderServiceImpl implements OrderServices {
     @Autowired
     OrderShopDao orderShopDao;
 
+    @Autowired
+    ShopStockDao shopStockDao;
 
     @Override
     public Order_shop add(List<Cart> cartList, String id_shop, Guest guest, Discount discount){
 
         String s = UUID.randomUUID().toString();
-        LocalTime time=LocalTime.now();
-        LocalTime deliverytime=time.plusMinutes(30);
+        LocalDateTime time=LocalDateTime.now();
+        LocalDateTime deliverytime=time.plusMinutes(30);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
+        String time_=deliverytime.format(formatter);
         String address;
         String phone;
+        ShopStock shopStock;
         int state=1;
         double sum=0;
         String id_guest = null;
@@ -40,7 +47,28 @@ public class OrderServiceImpl implements OrderServices {
 
         while(cartIterator.hasNext()){
             Cart cart=cartIterator.next();
-            sum+=cart.getPriceAfterDiscount();
+            shopStock=shopStockDao.selectById(cart.getIdFood());
+            if(cart.getNumber()<shopStock.getNum())
+            {
+                entry_plus.setId("Fail");
+                entry_plus.setDeliverAddress(cart.getIdFood());
+                entry_plus.setOrderType("0");
+                entry_plus.setBeDeliver("0");
+                entry_plus.setBeOver("0");
+                entry_plus.setPhone(guest.getPhone());
+                entry_plus.setTime(time_);
+                entry_plus.setTotalPrice(sum);
+                entry_plus.setIdGuest(guest.getId());
+                entry_plus.setIdShop(id_shop);
+                return entry_plus;
+            }
+            else
+            {
+                sum+=cart.getPriceAfterDiscount();
+                shopStock.setNum(shopStock.getNum()-cart.getNumber());
+                shopStockDao.updateById(shopStock);
+            }
+
         }
         //折扣管理尚未添加，正在施工中
         if(sum>=discount.getPayments_1()&&sum<discount.getPayments_2())
@@ -51,7 +79,6 @@ public class OrderServiceImpl implements OrderServices {
             sum-=discount.getMinus_3();
 
         //guest=guestDao.selectById(cartList.get(0).getId_guest());
-        String time_=deliverytime.toString();
         entry_plus.setId(s);
         entry_plus.setBeDeliver("0");
         entry_plus.setBeOver("0");
