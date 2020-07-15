@@ -3,7 +3,16 @@ import VueRouter from 'vue-router'
 import Login from "../components/Login.vue"
 import ShopHome from '../components/ShopHome'
 import GuestHome from '../components/GuestHome'
-import Message from '../views/Message'
+import Message from '../views/Setting/Message'
+import Choice from '../views/Choice'
+import Cart from '../views/CartMenu/Cart'
+import Classification from '../views/foodClass/Classification'
+import Setting from "../views/Setting"
+import Favorites from "../views/Setting/Favorites"
+import Order from "../views/Setting/Order"
+import Drink from "../views/foodClass/Drink"
+import Snack from "../views/foodClass/Snack"
+import Settlement from "../views/CartMenu/Settlement"
 
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
@@ -23,20 +32,45 @@ Vue.use(VueRouter)
             path: "/login",
             component: Login
           },
+          /* 客户 */
           {
               path: "/GuestHome",
               component: GuestHome,
-              redirect: "/Message",
+              redirect: "/choice",
               children:[
-                  {path: "/Message", component: Message},
+                  {path: "/choice", component: Choice},
+                  {path: "/classification", component: Classification, redirect: "/classification/drink",
+                      children:[
+                          {path: "/classification/drink", component: Drink},
+                          {path: "/classification/snack", component: Snack},
+                      ]
+                  },
+                  {path: "/cart", component: Cart},
+                  {path: "/setting", component: Setting},
               ]
           },
           {
-              path: "/ShopHome",
-              component: ShopHome,
-
+            path: "/settlement",
+            component: Settlement,
+          },
+          {
+            path: "/message",
+            component: Message,
+          },
+          {
+              path: "/order",
+              component: Order,
+          },
+          {
+              path: "/favorites",
+              component: Favorites,
           },
 
+          /* 门店 */
+          {
+              path: "/ShopHome",
+              component: ShopHome,
+          },
       ]
 
 const router = new VueRouter({

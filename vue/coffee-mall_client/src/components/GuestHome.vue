@@ -7,16 +7,16 @@
         <!-- 底部导航栏 -->
         <el-footer>
             <el-menu
-                    default-active="/Message"
-                    class="el-menu-demo"
                     mode="horizontal"
-                    background-color="#545c64"
-                    text-color="#fff"
-                    active-text-color="#ffd04b">
-                <el-menu-item index="1" >精选</el-menu-item>
-                <el-menu-item index="2" >分类</el-menu-item>
-                <el-menu-item index="3">购物车</el-menu-item>
-                <el-menu-item index="/Message">我的信息</el-menu-item>
+                    background-color="#F5F5F5"
+                    text-color="#999999"
+                    active-text-color="#ff0000"
+                    :default-active="this.$route.path"
+                    :router="true">
+                <el-menu-item index="/choice" > 精选 <i class="iconfont icon-Discount"></i></el-menu-item>
+                <el-menu-item index="/classification" > 分类 <i class="iconfont icon-type"></i></el-menu-item>
+                <el-menu-item index="/cart"> 购物车 <i class="iconfont icon-gouwuche"></i></el-menu-item>
+                <el-menu-item index="/setting"> 我的 <i class="iconfont icon-denglu"></i></el-menu-item>
             </el-menu>
         </el-footer>
 
@@ -38,15 +38,21 @@
     /* 底部样式 */
     .el-footer
     {
-        background-color: #999999;
+        background-color: #F7F7F7;
         display: flex;
         justify-content: space-around;
         align-items: center;
 
         /* 导航栏样式 */
-        .el-menu-demo
+        .el-menu
         {
             border-top: none;
+            .el-menu-item
+            {
+                width: 369px;
+                text-align: center;
+                font-size: 16px;
+            }
         }
     }
     /* 主体样式 */
