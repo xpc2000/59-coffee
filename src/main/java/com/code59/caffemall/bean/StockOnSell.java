@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("stock_onsell")
 public class StockOnSell {
-    private String idfood;
+    private String idFood;
     private String name;
     private String type;
     private double price;
@@ -12,12 +12,12 @@ public class StockOnSell {
     private boolean sellOut;
     private String url;
 
-    public String getIdfood() {
-        return idfood;
+    public String getIdFood() {
+        return idFood;
     }
 
-    public void setIdfood(String id_food) {
-        this.idfood = id_food;
+    public void setIdFood(String idFood) {
+        this.idFood = idFood;
     }
 
     public String getName() {
@@ -56,8 +56,8 @@ public class StockOnSell {
         return sellOut;
     }
 
-    public void setSellOut(boolean sell_out) {
-        this.sellOut = sell_out;
+    public void setSellOut(boolean sellOut) {
+        this.sellOut = sellOut;
     }
 
     public String getUrl() {
