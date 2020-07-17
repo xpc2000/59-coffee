@@ -7,12 +7,12 @@ public class ShopStock {
     private String idFood;
     private int num;
 
-    public String getIdFood() {
+    public String getIdfood() {
         return idFood;
     }
 
-    public void setIdFood(String idFood) {
-        this.idFood = idFood;
+    public void setIdfood(String id_food) {
+        this.idFood = id_food;
     }
 
     public int getNum() {

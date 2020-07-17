@@ -9,15 +9,15 @@ public class StockOnSell {
     private String type;
     private double price;
     private double discount;
-    private boolean sellOut;
+    private String sellOut;
     private String url;
 
-    public String getIdFood() {
+    public String getIdfood() {
         return idFood;
     }
 
-    public void setIdFood(String idFood) {
-        this.idFood = idFood;
+    public void setIdfood(String id_food) {
+        this.idFood = id_food;
     }
 
     public String getName() {
@@ -52,12 +52,12 @@ public class StockOnSell {
         this.discount = discount;
     }
 
-    public boolean isSellOut() {
+    public String isSellOut() {
         return sellOut;
     }
 
-    public void setSellOut(boolean sellOut) {
-        this.sellOut = sellOut;
+    public void setSellOut(String sell_out) {
+        this.sellOut = sell_out;
     }
 
     public String getUrl() {
