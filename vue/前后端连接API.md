@@ -29,9 +29,10 @@
 |getMessage|客户个人信息修改初始化|id |返回{password, passwordConfirm, name, phone, address ,delivery_address}|√|
 |GuestRegister|客户个人信息修改|{id, password, passwordConfirm, name, phone, address ,delivery_address}|返回"ok"则成功修改|√|
 |SearchStock| 获取所有未下架商品及其库存信息 |筛选条件:餐品名称 name  (为空字符串则无筛选条件)  | 返回筛选到的(商品+库存)的列表,即每个商品均带有相应的库存信息
-|SearchDownShelfStock| 获取所有已下架商品及其库存信息 | 返回筛选到的(商品+库存)的列表,即每个商品均带有相应的库存信息
+|SearchDownShelfStockw|无| 获取所有已下架商品及其库存信息 | 返回筛选到的(商品+库存)的列表,即每个商品均带有相应的库存信息
 |StockEdit| 修改库存信息 |{idFood,num} |返回"ok"则成功修改库存
-|StockDownShelf| 下架分店商品 {idFood} |返回"ok"表示成功下架 (设置sellOut=1)
-|StockUpShelf| 上架分店商品 {idFood} |返回"ok"表示成功上架 (设置sellOut=0)
-|SearchShopOrder| 获取门店订单信息 无传入参数 |返回Order_shop嵌套Order_detail的列表
-|Deliver| 进行发货 {id} |返回"ok"表示发货成功
+|StockDownShelf| 下架分店商品 |{idFood} |返回"ok"表示成功下架 (设置sellOut=1)
+|StockUpShelf| 上架分店商品 |{idFood} |返回"ok"表示成功上架 (设置sellOut=0)
+|SearchShopOrder| 获取门店订单信息| 无传入参数 |返回门店的订单列表
+|Deliver| 进行发货 |{id} |返回"ok"表示发货成功
+|OrderDetail| 获取订单详情 |{id}|获取订单id=id的订单详情
