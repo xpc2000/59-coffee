@@ -28,7 +28,7 @@ public class OrderServiceImpl implements OrderServices {
     ShopStockDao shopStockDao;
 
     @Override
-    public Order_shop add(List<Cart> cartList, String id_shop, Guest guest, Discount discount){
+    public List<String> add(List<Cart> cartList, String id_shop, Guest guest, Discount discount){
 
         String s = UUID.randomUUID().toString();
         LocalDateTime time=LocalDateTime.now();
@@ -43,6 +43,7 @@ public class OrderServiceImpl implements OrderServices {
         String id_guest = null;
         Order_detail entry=new Order_detail();
         Order_shop entry_plus=new Order_shop();
+        List<String> result=null;
         Iterator<Cart> cartIterator=cartList.iterator();
 
         while(cartIterator.hasNext()){
@@ -50,17 +51,18 @@ public class OrderServiceImpl implements OrderServices {
             shopStock=shopStockDao.selectById(cart.getIdFood());
             if(cart.getNumber()<shopStock.getNum())
             {
-                entry_plus.setId("Fail");
-                entry_plus.setDeliverAddress(cart.getIdFood());
-                entry_plus.setOrderType("0");
-                entry_plus.setBeDeliver("0");
-                entry_plus.setBeOver("0");
-                entry_plus.setPhone(guest.getPhone());
-                entry_plus.setTime(time_);
-                entry_plus.setTotalPrice(sum);
-                entry_plus.setIdGuest(guest.getId());
-                entry_plus.setIdShop(id_shop);
-                return entry_plus;
+                state=0;
+                if(result==null)
+                {
+                    result.add(0,"Fail");
+                    result.add(cart.getIdFood());
+                    result.add(String.valueOf(shopStock.getNum()));
+                }
+                else
+                {
+                    result.add(cart.getIdFood());
+                    result.add(String.valueOf(shopStock.getNum()));
+                }
             }
             else
             {
@@ -70,37 +72,54 @@ public class OrderServiceImpl implements OrderServices {
             }
 
         }
-        //折扣管理尚未添加，正在施工中
-        if(sum>=discount.getPayments_1()&&sum<discount.getPayments_2())
-            sum-=discount.getMinus_1();
-        else if(sum>=discount.getPayments_2()&&sum<discount.getPayments_3())
-            sum-=discount.getminus_2();
-        else if(sum>=discount.getPayments_3())
-            sum-=discount.getMinus_3();
 
-        //guest=guestDao.selectById(cartList.get(0).getId_guest());
-        entry_plus.setId(s);
-        entry_plus.setBeDeliver("0");
-        entry_plus.setBeOver("0");
-        entry_plus.setDeliverAddress(guest.getDelivery_address());
-        entry_plus.setIdGuest(guest.getId());
-        entry_plus.setIdShop(id_shop);
-        entry_plus.setOrderType("0");
-        entry_plus.setPhone(guest.getPhone());
-        entry_plus.setTime(time_);
-        entry_plus.setTotalPrice(sum);
-        state=orderShopDao.insert(entry_plus);
+        if(state==0)
+            return result;
 
-        for(int i=0;i<cartList.size()&&state==1;i++)
+        else
         {
-            entry.setId_food(cartList.get(i).getIdFood());
-            entry.setSingle_price(cartList.get(i).getPriceAfterDiscount());
-            entry.setNum(cartList.get(i).getNumber());
-            entry.setTotal_price(sum);
-            entry.setId_order(s);
-            state=orderDetailDao.insert(entry);
+            if (sum >= discount.getPayments_1() && sum < discount.getPayments_2())
+                sum -= discount.getMinus_1();
+            else if (sum >= discount.getPayments_2() && sum < discount.getPayments_3())
+                sum -= discount.getminus_2();
+            else if (sum >= discount.getPayments_3())
+                sum -= discount.getMinus_3();
+
+            //guest=guestDao.selectById(cartList.get(0).getId_guest());
+            entry_plus.setId(s);
+            entry_plus.setBeDeliver("0");
+            entry_plus.setBeOver("0");
+            entry_plus.setDeliverAddress(guest.getDelivery_address());
+            entry_plus.setIdGuest(guest.getId());
+            entry_plus.setIdShop(id_shop);
+            entry_plus.setOrderType("0");
+            entry_plus.setPhone(guest.getPhone());
+            entry_plus.setTime(time_);
+            entry_plus.setTotalPrice(sum);
+            state = orderShopDao.insert(entry_plus);
+
+            for (int i = 0; i < cartList.size() && state == 1; i++) {
+                entry.setId_food(cartList.get(i).getIdFood());
+                entry.setSinglePrice(cartList.get(i).getPriceAfterDiscount());
+                entry.setNum(cartList.get(i).getNumber());
+                entry.setTotalPrice(sum);
+                entry.setIdOrder(s);
+                state = orderDetailDao.insert(entry);
+            }
+
+            result.add(0,"Success");
+            result.add(entry_plus.getId());
+            result.add(entry_plus.getBeOver());
+            result.add(entry_plus.getBeDeliver());
+            result.add(entry_plus.getDeliverAddress());
+            result.add(entry_plus.getIdGuest());
+            result.add(entry_plus.getIdShop());
+            result.add(entry_plus.getOrderType());
+            result.add(entry_plus.getPhone());
+            result.add(entry_plus.getTime());
+            result.add(String.valueOf(entry_plus.getTotalPrice()));
+            return result;
         }
-        return entry_plus;
 
     }
 
@@ -112,6 +131,15 @@ public class OrderServiceImpl implements OrderServices {
 
     @Override
     public int delete(String id){
+        QueryWrapper<Order_detail> columMap1 =new QueryWrapper<Order_detail>();
+        columMap1.eq("id_order",id);
+        List<Order_detail> list= orderDetailDao.selectList(columMap1);
+        for(int i=0;i<list.size();i++)
+        {
+            ShopStock stock = shopStockDao.selectById(list.get(i).getIdFood());
+            stock.setNum(stock.getNum()+list.get(i).getNum());
+            shopStockDao.updateById(stock);
+        }
         Map<String,Object>columMap=new HashMap<String,Object>();
         columMap.put("id_order",id);
         orderDetailDao.deleteByMap(columMap);
