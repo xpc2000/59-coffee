@@ -40,7 +40,41 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
+
+        <el-tab-pane label="未接收">
+          <el-table :data="notOverList" height="100%" border style="width: 100%">
+            <el-table-column prop="date" label="日期" width="180"></el-table-column>
+            <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+            <el-table-column prop="address" label="地址" width="180"></el-table-column>
+            <el-table-column prop="phone" label="手机号码" width="180"></el-table-column>
+            <el-table-column prop="totalPrice" label="总金额" width="180"></el-table-column>
+            <el-table-column fixed="right" label="操作">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row,1)" type="text" size="small">查看详细</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+
+        <el-tab-pane label="已接收">
+          <el-table :data="OverList" height="100%" border style="width: 100%">
+            <el-table-column prop="date" label="日期" width="180"></el-table-column>
+            <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+            <el-table-column prop="address" label="地址" width="180"></el-table-column>
+            <el-table-column prop="phone" label="手机号码" width="180"></el-table-column>
+            <el-table-column prop="totalPrice" label="总金额" width="180"></el-table-column>
+            <el-table-column fixed="right" label="操作">
+              <template slot-scope="scope">
+                <el-button @click="handleClick(scope.row,1)" type="text" size="small">查看详细</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+
+
       </el-tabs>
+
+      
 
       <!-- 订单详情页 -->
       <el-dialog title="订单详情" :visible.sync="detailDataVisible">
@@ -194,6 +228,8 @@ export default {
       totalSize: 20, // 总条数，用于死数据
       tempList: [], // 分页数据
       deliverList: [],
+      notOverList:[],
+      OverList:[],
       detailDataVisible: false,
       detailData: []
     };
@@ -206,16 +242,24 @@ export default {
       //this.handleSizeChange(this.pageSize);
 
       for (var i = 0; i < res.length; i++) {
-        if (res[i].beDeliver == 0) {
-          undeliverList.push(res[i]);
+        if (res[i].beDeliver == 'n') {
+          this.undeliverList.push(res[i]);
         } else {
-          deliverList.push(res[i]);
+          this.deliverList.push(res[i]);
         }
+        if(res[i].beOver=='n')
+        {
+          this.notOverList.push(res[i]);
+        }else{
+          this.OverList.push(res[i]);
+        }
+
       }
     },
-    handleClick(row, type) {
+    async handleClick(row, type) {
+      const { data: res } = await this.$http.post("OrderDetail", row.id);
       this.detailDataVisible = true;
-      this.detailData = row.orderDetails;
+      this.detailData = res;
     },
     async deliver(row) {
       const { data: res } = await this.$http.post("Deliver", row.id);
