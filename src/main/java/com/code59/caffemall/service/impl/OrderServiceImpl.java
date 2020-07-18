@@ -37,40 +37,34 @@ public class OrderServiceImpl implements OrderServices {
         String time_=deliverytime.format(formatter);
         String address;
         String phone;
-        ShopStock shopStock;
+        ShopStock shopStock=new ShopStock();
         int state=1;
         double sum=0;
         String id_guest = null;
         Order_detail entry=new Order_detail();
         Order_shop entry_plus=new Order_shop();
-        List<String> result=null;
+        List<String> result=new ArrayList<>();;
         Iterator<Cart> cartIterator=cartList.iterator();
 
         while(cartIterator.hasNext()){
             Cart cart=cartIterator.next();
             shopStock=shopStockDao.selectById(cart.getIdFood());
-            if(cart.getNumber()<shopStock.getNum())
+            if(cart.getNumber()>shopStock.getNum())
             {
                 state=0;
                 if(result==null)
-                {
                     result.add(0,"Fail");
-                    result.add(cart.getIdFood());
-                    result.add(String.valueOf(shopStock.getNum()));
-                }
-                else
-                {
-                    result.add(cart.getIdFood());
-                    result.add(String.valueOf(shopStock.getNum()));
-                }
+                result.add(cart.getIdFood());
+                result.add(String.valueOf(shopStock.getNum()));
             }
             else
             {
                 sum+=cart.getPriceAfterDiscount();
                 shopStock.setNum(shopStock.getNum()-cart.getNumber());
-                shopStockDao.updateById(shopStock);
+                QueryWrapper wrapper = new QueryWrapper();
+                wrapper.eq("id_food",shopStock.getIdfood());
+                shopStockDao.update(shopStock,wrapper);
             }
-
         }
 
         if(state==0)
@@ -138,7 +132,9 @@ public class OrderServiceImpl implements OrderServices {
         {
             ShopStock stock = shopStockDao.selectById(list.get(i).getIdFood());
             stock.setNum(stock.getNum()+list.get(i).getNum());
-            shopStockDao.updateById(stock);
+            QueryWrapper wrapper = new QueryWrapper();
+            wrapper.eq("id_order",id);
+            shopStockDao.update(stock,wrapper);
         }
         Map<String,Object>columMap=new HashMap<String,Object>();
         columMap.put("id_order",id);

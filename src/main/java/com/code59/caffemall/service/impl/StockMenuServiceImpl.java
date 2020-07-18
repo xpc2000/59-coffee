@@ -10,6 +10,7 @@ import com.code59.caffemall.dao.StockOnSellDao;
 import com.code59.caffemall.service.StockMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @DS("coffee_shop")
@@ -20,22 +21,27 @@ public class StockMenuServiceImpl implements StockMenuService {
     StockOnSellDao stockOnSellDao;
 
     @Override
-    public int add(StockOnSell stockOnSell) {
-        return stockOnSellDao.insert(stockOnSell);
+    public int add(StockOnSell stockOnSell) { return stockOnSellDao.insert(stockOnSell);
     }
 
     @Override
     public int delete(int id) {
-        return stockOnSellDao.deleteById(id);
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("id_food",id);
+        return stockOnSellDao.delete(wrapper);
     }
 
     @Override
     public int update(StockOnSell stockOnSell) {
-        return stockOnSellDao.updateById(stockOnSell);
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("id_food",stockOnSell.getIdfood());
+        return stockOnSellDao.update(stockOnSell,wrapper);
     }
     @Override
     public StockOnSell get(int id) {
-        return stockOnSellDao.selectById(id);
+        QueryWrapper wrapper = new QueryWrapper();
+        wrapper.eq("id_food",id);
+        return stockOnSellDao.selectOne(wrapper);
     }
 
     @Override
@@ -84,7 +90,7 @@ public class StockMenuServiceImpl implements StockMenuService {
 
     @Override
     public List<Stock> drawlist(String type,String name){
-        List<StockOnSell> list=null;
+        List<StockOnSell> list=new ArrayList<>();
         if(type!=null)
             list=listByType(type);
         else if(name!=null)
