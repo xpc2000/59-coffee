@@ -2,11 +2,9 @@ package com.code59.caffemall.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.enums.SqlLike;
 import com.code59.caffemall.bean.Food;
 import com.code59.caffemall.dao.FoodDao;
 import com.code59.caffemall.service.MenuService;
-import com.sun.org.apache.bcel.internal.generic.RETURN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +22,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public int delete(int id) {
+    public int delete(String id) {
         return foodDao.deleteById(id);
     }
 
@@ -34,7 +32,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public Food get(int id) {
+    public Food get(String id) {
         return foodDao.selectById(id);
     }
 

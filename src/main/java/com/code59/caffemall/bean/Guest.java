@@ -1,12 +1,11 @@
 package com.code59.caffemall.bean;
-
 public class Guest {
     private String id;
     private String name;
     private String phone;
     private String password;
     private String address;
-    private String delivery_address;
+    private String deliveryAddress;
 
     public String getId() {
         return id;
@@ -49,11 +48,11 @@ public class Guest {
     }
 
     public String getDelivery_address() {
-        return delivery_address;
+        return deliveryAddress;
     }
 
     public void setDelivery_address(String delivery_address) {
-        this.delivery_address = delivery_address;
+        this.deliveryAddress = delivery_address;
     }
 
     @Override
@@ -64,7 +63,7 @@ public class Guest {
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", address='" + address + '\'' +
-                ", delivery_address='" + delivery_address + '\'' +
+                ", delivery_address='" + deliveryAddress + '\'' +
                 '}';
     }
 }

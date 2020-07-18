@@ -13,7 +13,9 @@ import Order from "../views/Setting/Order"
 import Drink from "../views/foodClass/Drink"
 import Snack from "../views/foodClass/Snack"
 import Settlement from "../views/CartMenu/Settlement"
-
+import Stock from '../views/Stock/Stock.vue';
+import UpStock from '../views/Stock/UpStock.vue';
+import ShopOrder from '../views/ShopOrder/ShopOrder.vue'
 // 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
 const originalPush = VueRouter.prototype.push
 VueRouter.prototype.push = function push(location) {
@@ -70,6 +72,11 @@ Vue.use(VueRouter)
           {
               path: "/ShopHome",
               component: ShopHome,
+              children:[
+                  {path:"/Stock/Stock",component:Stock},
+                  {path:"/Stock/UpStock",component:UpStock},
+                  {path:"/ShopOrder/ShopOrder",component:ShopOrder}
+              ]
           },
       ]
 
