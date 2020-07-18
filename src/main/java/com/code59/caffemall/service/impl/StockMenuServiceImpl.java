@@ -2,8 +2,8 @@ package com.code59.caffemall.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.code59.caffemall.bean.Guest;
 import com.code59.caffemall.bean.ShopStock;
+import com.code59.caffemall.bean.Stock;
 import com.code59.caffemall.bean.StockOnSell;
 import com.code59.caffemall.dao.ShopStockDao;
 import com.code59.caffemall.dao.StockOnSellDao;
@@ -80,5 +80,35 @@ public class StockMenuServiceImpl implements StockMenuService {
     @Override
     public ShopStock getStockShopInfo(int id) {
         return shopStockDao.selectById(id);
+    }
+
+    @Override
+    public List<Stock> drawlist(String type,String name){
+        List<StockOnSell> list=null;
+        if(type!=null)
+            list=listByType(type);
+        else if(name!=null)
+            list=listByName(name);
+        else
+            list=list();
+
+        Stock show=new Stock();
+        ShopStock temp =new ShopStock();
+        List<Stock> result=null;
+
+        for(int i=0;i<list.size();i++)
+        {
+           show.setIdfood(list.get(i).getIdfood());
+           show.setDiscount(list.get(i).getDiscount());
+           show.setName(list.get(i).getName());
+           show.setPrice(list.get(i).getPrice());
+           show.setSellOut(list.get(i).isSellOut());
+           show.setUrl(list.get(i).getUrl());
+           show.setType(list.get(i).getType());
+           temp=shopStockDao.selectById(show.getIdfood());
+           show.setNum(temp.getNum());
+           result.add(show);
+        }
+        return result;
     }
 }

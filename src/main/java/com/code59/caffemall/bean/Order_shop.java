@@ -1,6 +1,6 @@
 package com.code59.caffemall.bean;
 
-public class Order {
+public class Order_shop {
     private String id;
     private String idGuest;
     private String orderType;
@@ -20,11 +20,11 @@ public class Order {
         this.id = id;
     }
 
-    public String getId_guest() {
+    public String getIdGuest() {
         return idGuest;
     }
 
-    public void setId_guest(String id_guest1) {
+    public void setIdGuest(String id_guest1) {
         this.idGuest = id_guest1;
     }
 
@@ -84,11 +84,11 @@ public class Order {
         this.beDeliver = beDeliver;
     }
 
-    public double getTotal_price(){
+    public double getTotalPrice(){
         return totalPrice;
     }
 
-    public void setTotal_price(double total_price1){
+    public void setTotalPrice(double total_price1){
         this.totalPrice=total_price1;
     }
 }

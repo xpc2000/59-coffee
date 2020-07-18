@@ -4,20 +4,20 @@ import com.baomidou.mybatisplus.annotation.TableName;
 
 @TableName("stock_onsell")
 public class StockOnSell {
-    private String id_food;
+    private String idFood;
     private String name;
     private String type;
     private double price;
     private double discount;
-    private boolean sell_out;
+    private String sellOut;
     private String url;
 
-    public String getId_food() {
-        return id_food;
+    public String getIdfood() {
+        return idFood;
     }
 
-    public void setId_food(String id_food) {
-        this.id_food = id_food;
+    public void setIdfood(String id_food) {
+        this.idFood = id_food;
     }
 
     public String getName() {
@@ -52,12 +52,12 @@ public class StockOnSell {
         this.discount = discount;
     }
 
-    public boolean isSell_out() {
-        return sell_out;
+    public String isSellOut() {
+        return sellOut;
     }
 
-    public void setSell_out(boolean sell_out) {
-        this.sell_out = sell_out;
+    public void setSellOut(String sell_out) {
+        this.sellOut = sell_out;
     }
 
     public String getUrl() {

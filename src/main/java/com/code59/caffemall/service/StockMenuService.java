@@ -1,7 +1,7 @@
 package com.code59.caffemall.service;
 
-import com.code59.caffemall.bean.Guest;
 import com.code59.caffemall.bean.ShopStock;
+import com.code59.caffemall.bean.Stock;
 import com.code59.caffemall.bean.StockOnSell;
 
 import java.util.List;
@@ -19,5 +19,6 @@ public interface StockMenuService {
     public int deleteStockShopInfo(int id);
     public int updateStockShopInfo(ShopStock shopStock);
     public ShopStock getStockShopInfo(int id);
+    public List<Stock> drawlist(String type,String name);
 
 }
