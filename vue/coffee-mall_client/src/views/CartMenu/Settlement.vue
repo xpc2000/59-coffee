@@ -17,12 +17,12 @@
             </div>
 
                 <van-field
-                        :value="address"
+                        v-model="item.address"
                         label="收货地址"
-                        type="textarea"
                         placeholder="请输入地址"
                         autosize
                         :border="false"
+                        input-align="right"
                 />
 
                 <van-cell title="商品金额"  size="large" style="background-color: #ffffff">
@@ -34,12 +34,13 @@
                 </van-cell>
 
                 <van-field
-                        :value="message"
+                        v-model="item.message"
                         label="订单备注"
-                        type="textarea"
                         placeholder="请输入备注"
                         autosize
                         :border="false"
+                        input-align="right"
+
                 />
             </van-cell-group>
 
@@ -62,11 +63,14 @@
             return{
                 store:'门店1',
                 totalPrice: '',
-                message:'',
                 goodsPrice:10.0,
                 DType: '1',
-                address: '',
-                deliveryPrice: 2.0,
+                deliveryPrice: 0.0,
+                item:
+                    {
+                        message:'',
+                        address:'',
+                    },
             }
         },
 
@@ -81,7 +85,8 @@
                 Submit()
                 {
                     this.$message.success("提交订单成功");
-                    this.$router.push({path: "/cart"});
+                    console.log(this.item);
+                    //this.$router.push({path: "/cart"});
                 }
             },
 
