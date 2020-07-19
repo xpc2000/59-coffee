@@ -28,6 +28,7 @@
 |GuestRegister|客户注册|{id, password, passwordConfirm, name, phone} |返回"ok"则成功注册|√|
 |getMessage|客户个人信息修改初始化|id |返回{password, passwordConfirm, name, phone, address ,delivery_address}|√|
 |GuestRegister|客户个人信息修改|{id, password, passwordConfirm, name, phone, address ,delivery_address}|返回"ok"则成功修改|√|
+|门店↓ | | |
 |SearchStock| 获取所有未下架商品及其库存信息 |筛选条件:餐品名称 name  (为空字符串则无筛选条件)  | 返回筛选到的(商品+库存)的列表,即每个商品均带有相应的库存信息
 |SearchDownShelfStockw|无| 获取所有已下架商品及其库存信息 | 返回筛选到的(商品+库存)的列表,即每个商品均带有相应的库存信息
 |StockEdit| 修改库存信息 |{idFood,num} |返回"ok"则成功修改库存
@@ -36,3 +37,13 @@
 |SearchShopOrder| 获取门店订单信息| 无传入参数 |返回门店的订单列表
 |Deliver| 进行发货 |{id} |返回"ok"表示发货成功
 |OrderDetail| 获取订单详情 |{id}|获取订单id=id的订单详情
+| 客户↓| | |
+|SelectStore |获取门店选择列表 | |
+|SearchDrink |获取饮料列表 | |
+|SearchSnack |获取小吃列表 | |
+|AddShoppingCart |加入购物车 | |
+|DelShoppingCart |购物车删除 | |
+|SubmitOrder |提交订单 | |
+|GetOrder |订单列表获取| |
+|GetFavorite |收藏夹获取 | |
+|GetLeadBoard |食物销售排行榜获取 | |

@@ -63,7 +63,7 @@
             return{
                 store:'门店1',
                 totalPrice: '',
-                goodsPrice:10.0,
+                goodsPrice: 0.0,
                 DType: '1',
                 deliveryPrice: 0.0,
                 item:
@@ -85,10 +85,14 @@
                 Submit()
                 {
                     this.$message.success("提交订单成功");
-                    console.log(this.item);
-                    //this.$router.push({path: "/cart"});
+                    this.$router.push({path: "/cart"});
                 }
             },
+
+        created() {
+            this.goodsPrice = window.sessionStorage.getItem("money")/100.0;
+            this.store = window.sessionStorage.getItem("StoreName");
+        },
 
         watch:
             {
