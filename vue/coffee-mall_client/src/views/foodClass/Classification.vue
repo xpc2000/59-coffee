@@ -12,7 +12,7 @@
                             v-for="item in options"
                             :key="item.id"
                             :label="item.name"
-                            :value="item.id">
+                            :value="item.name">
                     </el-option>
                 </el-select>
             </el-col>
@@ -63,6 +63,26 @@
                  },
              ],
          }
+     },
+
+     created() {
+            this.getStoreList();
+     },
+
+     methods:{
+
+            /* 获取门店列表 */
+            getStoreList(){
+
+            },
+     },
+
+     watch:{
+
+         /* 监听门店选择器的值 */
+       name(val){
+           window.sessionStorage.setItem("StoreName", this.name);
+       }
      }
 
  }

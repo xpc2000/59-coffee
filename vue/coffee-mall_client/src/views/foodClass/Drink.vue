@@ -28,11 +28,13 @@
                                 <div style="padding-bottom: 14px; padding-top: 14px">
                                     <span><i style="color: red"> ¥ {{item.price}}</i></span>
                                     <div style="padding-top: 14px">
-                                        <span><i style="font-size: 13px;font-style: normal">剩余 {{item.stock}} </i> </span>
+                                        <span><i
+                                                style="font-size: 13px;font-style: normal">剩余 {{item.stock}} </i> </span>
                                     </div>
                                     <div style="padding-top: 14px">
                                         <el-row type="flex">
-                                            <el-button type="success" size="mini" round @click="AddCart(item)">加入购物车</el-button>
+                                            <el-button type="success" size="mini" round @click="AddCart(item)">加入购物车
+                                            </el-button>
                                         </el-row>
                                     </div>
                                 </div>
@@ -61,13 +63,12 @@
 </template>
 
 <script>
-    export default
-    {
-        data()
-        {
-            return{
+    export default {
+        data() {
+            return {
 
                 /* 分页 */
+                name: '',   // 查询名称
                 pageSize: 4,
                 currentPage: 1,
                 totalSize: 20,   // 总条数，用于死数据
@@ -81,7 +82,7 @@
                             name: '餐品1',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                             stock: 3,
                         },
                         {
@@ -89,7 +90,7 @@
                             name: '餐品2',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                             stock: 4,
                         },
                         {
@@ -97,56 +98,56 @@
                             name: '餐品3',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         },
                         {
                             id: '4',
                             name: '餐品4',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         },
                         {
                             id: '5',
                             name: '餐品5',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         },
                         {
                             id: '6',
                             name: '餐品6',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         },
                         {
                             id: '7',
                             name: '餐品7',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         },
                         {
                             id: '8',
                             name: '餐品8',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         },
                         {
                             id: '9',
                             name: '餐品9',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         },
                         {
                             id: '10',
                             name: '餐品10',
                             type: '类型',
                             price: '单价',
-                            url:'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
+                            url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
                         }
                     ]
             }
@@ -162,8 +163,7 @@
                 /* 获得列表 */
                 async getList() {
 
-                    if(this.name === '')
-                    {
+                    if (this.name === '') {
                         this.name = "null";
                     }
                     const {data: res} = await this.$http.post("SearchDrink", this.name);
@@ -174,32 +174,27 @@
                 },
 
                 /* 查询饮料 */
-                SearchDrink()
-                {
+                SearchDrink() {
                     this.getList();
                     this.totalSize = this.tableData.length;   // 更新总条数
                     this.handleSizeChange(this.pageSize);   // 更新分页 界面
                 },
 
                 /* 分页更新功能 */
-                handleSizeChange(val)
-                {
+                handleSizeChange(val) {
                     this.pageSize = val;
                     this.handleCurrentChange(this.currentPage);
                 },
 
                 /* 更新 */
-                handleCurrentChange(val)
-                {
+                handleCurrentChange(val) {
                     //   this.totalSize = this.tableData.length;   // 更新总条数，用于死数据
                     this.currentPage = val;
                     let from = (this.currentPage - 1) * this.pageSize;
                     let to = this.currentPage * this.pageSize;
                     this.tempList = [];
-                    for (; from < to; from++)
-                    {
-                        if (this.tableData[from])
-                        {
+                    for (; from < to; from++) {
+                        if (this.tableData[from]) {
                             this.tempList.push(this.tableData[from]);
                         }
                     }
@@ -208,12 +203,9 @@
                 /* 加入购物车 */
                 async AddCart(item) {
                     const {data: res} = await this.$http.post("AddShoppingCart", item);
-                    if(res === 'ok')
-                    {
+                    if (res === 'ok') {
                         this.$message.success("成功加入购物车");
-                    }
-                    else
-                    {
+                    } else {
                         this.$message.error("请稍后再试");
                     }
                 }
@@ -222,7 +214,7 @@
 </script>
 
 <style lang="less" scoped>
-    .image{
+    .image {
         width: 210px;
         height: 235px;
         align-content: center;

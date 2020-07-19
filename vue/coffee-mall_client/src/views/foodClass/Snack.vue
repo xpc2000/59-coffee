@@ -68,6 +68,7 @@
             return{
 
                 /* 分页 */
+                name: '',   // 查询名称
                 pageSize: 4,
                 currentPage: 1,
                 totalSize: 20,   // 总条数，用于死数据
@@ -166,7 +167,7 @@
                     {
                         this.name = "null";
                     }
-                            const {data: res} = await this.$http.post("SearchSnack", this.name);
+                    const {data: res} = await this.$http.post("SearchSnack", this.name);
 
                     //设置列表数据
                     this.tableData = res;

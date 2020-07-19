@@ -197,7 +197,7 @@
                 })
                     .then(async () => {
                         // 删除
-                        const {data: res} = await this.$http.post("CartDelete", id);
+                        const {data: res} = await this.$http.post("DelShoppingCart", id);
                         if (res === "ok") {
                             this.$message({
                                 type: 'success',
@@ -228,6 +228,7 @@
                 //const {data: res} = await this.$http.post("CartSubmit", this.goods);
                 if(true)   // res === 'ok'
                 {
+                    window.sessionStorage.setItem("money", this.totalPrice);
                     this.$message.info('进入结算界面');
                     await this.$router.push({path: "/settlement"});   // 页面路由跳转
                 }
