@@ -41,7 +41,7 @@ Vue.use(VueRouter)
               redirect: "/choice",
               children:[
                   {path: "/choice", component: Choice},
-                  {path: "/classification", component: Classification, redirect: "/classification/drink",
+                  {path: "/classification", component: Classification,
                       children:[
                           {path: "/classification/drink", component: Drink},
                           {path: "/classification/snack", component: Snack},

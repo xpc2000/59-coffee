@@ -8,6 +8,15 @@
         </el-header>
 
         <el-main>
+            <div v-show="show">
+                <el-alert
+                        title="错误"
+                        type="error"
+                        description="未选择门店，请到分类界面选择门店"
+                        show-icon>
+                </el-alert>
+                <br/>
+            </div>
 
             <van-cell-group>
                 <van-cell title="门店"  :value="store" size="large" style="background-color: #ffffff"/>
@@ -46,11 +55,14 @@
 
             <div class="msg_box">
                     <van-submit-bar
+                            :disabled="SubmitDisable"
                             :price='100*(deliveryPrice+goodsPrice)'
-                            button-text="提交订单"
+                            :button-text="ButtonText"
                             @submit="Submit"
                     />
             </div>
+
+
         </el-main>
     </el-container>
 </template>
@@ -61,7 +73,10 @@
         data()
         {
             return{
-                store:'门店1',
+                show: true,
+                ButtonText: '未选择门店',
+                SubmitDisable: true,
+                store:'未选择门店',
                 totalPrice: '',
                 goodsPrice: 0.0,
                 DType: '1',
@@ -91,7 +106,13 @@
 
         created() {
             this.goodsPrice = window.sessionStorage.getItem("money")/100.0;
-            this.store = window.sessionStorage.getItem("StoreName");
+            if(window.sessionStorage.getItem("StoreName") !== null)
+            {
+                this.store = window.sessionStorage.getItem("StoreName");
+                this.SubmitDisable = false;
+                this.ButtonText = '提交订单';
+                this.show = false;
+            }
         },
 
         watch:

@@ -15,17 +15,17 @@
                     style="width: 100%">
                 <el-table-column
                         prop="date"
-                        label="日期"
+                        label="商品"
                         width="180">
                 </el-table-column>
                 <el-table-column
                         prop="name"
-                        label="姓名"
+                        label="单价"
                         width="180">
                 </el-table-column>
                 <el-table-column
                         prop="address"
-                        label="地址">
+                        label="操作">
                 </el-table-column>
             </el-table>
         </el-main>

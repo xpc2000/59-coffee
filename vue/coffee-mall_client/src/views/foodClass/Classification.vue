@@ -67,6 +67,10 @@
 
      created() {
             this.getStoreList();
+            if(window.sessionStorage.getItem("StoreName") !== null)
+            {
+                this.name = window.sessionStorage.getItem("StoreName");
+            }
      },
 
      methods:{

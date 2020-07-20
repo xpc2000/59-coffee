@@ -47,3 +47,4 @@
 |GetOrder |订单列表获取| |
 |GetFavorite |收藏夹获取 | |
 |GetLeadBoard |食物销售排行榜获取 | |
+| |排行榜获取 | |
