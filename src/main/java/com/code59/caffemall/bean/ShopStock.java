@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 public class ShopStock {
     private String idFood;
     private int num;
+    private String idShop;
 
     public String getIdfood() {
         return idFood;
@@ -21,5 +22,13 @@ public class ShopStock {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public String getIdShop() {
+        return idShop;
+    }
+
+    public void setIdShop(String idShop) {
+        this.idShop = idShop;
     }
 }

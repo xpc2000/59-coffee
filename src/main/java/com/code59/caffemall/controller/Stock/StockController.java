@@ -11,6 +11,8 @@ import com.code59.caffemall.bean.ShopStock;
 import com.code59.caffemall.bean.Stock;
 import com.code59.caffemall.bean.StockOnSell;
 import com.code59.caffemall.controller.Order.staticVar.Var;
+import com.code59.caffemall.controller.Order.tempVar.IdAndId;
+import com.code59.caffemall.controller.Order.tempVar.NameAndId;
 import com.code59.caffemall.dao.ShopStockDao;
 import com.code59.caffemall.dao.StockOnSellDao;
 import com.code59.caffemall.service.StockMenuService;
@@ -46,10 +48,14 @@ public class StockController {
 
         return "ok";
     }
-    @RequestMapping("/SearchStockg1")
-    public String Searchstock(@RequestBody String name)
+    @RequestMapping("/SearchStock")
+    public String Searchstock(@RequestBody NameAndId naid)
     {
-
+        System.out.println(naid.getName().equals(null));
+        System.out.println(naid.getName().equals("null"));
+        System.out.println(naid.getShopid());
+          List<Stock> stocks=stockMenuService.showOnSellStock(naid);
+          return JSON.toJSONString(stocks);
 //        DataSourceDTO dto = new DataSourceDTO();
 //        String driverName = "com.mysql.cj.jdbc.Driver";
 //        String baseUrl = "jdbc:mysql://localhost:3306?serverTimezone=UTC";
@@ -81,46 +87,48 @@ public class StockController {
 //        System.out.println(ds.getCurrentDataSources().keySet());
 
 
-
-        name=name.substring(0,name.length()-1);
-        if(name.equals("null"))
-        {
-            System.out.println("y\ny\ny\ny\n");
-
-            return JSON.toJSONString(stockMenuService.showOnSellStock(null));
-        }
-
-        System.out.println("n\nn\nn\n");
-        List<Stock>stocks= stockMenuService.showOnSellStock(name);
-        return JSON.toJSONString(stocks);
+//        name=name.substring(0,name.length()-1);
+//        if(name.equals("null"))
+//        {
+//            System.out.println("y\ny\ny\ny\n");
+//
+//            return JSON.toJSONString(stockMenuService.showOnSellStock(null));
+//        }
+//
+//        System.out.println("n\nn\nn\n");
+//        List<Stock>stocks= stockMenuService.showOnSellStock(name);
+//        return JSON.toJSONString(stocks);
     }
-    @RequestMapping("/foodEditShopg1")
-    //public String foodEdit(@RequestBody Stock stock)
-    public String foodEdit(@RequestBody String idfood)
+    @RequestMapping("/foodEditShop")
+    public String foodEditshop(@RequestBody Stock stock)
     {
-//        System.out.println(stock);
-//        QueryWrapper wrapper=new QueryWrapper();
-//        wrapper.eq("id_food",stock.getIdFood());
-//        ShopStock temp=new ShopStock();
-//        temp.setIdfood(stock.getIdFood());
-//        temp.setNum(stock.getNum());
-//        int num=shopStockDao.update(temp,wrapper);
-//        if(num==1)return "ok";
-//        return "fail";
-        return "ok";
+        QueryWrapper<ShopStock>wrapper=new QueryWrapper<>();
+        wrapper.eq("id_food",stock.getIdFood())
+                .eq("id_shop",stock.getIdShop());
+        ShopStock temp=new ShopStock();
+        temp.setNum(stock.getNum());
+        temp.setIdfood(stock.getIdFood());
+        temp.setIdShop(stock.getIdShop());
+        int num=shopStockDao.update(temp,wrapper);
+        if(num==1)return "ok";
+        return "fail";
     }
     @RequestMapping("/StockDownShelf")
-    public String stockdownshelf(@RequestBody String idfood)
+    public String stockdownshelf(@RequestBody IdAndId idAndId)
     {
-        idfood=idfood.substring(0,idfood.length()-1);
-        stockMenuService.undercarrage(idfood);
-        System.out.println("测试idfood"+idfood);
+        stockMenuService.undercarrage(idAndId);
         return "ok";
     }
-    @RequestMapping("SearchDownShelfStock")
-    public String SearchDownshelfstock(@RequestBody String name)
+    @RequestMapping("/SearchDownShelfStock")
+    public String SearchDownshelfstock(@RequestBody NameAndId nameAndId)
     {
-        name=name.substring(0,name.length()-1);
-        return JSON.toJSONString(stockMenuService.showUnderSellStock(name));
+        return JSON.toJSONString(stockMenuService.showUnderSellStock(nameAndId));
+    }
+    @RequestMapping("/StockUpShelf")
+    public String StockUpshelf(@RequestBody IdAndId idAndId)
+    {
+        stockMenuService.upcarrage(idAndId);
+        return "ok";
     }
 }
+

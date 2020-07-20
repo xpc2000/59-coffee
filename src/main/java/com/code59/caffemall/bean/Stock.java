@@ -2,6 +2,7 @@ package com.code59.caffemall.bean;
 
 public class Stock {
     private String idFood;
+    private String idShop;
     private String name;
     private String type;
     private double price;
@@ -72,5 +73,28 @@ public class Stock {
 
     public void setNum(int num) {
         this.num = num;
+    }
+
+    public String getIdShop() {
+        return idShop;
+    }
+
+    public void setIdShop(String idShop) {
+        this.idShop = idShop;
+    }
+
+    @Override
+    public String toString() {
+        return "Stock{" +
+                "idFood='" + idFood + '\'' +
+                ", idShop='" + idShop + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", sellOut='" + sellOut + '\'' +
+                ", url='" + url + '\'' +
+                ", num=" + num +
+                '}';
     }
 }

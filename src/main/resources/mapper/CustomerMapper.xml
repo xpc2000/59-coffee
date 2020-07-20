@@ -3,24 +3,29 @@
         "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.code59.caffemall.dao.StockDao">
-    <select id="selectByFoodName" resultType="com.code59.caffemall.bean.Stock">
+    <select id="selectByFoodName" resultType="com.code59.caffemall.bean.Stock"
+            parameterType="com.code59.caffemall.controller.Order.tempVar.NameAndId">
         select stock_onsell.*,stock_shop.num from stock_onsell,stock_shop
-        where stock_onsell.id_food =stock_shop.id_food
-        <if test="name!=null">
+        where stock_onsell.id_food =stock_shop.id_food and stock_onsell.id_shop=#{shopid}
+        <if test="name!='null' and name!='' and name!=null">
             and stock_onsell.name=#{name}
         </if>
     </select>
-    <select id="selectOnSellByFoodName" resultType="com.code59.caffemall.bean.Stock">
+    <select id="selectOnSellByFoodName" resultType="com.code59.caffemall.bean.Stock"
+            parameterType="com.code59.caffemall.controller.Order.tempVar.NameAndId">
         select stock_onsell.*,stock_shop.num from stock_onsell,stock_shop
-        where stock_onsell.id_food =stock_shop.id_food and stock_onsell.sell_out!="u"
-        <if test="name!=null">
+         where stock_onsell.id_food =stock_shop.id_food and stock_onsell.sell_out!="u"
+         and stock_onsell.id_shop=#{shopid}
+        <if test="name!='null' and name!='' and name!=null">
             and stock_onsell.name=#{name}
         </if>
     </select>
-    <select id="selectUnderSellByFoodName" resultType="com.code59.caffemall.bean.Stock">
+    <select id="selectUnderSellByFoodName" resultType="com.code59.caffemall.bean.Stock"
+            parameterType="com.code59.caffemall.controller.Order.tempVar.NameAndId">
         select stock_onsell.*,stock_shop.num from stock_onsell,stock_shop
         where stock_onsell.id_food =stock_shop.id_food and stock_onsell.sell_out="u"
-        <if test="name!=null">
+        and stock_onsell.id_shop=#{shopid}
+        <if test="name!='null' and name!='' and name!=null">
             and stock_onsell.name=#{name}
         </if>
     </select>

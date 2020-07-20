@@ -1,8 +1,10 @@
 package com.code59.caffemall.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.code59.caffemall.bean.*;
+import com.code59.caffemall.controller.Order.tempVar.OrderSearchByTime;
 import com.code59.caffemall.dao.OrderDetailDao;
 import com.code59.caffemall.dao.OrderShopDao;
 import com.code59.caffemall.dao.ShopStockDao;
@@ -153,8 +155,45 @@ public class OrderServiceImpl implements OrderServices {
 
     @Override
     public List<Order_detail> show(String id){
-        QueryWrapper wrapper = new QueryWrapper();
+        QueryWrapper<Order_detail>wrapper=new QueryWrapper<>();
         wrapper.eq("id_order",id);
-        return orderDetailDao.selectObjs(wrapper);
+        return orderDetailDao.selectList(wrapper);
+    }
+
+    @Override
+    public List<Order_shop> showOrderShops(OrderSearchByTime os) {
+
+        if((os.getDate1()==null||os.getDate1().equals(""))&&(os.getDate2()==null)||os.getDate2().equals(""))
+        {
+
+            if(os.getStoreID()==null||os.getStoreID().equals(""))
+            {
+                return orderShopDao.selectList(null);
+            }
+            QueryWrapper<Order_shop> wrapper=new QueryWrapper<>();
+            wrapper.eq("id_shop",os.getStoreID());
+            List<Order_shop> order_shops= orderShopDao.selectList(wrapper);
+            return order_shops;
+        }
+        else
+        {
+            QueryWrapper<Order_shop> wrapper=new QueryWrapper<>();
+            wrapper.eq("id_shop",os.getStoreID())
+                    .between("time",os.getDate1(),os.getDate2());
+            List<Order_shop> order_shops= orderShopDao.selectList(wrapper);
+            return order_shops;
+        }
+    }
+
+    @Override
+    public List<Order_shop> showOrderShops(String shopid) {
+        if(shopid==null||shopid.equals(""))
+            return orderShopDao.selectList(null);
+        else
+        {
+            QueryWrapper<Order_shop> wrapper=new QueryWrapper<>();
+            wrapper.eq("id_shop",shopid);
+            return orderShopDao.selectList(wrapper);
+        }
     }
 }

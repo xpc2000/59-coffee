@@ -46,6 +46,17 @@ public class Order_detail {
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
+
+    @Override
+    public String toString() {
+        return "Order_detail{" +
+                "idOrder='" + idOrder + '\'' +
+                ", idFood='" + idFood + '\'' +
+                ", num=" + num +
+                ", singlePrice=" + singlePrice +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }
 
 

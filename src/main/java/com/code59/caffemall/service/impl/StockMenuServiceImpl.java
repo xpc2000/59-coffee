@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.code59.caffemall.bean.ShopStock;
 import com.code59.caffemall.bean.Stock;
 import com.code59.caffemall.bean.StockOnSell;
+import com.code59.caffemall.controller.Order.tempVar.IdAndId;
+import com.code59.caffemall.controller.Order.tempVar.NameAndId;
 import com.code59.caffemall.dao.ShopStockDao;
 import com.code59.caffemall.dao.StockDao;
 import com.code59.caffemall.dao.StockOnSellDao;
@@ -124,32 +126,52 @@ public class StockMenuServiceImpl implements StockMenuService {
     }
 
     @Override
-    public List<Stock> showStock(String foodName) {
-        List<Stock> stocks= stockDao.selectByFoodName(foodName);
+    public List<Stock> showStock(NameAndId nameAndId) {
+        List<Stock> stocks= stockDao.selectByFoodName(nameAndId);
         stocks.forEach(stock -> System.out.println(stock));
         return stocks;
     }
 
     @Override
-    public List<Stock> showOnSellStock(String foodName) {
-        List<Stock> stocksOnSell=stockDao.selectOnSellByFoodName(foodName);
-        return stocksOnSell;
+    public List<Stock> showOnSellStock(NameAndId nameAndId) {
+        return stockDao.selectOnSellByFoodName(nameAndId);
     }
 
     @Override
-    public List<Stock> showUnderSellStock(String foodName) {
-        return stockDao.selectUnderSellByFoodName(foodName);
+    public List<Stock> showUnderSellStock(NameAndId nameAndId) {
+        return stockDao.selectUnderSellByFoodName(nameAndId);
     }
 
     @Override
-    public boolean undercarrage(String foodid) {
+    public boolean undercarrage(IdAndId idAndId) {
         QueryWrapper<StockOnSell>wrapper=new QueryWrapper<>();
-        wrapper.eq("id_food",foodid);
+        wrapper.eq("id_food",idAndId.getFoodid())
+                .eq("id_shop",idAndId.getShopid());
         StockOnSell temp=stockOnSellDao.selectOne(wrapper);
         if(temp==null)return false;
         temp.setSellOut("u");
         int num=stockOnSellDao.update(temp,wrapper);
         if(num==1)return true;
+        return false;
+    }
+
+    @Override
+    public boolean upcarrage(IdAndId idAndId) {
+        QueryWrapper<StockOnSell>wrapper=new QueryWrapper<>();
+        wrapper.eq("id_food",idAndId.getFoodid())
+                .eq("id_shop",idAndId.getShopid());
+        StockOnSell temp=stockOnSellDao.selectOne(wrapper);
+        if(temp==null)return false;
+        QueryWrapper<ShopStock>wratemp=new QueryWrapper<>();
+        wratemp.eq("id_food",temp.getIdfood());
+        ShopStock temp2=shopStockDao.selectOne(wratemp);
+        int number=temp2.getNum();//获取库存数
+        if(number==0)
+            temp.setSellOut("y");
+        else
+            temp.setSellOut("n");
+        if(stockOnSellDao.update(temp,wrapper)==1)//这里可以借用之前生成的包装器
+            return true;
         return false;
     }
 }

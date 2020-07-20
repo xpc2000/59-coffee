@@ -37,4 +37,5 @@ public class ShopServiceImpl implements ShopService {
     public List<Shop> list() {
         return shopDao.selectList(null);
     }
+
 }
