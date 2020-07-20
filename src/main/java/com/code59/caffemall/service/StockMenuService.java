@@ -20,5 +20,8 @@ public interface StockMenuService {
     public int updateStockShopInfo(ShopStock shopStock);
     public ShopStock getStockShopInfo(int id);
     public List<Stock> drawlist(String type,String name);
-
+    public List<Stock> showStock(String foodName);
+    public List<Stock> showOnSellStock(String foodName);
+    public List<Stock> showUnderSellStock(String foodName);
+    public boolean undercarrage(String foodid);
 }

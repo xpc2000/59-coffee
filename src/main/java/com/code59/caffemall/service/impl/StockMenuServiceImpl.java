@@ -6,19 +6,24 @@ import com.code59.caffemall.bean.ShopStock;
 import com.code59.caffemall.bean.Stock;
 import com.code59.caffemall.bean.StockOnSell;
 import com.code59.caffemall.dao.ShopStockDao;
+import com.code59.caffemall.dao.StockDao;
 import com.code59.caffemall.dao.StockOnSellDao;
 import com.code59.caffemall.service.StockMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 @DS("coffee_shop")
 public class StockMenuServiceImpl implements StockMenuService {
     @Autowired
     ShopStockDao shopStockDao;
     @Autowired
     StockOnSellDao stockOnSellDao;
+    @Autowired
+    StockDao stockDao;
 
     @Override
     public int add(StockOnSell stockOnSell) { return stockOnSellDao.insert(stockOnSell);
@@ -104,17 +109,47 @@ public class StockMenuServiceImpl implements StockMenuService {
 
         for(int i=0;i<list.size();i++)
         {
-           show.setIdfood(list.get(i).getIdfood());
+           show.setIdFood(list.get(i).getIdfood());
            show.setDiscount(list.get(i).getDiscount());
            show.setName(list.get(i).getName());
            show.setPrice(list.get(i).getPrice());
            show.setSellOut(list.get(i).isSellOut());
            show.setUrl(list.get(i).getUrl());
            show.setType(list.get(i).getType());
-           temp=shopStockDao.selectById(show.getIdfood());
+           temp=shopStockDao.selectById(show.getIdFood());
            show.setNum(temp.getNum());
            result.add(show);
         }
         return result;
+    }
+
+    @Override
+    public List<Stock> showStock(String foodName) {
+        List<Stock> stocks= stockDao.selectByFoodName(foodName);
+        stocks.forEach(stock -> System.out.println(stock));
+        return stocks;
+    }
+
+    @Override
+    public List<Stock> showOnSellStock(String foodName) {
+        List<Stock> stocksOnSell=stockDao.selectOnSellByFoodName(foodName);
+        return stocksOnSell;
+    }
+
+    @Override
+    public List<Stock> showUnderSellStock(String foodName) {
+        return stockDao.selectUnderSellByFoodName(foodName);
+    }
+
+    @Override
+    public boolean undercarrage(String foodid) {
+        QueryWrapper<StockOnSell>wrapper=new QueryWrapper<>();
+        wrapper.eq("id_food",foodid);
+        StockOnSell temp=stockOnSellDao.selectOne(wrapper);
+        if(temp==null)return false;
+        temp.setSellOut("u");
+        int num=stockOnSellDao.update(temp,wrapper);
+        if(num==1)return true;
+        return false;
     }
 }

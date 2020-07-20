@@ -48,7 +48,10 @@ public class OrderServiceImpl implements OrderServices {
 
         while(cartIterator.hasNext()){
             Cart cart=cartIterator.next();
-            shopStock=shopStockDao.selectById(cart.getIdFood());
+            //shopStock=shopStockDao.selectById(cart.getIdFood());
+            QueryWrapper<ShopStock> wrapper_1=new QueryWrapper<>();
+            wrapper_1.eq("id_food",cart.getIdFood());
+            shopStock=shopStockDao.selectOne(wrapper_1);
             if(cart.getNumber()>shopStock.getNum())
             {
                 state=0;
@@ -93,7 +96,7 @@ public class OrderServiceImpl implements OrderServices {
             state = orderShopDao.insert(entry_plus);
 
             for (int i = 0; i < cartList.size() && state == 1; i++) {
-                entry.setId_food(cartList.get(i).getIdFood());
+                entry.setIdFood(cartList.get(i).getIdFood());
                 entry.setSinglePrice(cartList.get(i).getPriceAfterDiscount());
                 entry.setNum(cartList.get(i).getNumber());
                 entry.setTotalPrice(sum);

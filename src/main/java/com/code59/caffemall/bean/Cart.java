@@ -58,5 +58,13 @@ public class Cart {
         this.type=type1;
     }
 
+    public Cart(String idGuest, String idFood, String name, String type, int number, double priceAfterDiscount) {
+        this.idGuest = idGuest;
+        this.idFood = idFood;
+        this.name = name;
+        this.type = type;
+        this.number = number;
+        this.priceAfterDiscount = priceAfterDiscount;
+    }
 }
 

@@ -91,4 +91,20 @@ public class Order_shop {
     public void setTotalPrice(double total_price1){
         this.totalPrice=total_price1;
     }
+
+    @Override
+    public String toString() {
+        return "Order_shop{" +
+                "id='" + id + '\'' +
+                ", idGuest='" + idGuest + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", time='" + time + '\'' +
+                ", deliverAddress='" + deliverAddress + '\'' +
+                ", idShop='" + idShop + '\'' +
+                ", phone='" + phone + '\'' +
+                ", beOver='" + beOver + '\'' +
+                ", beDeliver='" + beDeliver + '\'' +
+                ", totalPrice=" + totalPrice +
+                '}';
+    }
 }
