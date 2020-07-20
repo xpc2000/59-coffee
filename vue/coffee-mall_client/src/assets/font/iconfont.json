@@ -1,10 +1,66 @@
 {
   "id": "1907982",
-  "name": "coffee_ma'l'l",
+  "name": "coffee_mall",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
+    {
+      "icon_id": "396059",
+      "name": "第二",
+      "font_class": "second",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "396060",
+      "name": "第三",
+      "font_class": "third",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
+      "icon_id": "396061",
+      "name": "第一",
+      "font_class": "first",
+      "unicode": "e66d",
+      "unicode_decimal": 58989
+    },
+    {
+      "icon_id": "6264966",
+      "name": "销量预测",
+      "font_class": "xiaoliangyuce",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "3401997",
+      "name": "亚军",
+      "font_class": "yajun",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "3402022",
+      "name": "冠军",
+      "font_class": "guanjun",
+      "unicode": "e6b1",
+      "unicode_decimal": 59057
+    },
+    {
+      "icon_id": "3402049",
+      "name": "季军",
+      "font_class": "jijun",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "7158855",
+      "name": "菜品排行榜",
+      "font_class": "caipinpaihangbang",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
     {
       "icon_id": "1046624",
       "name": "饮料",
