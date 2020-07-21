@@ -180,14 +180,14 @@
                         this.name = "null";
                     }
                     this.param.name=this.name;
-                    if(window.sessionStorage.getItem("StoreName")==undefined){
+                    if(window.sessionStorage.getItem("StoreId")===null){
                         this.param.shopid="null";
-                        console.log("1");
+                   //     console.log("1");
                     }
                     else{
-                        this.param.shopid=window.sessionStorage.getItem("StoreName");
-                        console.log(this.param.shopid);
-                        console.log("2");
+                        this.param.shopid=window.sessionStorage.getItem("StoreId");
+               //         console.log(this.param.shopid);
+               //         console.log("2");
                     }
                     const {data: res} = await this.$http.post("SearchDrink", this.param);
 

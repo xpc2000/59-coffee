@@ -179,12 +179,12 @@
                         this.name = "null";
                     }
                     this.param.name=this.name;
-                    if(window.sessionStorage.getItem("StoreName")==undefined){
+                    if(window.sessionStorage.getItem("StoreId")===null){
                         this.param.shopid="null";
                         console.log("1");
                     }
                     else{
-                        this.param.shopid=window.sessionStorage.getItem("StoreName");
+                        this.param.shopid=window.sessionStorage.getItem("StoreId");
                         console.log(this.param.shopid);
                         console.log("2");
                     }
