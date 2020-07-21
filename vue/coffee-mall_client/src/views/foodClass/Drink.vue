@@ -228,10 +228,14 @@
                     this.addtocart.username=window.sessionStorage.getItem("username");
                     this.addtocart.item=item;
                     const {data: res} = await this.$http.post("AddShoppingCart", this.addtocart);
-                    console.log(this.addtocart);
+                    console.log(res);
                     if (res === 'ok') {
                         this.$message.success("成功加入购物车");
-                    } else {
+                    } 
+                    else if(res=='already'){
+                        this.$message.success("购物车中已有该餐品");
+                    }
+                    else {
                         this.$message.error("请稍后再试");
                     }
                 }

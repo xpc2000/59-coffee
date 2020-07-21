@@ -60,15 +60,15 @@ public class ClientClient {
     {
         return JSON.toJSONString(OrdersAll.getOrderByGuestId(guestId).getCartsAll());
     }
-    @RequestMapping("/addOrder")//提交购物车////废弃
-    public String addorder(@RequestBody OrderFinal order)
-    {
-        String guestId= order.getGuestId();
-        Guest gtemp=userService.get(guestId);
-        orderServices.add(order.getCartsAll(),order.getShopId(),gtemp,DiscountController.discount);
-        OrdersAll.deleteOrder(order.getGuestId());
-        return "ok";
-    }
+//    @RequestMapping("/addOrder")//提交购物车////废弃
+//    public String addorder(@RequestBody OrderFinal order)
+//    {
+//        String guestId= order.getGuestId();
+//        Guest gtemp=userService.get(guestId);
+//        orderServices.add(order.getCartsAll(),order.getShopId(),gtemp,DiscountController.discount);
+//        OrdersAll.deleteOrder(order.getGuestId());
+//        return "ok";
+//    }
     //SerchFood功能在superAdmin中已经有了
     @RequestMapping("/addOrderFood")//下单（给某个餐品下单）/////废弃
     public String addorderfood(@RequestBody OrderSingle temp)//Temp包含Food变量和String(guest_id)变量
