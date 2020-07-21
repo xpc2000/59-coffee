@@ -107,7 +107,7 @@
                     this.param.username=window.sessionStorage.getItem("username");
                     this.param.item=this.item;
                     console.log(this.param);
-                    if(this.item.address==null)
+                    if(this.item.address==null||this.item.address=='')
                     {
                         this.$message.error("请填写地址");
                         return;
