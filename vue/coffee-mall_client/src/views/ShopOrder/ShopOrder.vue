@@ -246,7 +246,10 @@ export default {
       console.log(res);
       this.totalList = res;
       //this.handleSizeChange(this.pageSize);
-
+      this.undeliverList=[];
+      this.deliverList = [];
+      this.notOverList = [];
+      this.OverList = [];
       for (var i = 0; i < res.length; i++) {
         if (res[i].beDeliver == 'n') {
           this.undeliverList.push(res[i]);

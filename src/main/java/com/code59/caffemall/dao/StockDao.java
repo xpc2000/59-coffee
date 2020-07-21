@@ -2,6 +2,7 @@ package com.code59.caffemall.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.code59.caffemall.bean.Stock;
+import com.code59.caffemall.bean.StockOnSell;
 import com.code59.caffemall.controller.Order.tempVar.NameAndId;
 import org.springframework.stereotype.Repository;
 

@@ -97,4 +97,19 @@ public class Stock {
                 ", num=" + num +
                 '}';
     }
+
+    public Stock() {
+    }
+
+    public Stock(String idFood, String idShop, String name, String type, double price, double discount, String sellOut, String url, int num) {
+        this.idFood = idFood;
+        this.idShop = idShop;
+        this.name = name;
+        this.type = type;
+        this.price = price;
+        this.discount = discount;
+        this.sellOut = sellOut;
+        this.url = url;
+        this.num = num;
+    }
 }

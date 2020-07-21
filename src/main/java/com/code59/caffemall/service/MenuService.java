@@ -1,6 +1,7 @@
 package com.code59.caffemall.service;
 
 import com.code59.caffemall.bean.Food;
+import com.code59.caffemall.bean.StockOnSell;
 
 import java.util.List;
 
@@ -13,4 +14,5 @@ public interface MenuService {
     public int count();
     public List<Food> getFoodByType(String type);
     public List<Food> getFoodByName(String name);
+
 }

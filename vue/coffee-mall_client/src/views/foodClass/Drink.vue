@@ -22,6 +22,9 @@
                             <img :src="item.url" class="image">
                             <div style="padding: 14px;">
                                 <div style="padding-bottom: 14px; padding-top: 14px">
+                                    <span><i class="el-icon-star-on"> {{item.idFood}}</i></span>
+                                </div>
+                                <div style="padding-bottom: 14px; padding-top: 14px">
                                     <span><i class="el-icon-star-on"> {{item.name}}</i></span>
                                 </div>
                                 <span><i class="el-icon-menu"> {{item.type}}</i> </span>
@@ -29,7 +32,7 @@
                                     <span><i style="color: red"> ¥ {{item.price}}</i></span>
                                     <div style="padding-top: 14px">
                                         <span><i
-                                                style="font-size: 13px;font-style: normal">剩余 {{item.stock}} </i> </span>
+                                                style="font-size: 13px;font-style: normal">剩余 {{item.num}} </i> </span>
                                     </div>
                                     <div style="padding-top: 14px">
                                         <el-row type="flex">
@@ -69,6 +72,16 @@
 
                 /* 分页 */
                 name: '',   // 查询名称
+                shopid:'', //分店名称，从window.sessionStorage里面取
+                param:{
+                    name:'',
+                    shopid:''
+                },
+                username:'',//用户名称
+                addtocart:{
+                    username:'',
+                    item:''
+                },
                 pageSize: 4,
                 currentPage: 1,
                 totalSize: 20,   // 总条数，用于死数据
@@ -83,7 +96,7 @@
                             type: '类型',
                             price: '单价',
                             url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                            stock: 3,
+                            num: 3,
                         },
                         {
                             id: '2',
@@ -91,7 +104,7 @@
                             type: '类型',
                             price: '单价',
                             url: 'https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png',
-                            stock: 4,
+                            num: 4,
                         },
                         {
                             id: '3',
@@ -166,7 +179,17 @@
                     if (this.name === '') {
                         this.name = "null";
                     }
-                    const {data: res} = await this.$http.post("SearchDrink", this.name);
+                    this.param.name=this.name;
+                    if(window.sessionStorage.getItem("StoreName")==undefined){
+                        this.param.shopid="null";
+                        console.log("1");
+                    }
+                    else{
+                        this.param.shopid=window.sessionStorage.getItem("StoreName");
+                        console.log(this.param.shopid);
+                        console.log("2");
+                    }
+                    const {data: res} = await this.$http.post("SearchDrink", this.param);
 
                     //设置列表数据
                     this.tableData = res;
@@ -202,8 +225,10 @@
 
                 /* 加入购物车 */
                 async AddCart(item) {
-
-                    const {data: res} = await this.$http.post("AddShoppingCart", item);
+                    this.addtocart.username=window.sessionStorage.getItem("username");
+                    this.addtocart.item=item;
+                    const {data: res} = await this.$http.post("AddShoppingCart", this.addtocart);
+                    console.log(this.addtocart);
                     if (res === 'ok') {
                         this.$message.success("成功加入购物车");
                     } else {

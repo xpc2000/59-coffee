@@ -61,10 +61,8 @@ public class ClientShop {
 
     @RequestMapping("/OrderDetail")
     public String orderdetail(@RequestBody String orderId) {
-        orderId="ec5555sae";
+        orderId=orderId.substring(0,orderId.length()-1);
         List<Order_detail>order_details=orderServices.show(orderId);
-        System.out.println("aaaaaaaaaaaaa\n\n\n");
-        System.out.println("aaaaaaaaaaaaaaaa"+order_details.get(0));
 //        Order_detail order_detail=order_details.get(0);
 //        System.out.println("1");
 //        //order_details=null;
@@ -83,8 +81,6 @@ public class ClientShop {
 
 
     public List<OrderTemp> convertToOrderTemp(List<Order_shop> orderdetails) {
-        if (orderdetails == null)
-            return null;
         List<OrderTemp> orderTemps = new ArrayList<>();
         orderdetails.forEach(order_shop -> {
             String guestName = userService.get(order_shop.getIdGuest()).getName();
