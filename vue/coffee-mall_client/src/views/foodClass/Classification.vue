@@ -9,10 +9,10 @@
             <el-col :span="3">
                 <el-select v-model="name" placeholder="请选择门店">
                     <el-option
-                            v-for="item in storeName"
-                            :key="item"
-                            :label="item"
-                            :value="item">
+                            v-for="item in options"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
                     </el-option>
                 </el-select>
             </el-col>
@@ -48,6 +48,7 @@
      {
          return{
              name: '',   // 选中的门店名称
+             id: '',
              options:[
                  {
                      id: 1,
@@ -62,8 +63,6 @@
                      name: '门店3',
                  },
              ],
-
-             storeName:[],
          }
      },
 
@@ -78,9 +77,9 @@
      methods:{
 
             /* 获取门店列表 */
-            async getStoreList() {
-                const {data: res} = await this.$http.get("SelectStore");
-                this.storeName = res;
+            async getStoreList(){
+                const{data:res}= await this.$http.post("SelectStores");
+                this.options=res;
             },
      },
 
