@@ -31,6 +31,7 @@ public class CartServiceImpl implements CartService {
         return cartdao.insert(cart1);
     }
 
+
     @Override
     public int delete(String id_guest1,String id_food1){
         Map<String, Object> columnMap = new HashMap<String, Object>();

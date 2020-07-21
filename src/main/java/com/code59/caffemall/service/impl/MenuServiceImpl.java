@@ -3,7 +3,9 @@ package com.code59.caffemall.service.impl;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.code59.caffemall.bean.Food;
+import com.code59.caffemall.bean.StockOnSell;
 import com.code59.caffemall.dao.FoodDao;
+import com.code59.caffemall.dao.StockOnSellDao;
 import com.code59.caffemall.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 public class MenuServiceImpl implements MenuService {
     @Autowired
     FoodDao foodDao;
+    @Autowired
+    StockOnSellDao stockOnSellDao;
 
     @Override
     public int add(Food food) {
@@ -59,5 +63,6 @@ public class MenuServiceImpl implements MenuService {
         wrapper.like("name",name);
         return foodDao.selectList(wrapper);
     }
+
 
 }

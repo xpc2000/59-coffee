@@ -115,7 +115,7 @@ public class StockMenuServiceImpl implements StockMenuService {
            show.setDiscount(list.get(i).getDiscount());
            show.setName(list.get(i).getName());
            show.setPrice(list.get(i).getPrice());
-           show.setSellOut(list.get(i).isSellOut());
+           show.setSellOut(list.get(i).getSellOut());
            show.setUrl(list.get(i).getUrl());
            show.setType(list.get(i).getType());
            temp=shopStockDao.selectById(show.getIdFood());
@@ -173,5 +173,19 @@ public class StockMenuServiceImpl implements StockMenuService {
         if(stockOnSellDao.update(temp,wrapper)==1)//这里可以借用之前生成的包装器
             return true;
         return false;
+    }
+
+    @Override
+    public List<Stock> convertFromStockOnsellToStock(List<StockOnSell> sos) {
+        List<Stock>stocks=new ArrayList<>();
+        sos.forEach(s->{
+            QueryWrapper<ShopStock>wrapper=new QueryWrapper<>();
+            wrapper.eq("id_food",s.getIdfood());
+            int num=shopStockDao.selectOne(wrapper).getNum();
+            Stock stock=new Stock(s.getIdfood(),s.getIdShop(),s.getName(),s.getType()
+            ,s.getPrice(),s.getDiscount(),s.getSellOut(),s.getUrl(),num);
+            stocks.add(stock);
+        });
+        return stocks;
     }
 }

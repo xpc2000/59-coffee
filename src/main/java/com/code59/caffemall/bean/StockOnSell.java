@@ -53,7 +53,7 @@ public class StockOnSell {
         this.discount = discount;
     }
 
-    public String isSellOut() {
+    public String getSellOut() {
         return sellOut;
     }
 

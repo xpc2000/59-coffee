@@ -27,4 +27,5 @@ public interface StockMenuService {
     public List<Stock> showUnderSellStock(NameAndId nameAndId);
     public boolean undercarrage(IdAndId idAndId);
     public boolean upcarrage(IdAndId idAndId);
+    public List<Stock> convertFromStockOnsellToStock(List<StockOnSell>sos);
 }
