@@ -163,8 +163,10 @@
 
         methods:{
 
-            getCartList(){
-                this.goods = this.tempList;   // 用于死数据
+            async getCartList() {
+                const {data: res} = await this.$http.get("getShoppingCart");
+                this.goods = res;
+                //this.goods = this.tempList;   // 用于死数据
                 this.allGoods = this.goods;
                 this.checkedGoods = this.getCheckedList(this.goods);
             },

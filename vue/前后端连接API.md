@@ -10,7 +10,7 @@
 |AdminLogin|管理员登录 |{用户名id，密码password}loginForm对象 |"ok"登录成功/其他登录失败 |√|
 |SearchStore|通过门店ID查找门店信息 |筛选条件:门店账号ID  (为空字符串则无筛选条件)  |筛选到的门店数 , 符合条件的门店列表 |√|
 |SearchFood|通过餐品名称查找餐品信息 |筛选条件:餐品名称 foodName  (为空字符串则无筛选条件)  |筛选到的餐品数 , 符合条件的餐品列表 |√|
-|SelectStore(暂时不用)|更新门店名称选择器 | 无| 筛选到的option列表数 , 全部{value，label}的option对象列表|
+|SelectStore(暂时不用)|更新门店名称选择器 | 无| 返回门店名称列表 storeName[ ]|
 |SearchOrder|通过门店ID，起始时间,结束时间 <br>查找订单流水 |筛选条件:{门店账号storeID 起始时间date1,结束时间date2}Filter对象 (为空字符串则无筛选条件) |筛选到的订单数 , 符合条件的订单列表 |
 |storeNew| 新建门店功能|{id, password, name, address, phone}editForm对象 | 返回"ok"则成功新建|√|
 |storeEdit| 修改门店功能| {password, name, address, phone}|返回"ok"则成功修改 |√|
@@ -38,13 +38,12 @@
 |Deliver| 进行发货 |{id} |返回"ok"表示发货成功
 |OrderDetail| 获取订单详情 |{id}|获取订单id=id的订单详情
 | 客户↓| | |
-|SelectStore |获取门店选择列表 | |
+|SelectStore |获取门店选择列表 | 无传入参数|返回门店名称列表storeName[ ]
 |SearchDrink |获取饮料列表 | |
 |SearchSnack |获取小吃列表 | |
 |AddShoppingCart |加入购物车 | |
-|DelShoppingCart |购物车删除 | |
-|SubmitOrder |提交订单 | |
-|GetOrder |订单列表获取| |
+|getShoppingCart |获取购物车列表 |无传入参数 |购物车列表[{id, name, type, price, url, num=1, checked=false},]|
+|DelShoppingCart |购物车删除 | {id}|更新后的购物车列表 |
+|SubmitOrder |提交订单 |{store, oType, goodsPrice, deliveryPrice, message, address} |ok则提交订单成功
+|GetLeadBoard |食物销售排行榜获取 |无传入参数 |{foodID， foodName， Sales}销量不为0的列表，前端自动排序
 |GetFavorite |收藏夹获取 | |
-|GetLeadBoard |食物销售排行榜获取 | |
-| |排行榜获取 | |

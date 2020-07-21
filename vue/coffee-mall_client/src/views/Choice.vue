@@ -32,7 +32,7 @@
             <br/>
         </div>
         <el-table
-                :data="tableData"
+                :data="Data"
                 style="width: 100%"
                 :row-class-name="tableRowClassName"
                 :default-sort = "{prop: 'Sales', order: 'descending'}">
@@ -83,6 +83,9 @@
                 show: 'iconfont icon-yajun',
 
                 /* 排行榜 */
+                Data:[],
+
+                /* 排行榜,死数据 */
                 tableData:[
                     {
                         foodId:'1',
@@ -139,16 +142,16 @@
             },
 
             /* 获取排行榜 */
-            getLeaderboard()
-            {
-
+            async getLeaderboard() {
+                const {data: res} = await this.$http.get("GetLeadBoard");
+                this.Data = res;
             },
 
 
             /* 加入购物车 */
             async handleClick(row, type)
             {
-                //const { data: res } = await this.$http.post("OrderDetail", row.foodId);
+                const { data: res } = await this.$http.post("OrderDetail", row.foodId);
                 if(res === 'ok')
                 {
                     this.$message.success('加入购物车成功');

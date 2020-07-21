@@ -14,13 +14,13 @@
         <!-- 搜索栏-->
         <el-form class="user-search" :inline="true" label-width="90px">
             <el-form-item prop="date1" label="起始日期: ">
-                <el-date-picker type="date"  v-model="date1" placeholder="选择起始日期"  style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date"  v-model="Filter.date1" placeholder="选择起始日期"  style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item prop="date2" label="终止日期: ">
-                <el-date-picker type="date"  v-model="date2" placeholder="选择终止日期"  style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date"  v-model="Filter.date2" placeholder="选择终止日期"  style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item prop="store" label="门店: ">
-                <el-input v-model="storeID" placeholder="请选择门店" clearable></el-input>
+                <el-input v-model="Filter.storeID" placeholder="请选择门店" clearable></el-input>
             </el-form-item>
             <el-form-item label=" ">
                 <el-button size="medium" type="primary"  class="title"  icon="iconfont icon-chazhao" round @click="Search()"> 查询账目 </el-button>

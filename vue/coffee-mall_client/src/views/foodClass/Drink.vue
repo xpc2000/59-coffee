@@ -202,6 +202,7 @@
 
                 /* 加入购物车 */
                 async AddCart(item) {
+
                     const {data: res} = await this.$http.post("AddShoppingCart", item);
                     if (res === 'ok') {
                         this.$message.success("成功加入购物车");
