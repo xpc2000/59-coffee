@@ -107,120 +107,123 @@ export default {
   },
   data() {
     return {
+      username:'u',
+      temprowid:'u',
       undeliverList: [
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000",
-          orderDetails: [
-            {
-              idFood: "000",
-              num: "5",
-              singlePrice: "5",
-              totalPrice: "20"
-            }
-          ]
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        },
-        {
-          date: "2019/06/06",
-          name: "alex",
-          address: "tiananmen",
-          phone: "10086",
-          totalPrice: "5000"
-        }
+        
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000",
+        //   orderDetails: [
+        //     {
+        //       idFood: "000",
+        //       num: "5",
+        //       singlePrice: "5",
+        //       totalPrice: "20"
+        //     }
+        //   ]
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // },
+        // {
+        //   date: "2019/06/06",
+        //   name: "alex",
+        //   address: "tiananmen",
+        //   phone: "10086",
+        //   totalPrice: "5000"
+        // }
       ],
       totalList: [],
       pageSize: 10,
@@ -237,7 +240,10 @@ export default {
 
   methods: {
     async getList() {
-      const { data: res } = await this.$http.post("SearchShopOrder");
+      //const { data: res } = await this.$http.post("SearchShopOrder",window.sessionStorage.getItem("username"));
+      this.username=window.sessionStorage.getItem("username");
+      const { data: res } = await this.$http.post("SearchShopOrder",this.username);
+      console.log(res);
       this.totalList = res;
       //this.handleSizeChange(this.pageSize);
 
@@ -257,12 +263,18 @@ export default {
       }
     },
     async handleClick(row, type) {
-      const { data: res } = await this.$http.post("OrderDetail", row.id);
+      this.temprowid=row.orderID;
+      console.log("aa");
+      console.log(this.temprowid);
+      const { data: res } = await this.$http.post("OrderDetail", this.temprowid);
+      console.log(res);
       this.detailDataVisible = true;
       this.detailData = res;
     },
     async deliver(row) {
-      const { data: res } = await this.$http.post("Deliver", row.id);
+      this.temprowid=row.orderID;
+      const { data: res } = await this.$http.post("Deliver", this.temprowid);
+      console.log(res);
       if (res === "ok") {
         await this.getList();
         this.$message({
