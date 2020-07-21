@@ -212,10 +212,12 @@ export default
                     if(window.sessionStorage.getItem("username") === null) {
                         window.sessionStorage.setItem("username", this.loginForm.id);
                     }
-                    if(this.loginForm.value === "客户")
+                    if(this.loginForm.value === "客户") {
                         await this.$router.push({path: "/GuestHome"});   // 页面路由跳转
-                    else if(this.loginForm.value === "门店")
+                    }
+                    else if(this.loginForm.value === "门店") {
                         await this.$router.push({path: "/ShopHome"});   // 页面路由跳转
+                    }
                 }
                 else
                 {

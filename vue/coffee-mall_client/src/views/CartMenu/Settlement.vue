@@ -19,10 +19,10 @@
             </div>
 
             <van-cell-group>
-                <van-cell title="门店"  :value="store" size="large" style="background-color: #ffffff"/>
+                <van-cell title="门店"  :value="item.store" size="large" style="background-color: #ffffff"/>
             <div style="width: 200px;padding-left: 1160px">
-                    <el-radio v-model="DType" label="1">到店</el-radio>
-                    <el-radio v-model="DType" label="2">外送</el-radio>
+                    <el-radio v-model="item.oType" label="1">到店</el-radio>
+                    <el-radio v-model="item.oType" label="2">外送</el-radio>
             </div>
 
                 <van-field
@@ -35,11 +35,11 @@
                 />
 
                 <van-cell title="商品金额"  size="large" style="background-color: #ffffff">
-                    <span style="color: red"> ¥ {{goodsPrice}} </span>
+                    <span style="color: red"> ¥ {{item.goodsPrice}} </span>
                 </van-cell>
 
                 <van-cell title="配送费"  size="large" style="background-color: #ffffff">
-                    <span style="color: red"> ¥ {{deliveryPrice}} </span>
+                    <span style="color: red"> ¥ {{item.deliveryPrice}} </span>
                 </van-cell>
 
                 <van-field
@@ -56,7 +56,7 @@
             <div class="msg_box">
                     <van-submit-bar
                             :disabled="SubmitDisable"
-                            :price='100*(deliveryPrice+goodsPrice)'
+                            :price='100*(item.deliveryPrice+item.goodsPrice)'
                             :button-text="ButtonText"
                             @submit="Submit"
                     />
@@ -76,13 +76,12 @@
                 show: true,
                 ButtonText: '未选择门店',
                 SubmitDisable: true,
-                store:'未选择门店',
-                totalPrice: '',
-                goodsPrice: 0.0,
-                DType: '1',
-                deliveryPrice: 0.0,
                 item:
                     {
+                        store:'未选择门店',
+                        oType: '1',
+                        goodsPrice: 0.0,
+                        deliveryPrice: 0.0,
                         message:'',
                         address:'',
                     },
@@ -97,10 +96,13 @@
                     this.$router.push({path: "/cart"});
                 },
 
-                Submit()
-                {
-                    this.$message.success("提交订单成功");
-                    this.$router.push({path: "/cart"});
+                /* 提交订单 */
+                async Submit() {
+                    const {data: res} = await this.$http.post("SubmitOrder", this.item);
+                    if(res === 'ok') {
+                        this.$message.success("提交订单成功");
+                        await this.$router.push({path: "/cart"});
+                    }
                 }
             },
 
@@ -117,7 +119,7 @@
 
         watch:
             {
-                DType(val){
+                oType(val){
                     if(val === '1')
                     {
                         this.deliveryPrice = 0;
