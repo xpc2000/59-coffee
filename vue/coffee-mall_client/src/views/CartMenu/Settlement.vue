@@ -85,6 +85,7 @@
 
                 item:
                     {
+                        
                         storeId:'',
                         store:'未选择门店',
                         oType: '1',
@@ -115,6 +116,7 @@
                         this.$message.error("请填写地址");
                         return;
                     }
+                    console.log(this.param);
                     const {data: res} = await this.$http.post("SubmitOrder", this.param);
                     if(res === 'ok') {
                         this.$message.success("提交订单成功");
@@ -122,7 +124,13 @@
                     }
                     else
                     {
-                        this.text = res.item.name + '库存不足';
+                        console.log(res);
+                        for(int i=1;i<res.size();i++)
+                        {
+                            this.text =this.text+ res[i] + '库存不足';
+                            this.text=this.text+'还剩'+res[i+1]+'个';
+                        }
+                        
                         this.show = true;
                     }
                 }
