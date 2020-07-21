@@ -73,6 +73,10 @@
         data()
         {
             return{
+                params:{
+                    username:'',
+                    item:''
+                },
                 show: true,
                 ButtonText: '未选择门店',
                 SubmitDisable: true,
@@ -98,7 +102,10 @@
 
                 /* 提交订单 */
                 async Submit() {
-                    const {data: res} = await this.$http.post("SubmitOrder", this.item);
+                    console.log(this.item);
+                    this.params.item=this.item;
+                    this.params.username=window.sessionStorage.getItem("username");
+                    const {data: res} = await this.$http.post("SubmitOrder", this.params);
                     if(res === 'ok') {
                         this.$message.success("提交订单成功");
                         await this.$router.push({path: "/cart"});

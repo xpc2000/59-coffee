@@ -236,6 +236,10 @@
                     {
                         this.$message.success("成功加入购物车");
                     }
+                    else if(res==='already')
+                    {
+                        this.$message.success("购物车中已有该餐品");
+                    }
                     else
                     {
                         this.$message.error("请稍后再试");

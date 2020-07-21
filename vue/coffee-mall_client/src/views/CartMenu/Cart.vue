@@ -27,6 +27,8 @@
                                         <el-col :span="6"><img :src="item.url" class="image"></el-col>
                                         <el-col :span="8">
                                             <div style="padding-bottom: 14px; padding-top: 14px"><i
+                                                class="el-icon-star-on"> {{item.id}}</i></div>
+                                            <div style="padding-bottom: 14px; padding-top: 14px"><i
                                                     class="el-icon-star-on"> {{item.name}}</i></div>
                                             <div style="padding-bottom: 14px; padding-top: 14px"><i
                                                     class="el-icon-menu"> {{item.type}}</i></div>
@@ -66,6 +68,11 @@
         data()
         {
             return{
+                username:'',
+                param:{
+                    username:'',
+                    foodid:''
+                },
                 checkedAll: false,
                 checkedGoods: [],
                 allGoods: [],
@@ -164,7 +171,10 @@
         methods:{
 
             async getCartList() {
-                const {data: res} = await this.$http.get("getShoppingCart");
+                this.username=window.sessionStorage.getItem("username");
+                
+                const {data: res} = await this.$http.post("getShoppingCart",this.username);
+                console.log(res);
                 this.goods = res;
                 //this.goods = this.tempList;   // 用于死数据
                 this.allGoods = this.goods;
@@ -198,8 +208,10 @@
                     type: 'warning'
                 })
                     .then(async () => {
+                        this.param.username=this.username;
+                        this.param.foodid=id;
                         // 删除
-                        const {data: res} = await this.$http.post("DelShoppingCart", id);
+                        const {data: res} = await this.$http.post("DelShoppingCart", this.param);
                         if (res === "ok") {
                             this.$message({
                                 type: 'success',
@@ -230,6 +242,7 @@
                 //const {data: res} = await this.$http.post("CartSubmit", this.goods);
                 if(true)   // res === 'ok'
                 {
+                    this.totalPrice=90;
                     window.sessionStorage.setItem("money", this.totalPrice);
                     this.$message.info('进入结算界面');
                     await this.$router.push({path: "/settlement"});   // 页面路由跳转
