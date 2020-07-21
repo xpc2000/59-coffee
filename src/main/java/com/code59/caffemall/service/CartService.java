@@ -12,4 +12,5 @@ public interface CartService {
     public int clear(String id_guest);
     public List<Cart> get(String id_guest,String id_food);
     public List<Cart> list();
+    public List<Cart> get(String id_guest);
 }

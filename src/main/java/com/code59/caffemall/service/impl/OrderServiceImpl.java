@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.code59.caffemall.bean.*;
+import com.code59.caffemall.controller.Order.tempVar.OrderGenerating;
 import com.code59.caffemall.controller.Order.tempVar.OrderSearchByTime;
 import com.code59.caffemall.dao.OrderDetailDao;
 import com.code59.caffemall.dao.OrderShopDao;
@@ -30,15 +31,16 @@ public class OrderServiceImpl implements OrderServices {
     ShopStockDao shopStockDao;
 
     @Override
-    public List<String> add(List<Cart> cartList, String id_shop, Guest guest, Discount discount){
+    public List<String> add(List<Cart> cartList, Guest guest, OrderGenerating og, Discount discount){
 
+        String id_shop=og.getStore();
         String s = UUID.randomUUID().toString();
         LocalDateTime time=LocalDateTime.now();
         LocalDateTime deliverytime=time.plusMinutes(30);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss");
         String time_=deliverytime.format(formatter);
-        String address;
-        String phone;
+        String address=og.getAddress();
+        String phone=guest.getPhone();
         ShopStock shopStock=new ShopStock();
         int state=1;
         double sum=0;
@@ -88,10 +90,10 @@ public class OrderServiceImpl implements OrderServices {
             entry_plus.setId(s);
             entry_plus.setBeDeliver("0");
             entry_plus.setBeOver("0");
-            entry_plus.setDeliverAddress(guest.getDelivery_address());
+            entry_plus.setDeliverAddress(og.getAddress());
             entry_plus.setIdGuest(guest.getId());
             entry_plus.setIdShop(id_shop);
-            entry_plus.setOrderType("0");
+            entry_plus.setOrderType(og.getoType());
             entry_plus.setPhone(guest.getPhone());
             entry_plus.setTime(time_);
             entry_plus.setTotalPrice(sum);

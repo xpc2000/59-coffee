@@ -1,6 +1,7 @@
 package com.code59.caffemall.service.impl;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.code59.caffemall.bean.Cart;
 import com.code59.caffemall.bean.Food;
 import com.code59.caffemall.dao.CartDao;
@@ -65,6 +66,10 @@ public class CartServiceImpl implements CartService {
         return cartdao.selectList(null);
     }
 
-
-
+    @Override
+    public List<Cart> get(String id_guest) {
+        QueryWrapper<Cart>wrapper=new QueryWrapper<>();
+        wrapper.eq("id_guest",id_guest);
+        return cartdao.selectList(wrapper);
+    }
 }
