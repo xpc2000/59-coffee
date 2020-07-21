@@ -7,7 +7,7 @@
 
 
             <el-col :span="3">
-                <el-select v-model="name" placeholder="请选择门店">
+                <el-select v-model="id" placeholder="请选择门店" @change="getStoreName">
                     <el-option
                             v-for="item in options"
                             :key="item.id"
@@ -30,8 +30,10 @@
                         active-text-color="#ff0000"
                         :default-active="this.$route.path"
                         :router="true">
-                    <el-menu-item index="/classification/drink"><i class="iconfont icon-yinliao"></i> 饮 料 类 </el-menu-item>
-                    <el-menu-item index="/classification/snack"><i class="iconfont icon-xiaochi"></i> 小 吃 类 </el-menu-item>
+                    <el-menu-item index="/classification/drink"><i class="iconfont icon-yinliao"></i> 饮 料 类
+                    </el-menu-item>
+                    <el-menu-item index="/classification/snack"><i class="iconfont icon-xiaochi"></i> 小 吃 类
+                    </el-menu-item>
                 </el-menu>
             </el-aside>
 
@@ -43,62 +45,60 @@
 </template>
 
 <script>
- export default {
-     data()
-     {
-         return{
-             name: '',   // 选中的门店名称
-             id: '',
-             options:[
-                 {
-                     id: 1,
-                     name: '门店1',
-                 },
-                 {
-                     id: 2,
-                     name: '门店2',
-                 },
-                 {
-                     id: 3,
-                     name: '门店3',
-                 },
-             ],
-         }
-     },
+    export default {
+        data() {
+            return {
+                id: '',  // 选中的门店Id
+                options: [
+                    {
+                        id: 1,
+                        name: '门店1',
+                    },
+                    {
+                        id: 2,
+                        name: '门店2',
+                    },
+                    {
+                        id: 3,
+                        name: '门店3',
+                    },
+                ],
+            }
+        },
 
-     created() {
+        created() {
             this.getStoreList();
-            if(window.sessionStorage.getItem("StoreName") !== null)
-            {
+            if (window.sessionStorage.getItem("StoreName") !== null) {
                 this.name = window.sessionStorage.getItem("StoreName");
             }
-     },
+        },
 
-     methods:{
+        methods: {
 
             /* 获取门店列表 */
-            async getStoreList(){
-                const{data:res}= await this.$http.post("SelectStores");
-                this.options=res;
+            async getStoreList() {
+                const {data: res} = await this.$http.post("SelectStores");
+                this.options = res;
             },
-     },
 
-     watch:{
 
-         /* 监听门店选择器的值 */
-       name(val){
-           window.sessionStorage.setItem("StoreName", this.name);
-       }
-     }
+            getStoreName(id, type) {
+                window.sessionStorage.setItem("StoreId", id);
+                let obj = {};
+                obj = this.options.find((item)=>{ // 遍历的数据源
+                    return item.id === id; // 筛选出匹配数据
+                });
+                window.sessionStorage.setItem("StoreName", obj.name);
+            }
+        },
 
- }
+    }
 
 
 </script>
 
 <style lang="less" scoped>
-    .el-menu
-    {
+    .el-menu {
         width: 110px;
         height: 200px;
     }
