@@ -17,8 +17,8 @@
         <br/>
 
     <el-carousel :interval="3000" type="card" height="500px">
-        <el-carousel-item v-for="item in 6" :key="item">
-            <h3>{{ item }}</h3>
+        <el-carousel-item v-for="item in src" :key="item">
+            <img :src="item" class="image">
         </el-carousel-item>
     </el-carousel>
 
@@ -80,6 +80,13 @@
         data()
         {
             return{
+                src: [
+                    'https://pic.downk.cc/item/5f16dfa014195aa594de9ed2.jpg',
+                    'https://pic.downk.cc/item/5f16d86114195aa594db8441.jpg',
+                    'https://pic.downk.cc/item/5f16df4a14195aa594de871f.jpg',
+                    'https://pic.downk.cc/item/5f16d9ea14195aa594dc0fae.jpg',
+                    'https://pic.downk.cc/item/5f16dfed14195aa594deb37c.jpg',
+                ],
                 show: 'iconfont icon-yajun',
 
                 /* 排行榜 */
@@ -179,13 +186,20 @@
     }
 </script>
 
-<style>
-    .el-carousel__item h3 {
-        color: #475669;
-        font-size: 14px;
-        opacity: 0.75;
-        line-height: 200px;
-        margin: 0;
+<style lang="less" >
+    .el-carousel__item{
+        .h3 {
+            color: #475669;
+            font-size: 14px;
+            opacity: 0.75;
+            line-height: 200px;
+            margin: 0;
+        }
+        .image{
+            width: 800px;
+            height: 500px;
+            align-content: center;
+        }
     }
 
     .el-carousel__item:nth-child(2n) {
