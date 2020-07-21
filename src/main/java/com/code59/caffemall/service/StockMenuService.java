@@ -3,6 +3,8 @@ package com.code59.caffemall.service;
 import com.code59.caffemall.bean.ShopStock;
 import com.code59.caffemall.bean.Stock;
 import com.code59.caffemall.bean.StockOnSell;
+import com.code59.caffemall.controller.Order.tempVar.IdAndId;
+import com.code59.caffemall.controller.Order.tempVar.NameAndId;
 
 import java.util.List;
 
@@ -20,5 +22,9 @@ public interface StockMenuService {
     public int updateStockShopInfo(ShopStock shopStock);
     public ShopStock getStockShopInfo(int id);
     public List<Stock> drawlist(String type,String name);
-
+    public List<Stock> showStock(NameAndId nameAndId);
+    public List<Stock> showOnSellStock(NameAndId nameAndId);
+    public List<Stock> showUnderSellStock(NameAndId nameAndId);
+    public boolean undercarrage(IdAndId idAndId);
+    public boolean upcarrage(IdAndId idAndId);
 }

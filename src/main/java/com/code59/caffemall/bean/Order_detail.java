@@ -4,47 +4,58 @@ public class Order_detail {
     private String idOrder;
     private String idFood;
     private int num;
-    private double single_price;
-    private double total_price;
+    private double singlePrice;
+    private double totalPrice;
 
-    public String getId_order(){
+    public String getIdOrder() {
         return idOrder;
     }
 
-    public void setId_order(String id_order1){
-        this.idOrder=id_order1;
+    public void setIdOrder(String idOrder) {
+        this.idOrder = idOrder;
     }
 
-    public String getId_food(){
+    public String getIdFood() {
         return idFood;
     }
 
-    public void setId_food(String id_food1){
-        this.idFood=id_food1;
+    public void setIdFood(String idFood) {
+        this.idFood = idFood;
     }
 
-    public int getNum(){
+    public int getNum() {
         return num;
     }
 
-    public void setNum(int num1) {
-        this.num=num1;
+    public void setNum(int num) {
+        this.num = num;
     }
 
-    public double getSingle_price(){
-        return single_price;
+    public double getSinglePrice() {
+        return singlePrice;
     }
 
-    public void setSingle_price(double single_price1){
-        this.single_price=single_price1;
+    public void setSinglePrice(double singlePrice) {
+        this.singlePrice = singlePrice;
     }
 
-    public double getTotal_price(){
-        return total_price;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setTotal_price(double total_price1){
-        this.total_price=total_price1;
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public String toString() {
+        return "Order_detail{" +
+                "idOrder='" + idOrder + '\'' +
+                ", idFood='" + idFood + '\'' +
+                ", num=" + num +
+                ", singlePrice=" + singlePrice +
+                ", totalPrice=" + totalPrice +
+                '}';
     }
 }
 

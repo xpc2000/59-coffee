@@ -29,7 +29,7 @@
 
         <!-- 列表 -->
         <el-table :data="tempList" :fit="true" :show-header="true" :border="true" max-height="430" show-summary v-loading="loading">
-            <el-table-column prop="OrderID" label="订单ID" align="center">
+            <el-table-column prop="orderID" label="订单ID" align="center">
             </el-table-column>
             <el-table-column prop="storeID" label="门店ID" align="center">
             </el-table-column>
@@ -60,13 +60,13 @@
                 // 死数据
                 tempList:[
                     {
-                        OrderID: 'O41361',
+                        orderID: 'O41361',
                         storeID: 'S53251',
                         name: 'xmu59',
                         money: '123.1',
                     },
                     {
-                        OrderID: 'O41361',
+                        orderID: 'O41361',
                         storeID: 'S53251',
                         name: 'xmu59',
                         money: '250.1',
@@ -119,16 +119,18 @@
             /* 获得门店选择器列表 */
             async getNameList() {
 
-                const {data: res} = await this.$http.get("SelectStore");
+                 const {data: res} = await this.$http.get("SelectStore");
 
-                //设置列表数据
-                this.option = res;
+                 //设置列表数据
+                 this.option = res;
+                 console.log(this.option[0]);
             },
 
             /* 获得列表 */
             async getList() {
                 this.loading = true;
 
+                console.log(this.Filter.storeID+"tt");
                 const {data: res} = await this.$http.post("SearchOrder", this.Filter);
 
                 //设置列表数据

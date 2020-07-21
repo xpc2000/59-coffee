@@ -138,7 +138,7 @@ public class SuperAdminController {
     @RequestMapping("/foodNew")
     public String foodNew(@RequestBody Food food)
     {
-        food.setUnsell(false);
+        food.setUnsell("n");
         if(menuService.add(food)==1)
         {
             return "ok";

@@ -32,6 +32,9 @@
                             <img :src="item.url" class="image">
                             <div style="padding: 14px;">
                                 <div style="padding-bottom: 14px; padding-top: 14px">
+                                    <span><i class="el-icon-star-on"> {{item.idFood}}</i></span>
+                                </div>
+                                <div style="padding-bottom: 14px; padding-top: 14px">
                                     <span><i class="el-icon-star-on"> {{item.name}}</i></span>
                                 </div>
                                 <span><i class="el-icon-menu"> {{item.type}}</i> </span>
@@ -76,7 +79,14 @@
     {
         data() {
             return {
-
+                params:{
+                    name:'',
+                    shopid:''
+                },
+                para_ano:{
+                    foodid:'',
+                    shopid:''
+                },
                 uploadURL: "https://api.uomg.com/api/image.ali?file=multipart",
 
                 name:'',   // 搜索框 餐品名称
@@ -266,7 +276,9 @@
                 {
                     this.name = "null";
                 }
-                const {data: res} = await this.$http.post("SearchDownShelfStock", this.name);
+                this.params.name=this.name;
+                this.params.shopid=window.sessionStorage.getItem("username");
+                const {data: res} = await this.$http.post("SearchDownShelfStock", this.params);
 
                 //设置列表数据
                 this.tableData = res;
@@ -316,8 +328,11 @@
                     type: 'warning'
                 })
                     .then(async () => {
+                        
+                        this.para_ano.shopid=window.sessionStorage.getItem("username");
+                        this.para_ano.foodid=item.idFood;
                         // 下架商品
-                        const {data:res} = await this.$http.post("StockUpShelf", item.idFood);
+                        const {data:res} = await this.$http.post("StockUpShelf", this.para_ano);
                         if (res === "ok")
                         {
                             this.$message({

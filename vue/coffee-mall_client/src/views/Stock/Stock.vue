@@ -32,6 +32,9 @@
                             <img :src="item.url" class="image">
                             <div style="padding: 14px;">
                                 <div style="padding-bottom: 14px; padding-top: 14px">
+                                    <span><i class="el-icon-star-on"> {{item.idFood}}</i></span>
+                                </div>
+                                <div style="padding-bottom: 14px; padding-top: 14px">
                                     <span><i class="el-icon-star-on"> {{item.name}}</i></span>
                                 </div>
                                 <span><i class="el-icon-menu"> {{item.type}}</i> </span>
@@ -112,6 +115,14 @@
     {
         data() {
             return {
+                params:{
+                    name:'',
+                    shopid:''
+                },
+                para_ano:{
+                    foodid:'',
+                    shopid:''
+                },
 
                 uploadURL: "https://api.uomg.com/api/image.ali?file=multipart",
 
@@ -257,13 +268,15 @@
 
                 /* 编辑 页面样式 */
                 EditForm: {
+                    idShop:'',
                     idFood: '',
                     name: '',
                     type: '',
-                    price: '',
+                    price: 0,
                     url:'',
-                    num:'',
+                    num:0,
                     sellOut:'',
+                    discount:0
                 },
 
                 /* 编辑 表单验证 */
@@ -291,6 +304,7 @@
         /* 初始化 */
         created() {
             this.getList();
+            this.s=this.s+window.sessionStorage.getItem("username");
         },
 
         methods: {
@@ -302,8 +316,10 @@
                 {
                     this.name = "null";
                 }
-                const {data: res} = await this.$http.post("SearchStock", this.name);
-
+                console.log(window.sessionStorage.getItem("username")+"这是门店名称");
+                this.params.name=this.name;
+                this.params.shopid=window.sessionStorage.getItem("username");
+                const {data: res} = await this.$http.post("SearchStock", this.params);
                 //设置列表数据
                 this.tableData = res;
                 this.handleSizeChange(this.pageSize);   // 更新分页 界面
@@ -336,14 +352,16 @@
                 {
                     if (this.tableData[from])
                     {
+                        console.log("tableData[from]"+this.tableData[from].idFood);
                         this.tempList.push(this.tableData[from]);
                     }
                 }
             },
 
             /* 显示编辑界面 */
-            handleEdit: function(item)
+            handleEdit(item)///////////
             {
+                console.log("item"+item.idFood+"    "+item.name);
                 if (item !== undefined && item !== 'undefined')
                 {
                     this.EditFormVisible = true
@@ -380,7 +398,10 @@
             editForm() {
                 this.$refs.EditFormRef.validate(async valid => {
                     if (valid) {
-                        const {data:res} = await this.$http.post("foodEdit", this.EditForm);
+                        console.log(this.tableData);
+                        this.EditForm.idShop=window.sessionStorage.getItem("username");
+                        const {data:res} = await this.$http.post("foodEditShop",this.EditForm);
+                        console.log(this.EditForm);
                         if (res === "ok")
                         {
                             console.log("ok");
@@ -413,7 +434,9 @@
                 })
                     .then(async () => {
                         // 下架商品
-                        const {data:res} = await this.$http.post("StockDownShelf", item.idFood);
+                        this.para_ano.foodid=item.idFood;
+                        this.para_ano.shopid=window.sessionStorage.getItem("username");
+                        const {data:res} = await this.$http.post("StockDownShelf", this.para_ano);
                         if (res === "ok")
                         {
                             this.$message({
