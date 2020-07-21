@@ -46,6 +46,7 @@
                         <el-table-column fixed="right" label="操作">
                             <template slot-scope="scope">
                                 <el-button @click="handleClick(scope.row,1)" type="text" size="small">查看详细</el-button>
+                                <el-button @click="handleRec(scope.row,1)" type="text" size="small">收货</el-button>
                             </template>
                         </el-table-column>
                     </el-table>
@@ -94,6 +95,7 @@
         data()
         {
             return{
+                totalList: [],
                 detailDataVisible: false,
                 detailData: [],
 
@@ -158,12 +160,55 @@
                     this.$router.push({path: "/setting"});
                 },
 
+                async getList() {
+                    //const { data: res } = await this.$http.post("SearchShopOrder",window.sessionStorage.getItem("username"));
+                    this.username=window.sessionStorage.getItem("username");
+                    const { data: res } = await this.$http.post("SearchShopOrder",this.username);
+                    console.log(res);
+                    this.totalList = res;
+                    //this.handleSizeChange(this.pageSize);
+                    this.ShipData=[];
+                    this.RecData = [];
+                    this.CompleteData = [];
+                    for (var i = 0; i < res.length; i++) {
+                        if (res[i].beDeliver === 'n') {
+                            this.ShipData.push(res[i]);
+                        } else {
+                            this.RecData.push(res[i]);
+                        }
+                        if(res[i].beOver ==='n')
+                        {
+                        }else{
+                            this.CompleteData.push(res[i]);
+                        }
+                    }
+                },
+
+                /* 查看详情 */
                 async handleClick(row, type) {
-                    //const { data: res } = await this.$http.post("OrderDetail", row.id);
+                    const { data: res } = await this.$http.post("OrderDetail", row.id);
                     this.detailDataVisible = true;
                     this.detailData = res;
                 },
-            }
+
+                /* 收货 */
+                async handleRec(row, type) {
+                    const {data: res} = await this.$http.post("Receipt", row.id);
+                    if (res === "ok") {
+                        await this.getList();
+                        this.$message({
+                            type: "success",
+                            message: "发货成功"
+                        });
+                    }else{
+                        this.$message.error('发货失败');
+                    }
+                }
+            },
+
+        created() {
+            this.getList();
+        },
     }
 </script>
 

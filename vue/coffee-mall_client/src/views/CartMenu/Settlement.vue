@@ -12,7 +12,7 @@
                 <el-alert
                         title="错误"
                         type="error"
-                        description="未选择门店，请到分类界面选择门店"
+                        :description="text"
                         show-icon>
                 </el-alert>
                 <br/>
@@ -73,13 +73,16 @@
         data()
         {
             return{
-                param:{
-                    username:'',
-                    item:''
-                },
+                text:'"未选择门店，请到分类界面选择门店"',
                 show: true,
                 ButtonText: '未选择门店',
                 SubmitDisable: true,
+
+                param:{
+                    username:'',
+                    item:'',
+                },
+
                 item:
                     {
                         storeId:'',
@@ -116,6 +119,11 @@
                     if(res === 'ok') {
                         this.$message.success("提交订单成功");
                         await this.$router.push({path: "/cart"});
+                    }
+                    else
+                    {
+                        this.text = res.item.name + '库存不足';
+                        this.show = true;
                     }
                 }
             },
