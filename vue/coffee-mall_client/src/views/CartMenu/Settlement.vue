@@ -73,7 +73,7 @@
         data()
         {
             return{
-                params:{
+                param:{
                     username:'',
                     item:''
                 },
@@ -82,6 +82,7 @@
                 SubmitDisable: true,
                 item:
                     {
+                        storeId:'',
                         store:'未选择门店',
                         oType: '1',
                         goodsPrice: 0.0,
@@ -102,10 +103,16 @@
 
                 /* 提交订单 */
                 async Submit() {
-                    console.log(this.item);
-                    this.params.item=this.item;
-                    this.params.username=window.sessionStorage.getItem("username");
-                    const {data: res} = await this.$http.post("SubmitOrder", this.params);
+                    this.item.shopId=window.sessionStorage.getItem("StoreId");
+                    this.param.username=window.sessionStorage.getItem("username");
+                    this.param.item=this.item;
+                    console.log(this.param);
+                    if(this.item.address==null)
+                    {
+                        this.$message.error("请填写地址");
+                        return;
+                    }
+                    const {data: res} = await this.$http.post("SubmitOrder", this.param);
                     if(res === 'ok') {
                         this.$message.success("提交订单成功");
                         await this.$router.push({path: "/cart"});
@@ -114,10 +121,11 @@
             },
 
         created() {
-            this.goodsPrice = window.sessionStorage.getItem("money")/100.0;
+            this.item.goodsPrice = window.sessionStorage.getItem("money")/100.0;
             if(window.sessionStorage.getItem("StoreName") !== null)
             {
-                this.store = window.sessionStorage.getItem("StoreName");
+                this.item.storeId=window.sessionStorage.getItem("StoreId");
+                this.item.store = window.sessionStorage.getItem("StoreName");
                 this.SubmitDisable = false;
                 this.ButtonText = '提交订单';
                 this.show = false;
@@ -129,11 +137,11 @@
                 oType(val){
                     if(val === '1')
                     {
-                        this.deliveryPrice = 0;
+                        this.item.deliveryPrice = 0;
                     }
                     else
                     {
-                        this.deliveryPrice = 2.0;
+                        this.item.deliveryPrice = 2.0;
                     }
                 }
             },
