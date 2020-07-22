@@ -42,8 +42,26 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public int delete(String id_guest) {
+        Map<String, Object>colomnMap=new HashMap<>();
+        colomnMap.put("id_guest",id_guest);
+        return cartdao.deleteByMap(colomnMap);
+    }
+
+    @Override
     public int update(Cart cart1){
         return cartdao.updateById(cart1);
+    }
+
+    @Override
+    public int updatebyGuestFoodNum(String idGuest, String idFood, int num) {
+        QueryWrapper<Cart> wrapper=new QueryWrapper<>();
+        wrapper.eq("id_guest",idGuest)
+                .eq("id_food",idFood);
+
+        Cart cart=cartdao.selectOne(wrapper);
+        cart.setNumber(num);
+        return cartdao.update(cart,wrapper);
     }
 
     @Override

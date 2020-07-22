@@ -33,7 +33,8 @@ public class OrderServiceImpl implements OrderServices {
     @Override
     public List<String> add(List<Cart> cartList, Guest guest, OrderGenerating og, Discount discount){
 
-        String id_shop=og.getStore();
+        System.out.println(og);
+        String id_shop=og.getStoreId();
         String s = UUID.randomUUID().toString();
         LocalDateTime time=LocalDateTime.now();
         LocalDateTime deliverytime=time.plusMinutes(30);
@@ -59,7 +60,7 @@ public class OrderServiceImpl implements OrderServices {
             if(cart.getNumber()>shopStock.getNum())
             {
                 state=0;
-                if(result==null)
+                if(result.isEmpty())
                     result.add(0,"Fail");
                 result.add(cart.getIdFood());
                 result.add(String.valueOf(shopStock.getNum()));
@@ -88,8 +89,8 @@ public class OrderServiceImpl implements OrderServices {
 
             //guest=guestDao.selectById(cartList.get(0).getId_guest());
             entry_plus.setId(s);
-            entry_plus.setBeDeliver("0");
-            entry_plus.setBeOver("0");
+            entry_plus.setBeDeliver("n");
+            entry_plus.setBeOver("n");
             entry_plus.setDeliverAddress(og.getAddress());
             entry_plus.setIdGuest(guest.getId());
             entry_plus.setIdShop(id_shop);
@@ -197,5 +198,12 @@ public class OrderServiceImpl implements OrderServices {
             wrapper.eq("id_shop",shopid);
             return orderShopDao.selectList(wrapper);
         }
+    }
+
+    @Override
+    public List<Order_shop> showOrderShopsClient(String guestid) {
+        QueryWrapper<Order_shop>wrapper=new QueryWrapper<>();
+        wrapper.eq("id_guest",guestid);
+        return orderShopDao.selectList(wrapper);
     }
 }

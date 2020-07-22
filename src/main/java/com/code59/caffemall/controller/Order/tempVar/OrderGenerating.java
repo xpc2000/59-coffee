@@ -7,6 +7,7 @@ public class OrderGenerating {
     private String message;
     private String oType;
     private String store;
+    private String storeId;
 
     public String getAddress() {
         return address;
@@ -54,6 +55,14 @@ public class OrderGenerating {
 
     public void setStore(String store) {
         this.store = store;
+    }
+
+    public String getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
 
 }

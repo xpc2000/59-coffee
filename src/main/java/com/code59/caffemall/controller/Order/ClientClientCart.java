@@ -6,13 +6,11 @@ import com.code59.caffemall.bean.Cart;
 import com.code59.caffemall.bean.Food;
 import com.code59.caffemall.bean.Guest;
 import com.code59.caffemall.controller.Discount.DiscountController;
+import com.code59.caffemall.controller.Order.tempVar.FoodlistForRank;
 import com.code59.caffemall.controller.Order.tempVar.OrderGenerating;
 import com.code59.caffemall.dao.CartDao;
 import com.code59.caffemall.dao.FoodDao;
-import com.code59.caffemall.service.CartService;
-import com.code59.caffemall.service.MenuService;
-import com.code59.caffemall.service.OrderServices;
-import com.code59.caffemall.service.UserService;
+import com.code59.caffemall.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +34,8 @@ public class ClientClientCart {
     OrderServices orderServices;
     @Autowired
     UserService userService;
+    @Autowired
+    MoneyService moneyService;
 
     @RequestMapping("/AddShoppingCart")
     public String AddShoppingCart(@RequestBody TempAddtoCart tac)
@@ -52,6 +52,17 @@ public class ClientClientCart {
         cartDao.insert(cart);
         return "ok";
     }
+    @RequestMapping("/addShopingCartIndex")
+    public String addShopingCartIndex(@RequestBody GuestAndFoodId gaf)
+    {
+        Food temp=menuService.get(gaf.getFoodid());
+        if(temp==null)return "fail";
+        Cart cart=new Cart(gaf.getUsername(),gaf.getFoodid(),temp.getName(),temp.getType(),1
+        ,temp.getDiscount()*temp.getPrice());
+        if(!cartService.get(gaf.getUsername(),gaf.getFoodid()).isEmpty())return "already";
+        cartDao.insert(cart);
+        return "ok";
+    }
     @RequestMapping("/getShoppingCart")
     public String getShoppingCart(@RequestBody String idGuest)
     {
@@ -63,6 +74,12 @@ public class ClientClientCart {
             System.out.println(e);
         });
         return JSON.toJSONString(convertfromCartToTempCart(cartList));
+    }
+    @RequestMapping("/GetLeadBoard")
+    public String GetLeadBoard()
+    {
+        List<FoodlistForRank>foodList=moneyService.ranking();
+        return JSON.toJSONString(foodList);
     }
 
     public List<TempCart> convertfromCartToTempCart(List<Cart>cartList)
@@ -93,8 +110,59 @@ public class ClientClientCart {
     {
         List<Cart> carts=cartService.get(tom.getUsername());
         Guest guest=userService.get(tom.getUsername());
-        orderServices.add(carts,guest,tom.getItem(), DiscountController.discount);
+        List<String> result=orderServices.add(carts,guest,tom.getItem(), DiscountController.discount);
+        result.forEach(r->{
+            System.out.println("rrr"+r);
+
+        });
+        if(result.get(0).equals("Fail"))
+        {
+            StringBuffer sb=new StringBuffer();
+            for(int i=1;i<result.size();i+=2)
+            {
+                if(i!=1)sb.append("，");
+                sb.append(result.get(i)+"库存不够，");
+                sb.append("还缺"+result.get(i+1)+"个");
+            }
+            return sb.toString();
+        }
+        cartService.delete(tom.getUsername());
         return "ok";
+    }
+    @RequestMapping("/addnum")
+    public String addnum(@RequestBody CartIdAndIdAndNum car)
+    {
+        cartService.updatebyGuestFoodNum(car.getUsername(),car.getFoodid(),car.getNum());
+        return "ok";
+    }
+}
+class CartIdAndIdAndNum{
+    private String username;
+    private String foodid;
+    private int num;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFoodid() {
+        return foodid;
+    }
+
+    public void setFoodid(String foodid) {
+        this.foodid = foodid;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
     }
 }
 class CartIdAndId{
@@ -137,6 +205,27 @@ class TempOrderMessage{
         this.item = item;
     }
 }
+class GuestAndFoodId{
+    private String username;
+    private String foodid;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFoodid() {
+        return foodid;
+    }
+
+    public void setFoodid(String foodid) {
+        this.foodid = foodid;
+    }
+}
+
 class TempCart{
     private String id;
     private String name;
