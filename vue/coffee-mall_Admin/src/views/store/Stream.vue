@@ -14,10 +14,10 @@
         <!-- 搜索栏-->
         <el-form class="user-search" :inline="true" label-width="90px">
             <el-form-item prop="date1" label="起始日期: ">
-                <el-date-picker type="date"  v-model="Filter.date1" placeholder="选择起始日期"  style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date"  v-model="Filter.date1" placeholder="选择起始日期" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item prop="date2" label="终止日期: ">
-                <el-date-picker type="date"  v-model="Filter.date2" placeholder="选择终止日期"  style="width: 100%;"></el-date-picker>
+                <el-date-picker type="date"  v-model="Filter.date2" placeholder="选择终止日期" value-format="yyyy-MM-dd" style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item prop="store" label="门店: ">
                 <el-input v-model="Filter.storeID" placeholder="请选择门店" clearable></el-input>
@@ -48,15 +48,12 @@
         data() {
             return {
                 loading: false,   // 加载中
-
                 // 筛选条件
                 Filter: {
                     date1: '',   // 起始时间
                     date2: '',   // 终止时间
                     storeID: '',   // 搜索框值 门店ID
                 },
-
-
                 // 死数据
                 tempList:[
                     {
@@ -72,14 +69,11 @@
                         money: '250.1',
                     },
                 ],
-
-
                 /* 时间选择器 */
                 sizeForm: {
                     date1: '',
                     date2: '',
                 },
-
                 /* 门店选择器 */
                 option: [
                     {
@@ -103,42 +97,30 @@
                         label: '店5'
                     }
                 ],
-
-
             }
         },
-
         /* 初始化 */
         created() {
             this.getNameList();
             this.getList();
         },
-
         methods:{
-
             /* 获得门店选择器列表 */
             async getNameList() {
-
                  const {data: res} = await this.$http.get("SelectStore");
-
                  //设置列表数据
                  this.option = res;
                  console.log(this.option[0]);
             },
-
             /* 获得列表 */
             async getList() {
                 this.loading = true;
-
                 console.log(this.Filter.storeID+"tt");
                 const {data: res} = await this.$http.post("SearchOrder", this.Filter);
-
                 //设置列表数据
                 this.tempList = res;
-
                 this.loading = false;
             },
-
             /* 查询 */
             Search()
             {
@@ -149,5 +131,4 @@
 </script>
 
 <style lang="less" scoped>
-
 </style>
