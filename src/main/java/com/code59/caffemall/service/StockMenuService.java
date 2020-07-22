@@ -10,10 +10,13 @@ import java.util.List;
 
 public interface StockMenuService {
     public int add(StockOnSell stockOnSell);
+    public int add(ShopStock shopStock);
     public int delete(int id);
     public int update(StockOnSell stockOnSell);
+    public int update(ShopStock shopStock);
     public StockOnSell get(int id);
     public List<StockOnSell> list();
+    public List<StockOnSell> list(String idshop);
     public List<StockOnSell> listByType(String type);
     public List<StockOnSell> listByName(String name);
     public int count();

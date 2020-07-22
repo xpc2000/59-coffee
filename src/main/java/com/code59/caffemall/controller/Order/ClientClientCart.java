@@ -121,8 +121,16 @@ public class ClientClientCart {
             for(int i=1;i<result.size();i+=2)
             {
                 if(i!=1)sb.append("，");
-                sb.append(result.get(i)+"库存不够，");
-                sb.append("还缺"+result.get(i+1)+"个");
+                if(result.get(i+1).equals("-1"))
+                {
+                    sb.append("该分店没有"+result.get(i));
+                }
+                else
+                {
+                    sb.append(result.get(i)+"库存不够，");
+                    sb.append("只剩"+result.get(i+1)+"个");
+                }
+
             }
             return sb.toString();
         }

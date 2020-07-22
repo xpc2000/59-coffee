@@ -32,6 +32,11 @@ public class StockMenuServiceImpl implements StockMenuService {
     }
 
     @Override
+    public int add(ShopStock shopStock) {
+        return shopStockDao.insert(shopStock);
+    }
+
+    @Override
     public int delete(int id) {
         QueryWrapper wrapper = new QueryWrapper();
         wrapper.eq("id_food",id);
@@ -40,10 +45,19 @@ public class StockMenuServiceImpl implements StockMenuService {
 
     @Override
     public int update(StockOnSell stockOnSell) {
-        QueryWrapper wrapper = new QueryWrapper();
+        QueryWrapper<StockOnSell>wrapper=new QueryWrapper<>();
         wrapper.eq("id_food",stockOnSell.getIdfood());
         return stockOnSellDao.update(stockOnSell,wrapper);
     }
+
+    @Override
+    public int update(ShopStock shopStock) {
+        QueryWrapper<ShopStock>wrapper=new QueryWrapper<>();
+        wrapper.eq("id_food",shopStock.getIdfood())
+                .eq("id_shop",shopStock.getIdShop());
+        return shopStockDao.update(shopStock,wrapper);
+    }
+
     @Override
     public StockOnSell get(int id) {
         QueryWrapper wrapper = new QueryWrapper();
@@ -54,6 +68,13 @@ public class StockMenuServiceImpl implements StockMenuService {
     @Override
     public List<StockOnSell> list() {
         return stockOnSellDao.selectList(null);
+    }
+
+    @Override
+    public List<StockOnSell> list(String idshop) {
+        QueryWrapper<StockOnSell>wrapper=new QueryWrapper<>();
+        wrapper.eq("id_shop",idshop);
+        return stockOnSellDao.selectList(wrapper);
     }
 
     @Override

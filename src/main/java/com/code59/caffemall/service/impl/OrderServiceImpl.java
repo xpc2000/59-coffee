@@ -57,7 +57,15 @@ public class OrderServiceImpl implements OrderServices {
             QueryWrapper<ShopStock> wrapper_1=new QueryWrapper<>();
             wrapper_1.eq("id_food",cart.getIdFood());
             shopStock=shopStockDao.selectOne(wrapper_1);
-            if(cart.getNumber()>shopStock.getNum())
+            if(shopStock==null)
+            {
+                state=0;
+                if(result.isEmpty())
+                    result.add(0,"Fail");
+                result.add(cart.getIdFood());
+                result.add("-1");
+            }
+            else if(cart.getNumber()>shopStock.getNum())
             {
                 state=0;
                 if(result.isEmpty())
@@ -166,7 +174,7 @@ public class OrderServiceImpl implements OrderServices {
     @Override
     public List<Order_shop> showOrderShops(OrderSearchByTime os) {
 
-        if((os.getDate1()==null||os.getDate1().equals(""))&&(os.getDate2()==null)||os.getDate2().equals(""))
+        if((os.getDate1()==null||os.getDate1().equals(""))||(os.getDate2()==null)||os.getDate2().equals(""))
         {
 
             if(os.getStoreID()==null||os.getStoreID().equals(""))
@@ -180,11 +188,52 @@ public class OrderServiceImpl implements OrderServices {
         }
         else
         {
-            QueryWrapper<Order_shop> wrapper=new QueryWrapper<>();
-            wrapper.eq("id_shop",os.getStoreID())
-                    .between("time",os.getDate1(),os.getDate2());
-            List<Order_shop> order_shops= orderShopDao.selectList(wrapper);
-            return order_shops;
+            DateTimeFormatter timeDtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            //String date1=os.getDate1().substring(0,19);
+            String date1=os.getDate1();
+            System.out.println(date1);
+
+            date1=date1+" 00:00:00";
+            System.out.println("开始0");
+            LocalDateTime start = LocalDateTime.parse(date1,timeDtf);
+            System.out.println("开始");
+            System.out.println(start);
+            String date2=os.getDate2();
+            date2=date2+" 00:00:00";
+//            date2=date2.replace('T',' ');
+            LocalDateTime end = LocalDateTime.parse(date2,timeDtf);
+            System.out.println(end);
+            List<Order_shop> orderList=orderShopDao.selectList(null);
+            List<Order_shop> result = new ArrayList<>();;
+            for(int i=0;i<orderList.size();i++)
+            {
+                LocalDateTime localDateTime = LocalDateTime.parse(orderList.get(i).getTime(), timeDtf);
+                if(localDateTime.isAfter(start)&&localDateTime.isBefore(end))
+                    result.add(orderList.get(i));
+            }
+            if(os.getStoreID()==null||os.getStoreID().equals(""))
+            {
+                return result;
+            }
+
+            else
+            {
+                return result;
+            }
+
+
+//            QueryWrapper<Order_shop> wrapper=new QueryWrapper<>();
+//            String time1=os.getDate1().substring(0,10);
+//            time1.replace('-',':');
+//            System.out.println(time1);
+//            String time2=os.getDate2().substring(0,10);
+//            time1=time1+" 00:00:00";
+//            time2=time2+" 00:00:00";
+//            time1.replace('-',':');
+//            wrapper.eq("id_shop",os.getStoreID())
+//                    .between("time",time1,time2);
+//            List<Order_shop> order_shops= orderShopDao.selectList(wrapper);
+//            return order_shops;
         }
     }
 
