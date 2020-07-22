@@ -16,30 +16,30 @@
             <div style="width: 800px">
             <el-form-item label="优惠一"></el-form-item>
             <el-form-item label="满" style="width: 300px">
-                <el-input v-model="item.Payments1"></el-input>
+                <el-input v-model="item.payments_1"></el-input>
             </el-form-item>
             <el-form-item label="减" style="width: 300px">
-                <el-input v-model="item.Minus1"></el-input>
+                <el-input v-model="item.minus_1"></el-input>
             </el-form-item>
             </div>
 
             <div style="width: 800px">
                 <el-form-item label="优惠二"></el-form-item>
                 <el-form-item label="满" style="width: 300px">
-                    <el-input v-model="item.Payments2"></el-input>
+                    <el-input v-model="item.payments_2"></el-input>
                 </el-form-item>
                 <el-form-item label="减" style="width: 300px">
-                    <el-input v-model="item.Minus2"></el-input>
+                    <el-input v-model="item.minus_2"></el-input>
                 </el-form-item>
             </div>
 
             <div style="width: 800px">
                 <el-form-item label="优惠三"></el-form-item>
                 <el-form-item label="满" style="width: 300px">
-                    <el-input v-model="item.Payments3"></el-input>
+                    <el-input v-model="item.payments_3"></el-input>
                 </el-form-item>
                 <el-form-item label="减" style="width: 300px">
-                    <el-input v-model="item.Minus3"></el-input>
+                    <el-input v-model="item.minus_3"></el-input>
                 </el-form-item>
             </div>
 
@@ -58,26 +58,33 @@
     {
         data() {
             return {
+                // item:{
+                //     payments_1:'',
+                //     minus_1:'',
+                //     payments_2:'',
+                //     minus_2:'',
+                //     payments_3:'',
+                //     minus_3:'',
+                // }
                 item:{
-                    Payments1:'',
-                    Minus1:'',
-                    Payments2:'',
-                    Minus2:'',
-                    Payments3:'',
-                    Minus3:'',
+                    payments_1:'',
+                    minus_1:'',
+                    payments_2:'',
+                    minus_2:'',
+                    payments_3:'',
+                    minus_3:'',
                 }
             };
         },
-
         created() {
             this.getDiscount();
         },
-
         methods:{
             async submitForm() {
-                if(this.item.Payments1 > this.item.Minus1 && this.item.Payments2 > this.item.Minus2 && this.item.Payments3 > this.item.Minus3
-                && this.item.Payments1 !== null && this.item.Payments2 !== null && this.item.Payments3 !== null
-                && this.item.Minus1 !== null && this.item.Minus2 !== null && this.item.Minus3 !== null)
+                console.log(this.item);
+                if(this.item.payments_1 > this.item.minus_1 && this.item.payments_2 > this.item.minus_2 && this.item.payments_3 > this.item.minus_3
+                && this.item.payments_1 !== null && this.item.payments_2 !== null && this.item.payments_3 !== null
+                && this.item.minus_1 !== null && this.item.minus_2 !== null && this.item.minus_3 !== null)
                 {
                     const {data: res} = await this.$http.post("editdiscount", this.item);
                     if (res === 'ok') {
@@ -91,7 +98,6 @@
                     this.$message.error('输入有误');
                 }
             },
-
             async getDiscount() {
                 const {data: res} = await this.$http.get("showdiscount");
                 this.item = res;
@@ -101,5 +107,4 @@
 </script>
 
 <style lang="less" scoped>
-
 </style>
