@@ -16,12 +16,12 @@
         <br/>
         <br/>
 
+    
     <el-carousel :interval="3000" type="card" height="500px">
         <el-carousel-item v-for="item in src" :key="item">
             <img :src="item" class="image">
         </el-carousel-item>
     </el-carousel>
-
         <!-- 分割线 -->
         <el-divider>
         </el-divider>
@@ -35,7 +35,7 @@
                 :data="Data"
                 style="width: 100%"
                 :row-class-name="tableRowClassName"
-                :default-sort = "{prop: 'Sales', order: 'descending'}">
+                :default-sort = "{prop: 'sales', order: 'descending'}">
                 <el-table-column width="70">
                     <template slot-scope="scope">
                         <i v-if="scope.$index === 0" class="iconfont icon-first" style="color: #FFD700"></i>
@@ -56,7 +56,7 @@
                     width="180">
             </el-table-column>
             <el-table-column
-                    prop="Sales"
+                    prop="sales"
                     label="销量"
                     width="180"
                     :render-header="renderHeader">
@@ -87,6 +87,10 @@
                     'https://pic.downk.cc/item/5f16d9ea14195aa594dc0fae.jpg',
                     'https://pic.downk.cc/item/5f16dfed14195aa594deb37c.jpg',
                 ],
+                params:{
+                    username:'',
+                    foodid:''
+                },
                 show: 'iconfont icon-yajun',
 
                 /* 排行榜 */
@@ -97,37 +101,37 @@
                     {
                         foodId:'1',
                         foodName:'wwhu',
-                        Sales:12,
+                        sales:12,
                     },
                     {
                         foodId:'2',
                         foodName:'wu',
-                        Sales:11,
+                        sales:11,
                     },
                     {
                         foodId:'3',
                         foodName:'whu',
-                        Sales:7,
+                        sales:7,
                     },
                     {
                         foodId:'4',
                         foodName:'wuhu',
-                        Sales:8,
+                        sales:8,
                     },
                     {
                         foodId:'5',
                         foodName:'wuhu',
-                        Sales:8,
+                        sales:8,
                     },
                     {
                         foodId:'6',
                         foodName:'wuhu',
-                        Sales:8,
+                        sales:8,
                     },
                     {
                         foodId:'7',
                         foodName:'wuhu',
-                        Sales:8,
+                        sales:8,
                     },
                 ]
             }
@@ -152,16 +156,23 @@
             async getLeaderboard() {
                 const {data: res} = await this.$http.get("GetLeadBoard");
                 this.Data = res;
+                console.log(res);
             },
 
 
             /* 加入购物车 */
             async handleClick(row, type)
             {
-                const { data: res } = await this.$http.post("OrderDetail", row.foodId);
+                this.params.username=window.sessionStorage.getItem("username");
+                this.params.foodid=row.foodId;
+                const { data: res } = await this.$http.post("addShopingCartIndex", this.params);
                 if(res === 'ok')
                 {
                     this.$message.success('加入购物车成功');
+                }
+                else if(res==='already')
+                {
+                    this.$message.success('购物车中已有');
                 }
             },
 
@@ -186,6 +197,7 @@
     }
 </script>
 
+
 <style lang="less" >
     .el-carousel__item{
         .h3 {
@@ -201,11 +213,9 @@
             align-content: center;
         }
     }
-
     .el-carousel__item:nth-child(2n) {
         background-color: #99a9bf;
     }
-
     .el-carousel__item:nth-child(2n+1) {
         background-color: #d3dce6;
     }
