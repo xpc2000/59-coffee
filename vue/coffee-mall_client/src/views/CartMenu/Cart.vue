@@ -76,7 +76,7 @@
                 par_ano:{
                     username:'d',
                     foodid:'d',
-                    num:0
+                    num:1
                 },
                 checkedAll: false,
                 checkedGoods: [],
@@ -179,7 +179,6 @@
                 this.username=window.sessionStorage.getItem("username");
                 
                 const {data: res} = await this.$http.post("getShoppingCart",this.username);
-                console.log(res);
                 this.goods = res;
                 //this.goods = this.tempList;   // 用于死数据
                 this.allGoods = this.goods;
@@ -202,15 +201,12 @@
                     {
                         //console.log(item.id);
                         item1.num = arg[0];
-                        console.log(this.param);
-                        console.log(this.par_ano);
-                        this.par_ano.username=window.sessionStorage.getItem("username");
-                        this.par_ano.foodid=item.id;
-                        this.par_ano.num=item1.num;
-                        // this.$http.post("addnum",this.par_ano);
-                        console.log(item1.num);
                     }
-                })
+                });
+                this.par_ano.username=window.sessionStorage.getItem("username");
+                this.par_ano.foodid=item.id;
+                this.par_ano.num=item.num;
+                this.$http.post("addnum",this.par_ano);
             },
 
             /* 删除 */

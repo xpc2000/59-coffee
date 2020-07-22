@@ -125,12 +125,7 @@
                     else
                     {
                         console.log(res);
-                        for(int i=1;i<res.size();i++)
-                        {
-                            this.text =this.text+ res[i] + '库存不足';
-                            this.text=this.text+'还剩'+res[i+1]+'个';
-                        }
-                        
+                        this.text = '库存不足';
                         this.show = true;
                     }
                 }
