@@ -29,6 +29,7 @@
                         </template>
                             <el-menu-item index="/Stock/Stock"><i class="iconfont icon-denglu"></i> 菜单库存管理</el-menu-item>
                             <el-menu-item index="/Stock/UpStock"><i class="iconfont icon-denglu"></i> 上架菜品</el-menu-item>
+                            <el-menu-item index="/Stock/BuyFood"><i class="iconfont icon-denglu"></i> 进货</el-menu-item>
                     </el-submenu>
                     
                     <el-submenu index="order">
