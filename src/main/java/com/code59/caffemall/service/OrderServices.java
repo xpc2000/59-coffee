@@ -3,6 +3,7 @@ package com.code59.caffemall.service;
 import com.code59.caffemall.bean.*;
 import com.code59.caffemall.controller.Order.tempVar.OrderGenerating;
 import com.code59.caffemall.controller.Order.tempVar.OrderSearchByTime;
+import org.aspectj.weaver.ast.Or;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface OrderServices {
     public List<Order_detail> show(String id);
     public List<Order_shop> showOrderShops(OrderSearchByTime os);
     public List<Order_shop> showOrderShops(String shopid);
+    public List<Order_shop> showOrderShopsClient(String guestid);
 }

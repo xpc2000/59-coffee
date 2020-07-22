@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.code59.caffemall.bean.Discount;
 import com.code59.caffemall.bean.Food;
 import com.code59.caffemall.bean.Order;
+import com.code59.caffemall.controller.Order.tempVar.FoodlistForRank;
 import com.code59.caffemall.dao.FoodDao;
 import com.code59.caffemall.dao.OrderDao;
 import com.code59.caffemall.dao.OrderDetailDao;
@@ -79,7 +80,7 @@ public class MoneyServiceImpl implements MoneyService {
             pivot=listOfNum.get(p_pos);
             for (i = low + 1; i <= high; i++)
             {
-                if(listOfNum.get(p_pos)>pivot) {
+                if(listOfNum.get(p_pos)<pivot) {
                     p_pos++;
                     t = listOfNum.get(p_pos);
                     listOfNum.set(p_pos, listOfNum.get(i));
@@ -101,8 +102,10 @@ public class MoneyServiceImpl implements MoneyService {
     }
 
     @Override
-    public List<Food> ranking(){
+    public List<FoodlistForRank> ranking(){
         List<Food> foodList=foodDao.selectList(null);
+        List<FoodlistForRank>listforrank=new ArrayList<>(3);
+        System.out.println(listforrank.size());
         List<Integer> numList=new ArrayList<>();
         List<String> result_id=new ArrayList<>();
         int num=0;
@@ -124,8 +127,13 @@ public class MoneyServiceImpl implements MoneyService {
         {
             foodList.set(i,foodDao.selectById(result_id.get(i)));
         }
-
-        return foodList;
+        for(int i=0;i<foodList.size();i++)
+        {
+            Food food=foodList.get(i);
+            FoodlistForRank flr=new FoodlistForRank(food.getId(),food.getName(),numList.get(i));
+            listforrank.add(flr);
+        }
+        return listforrank;
     }
 
 }

@@ -95,10 +95,10 @@
         data()
         {
             return{
+                temprowid: '',
                 totalList: [],
                 detailDataVisible: false,
                 detailData: [],
-
                 ShipData: [
                     {
                         date: "2019/06/06",
@@ -115,7 +115,6 @@
                         totalPrice:'1.0',
                     },
                 ],
-
                 RecData:[
                     {
                         date: "2019/06/06",
@@ -132,7 +131,6 @@
                         totalPrice:'1.0',
                     },
                 ],
-
                 CompleteData:[
                     {
                         date: "2019/06/06",
@@ -149,21 +147,18 @@
                         totalPrice:'1.0',
                     },
                 ],
-
             }
         },
-
         methods:
             {
                 back()
                 {
                     this.$router.push({path: "/setting"});
                 },
-
                 async getList() {
                     //const { data: res } = await this.$http.post("SearchShopOrder",window.sessionStorage.getItem("username"));
                     this.username=window.sessionStorage.getItem("username");
-                    const { data: res } = await this.$http.post("SearchShopOrder",this.username);
+                    const { data: res } = await this.$http.post("SearchShopOrderClient",this.username);
                     console.log(res);
                     this.totalList = res;
                     //this.handleSizeChange(this.pageSize);
@@ -173,27 +168,28 @@
                     for (var i = 0; i < res.length; i++) {
                         if (res[i].beDeliver === 'n') {
                             this.ShipData.push(res[i]);
-                        } else {
-                            this.RecData.push(res[i]);
+                        } 
+                        else if(res[i].beOver ==='n'){
+                        this.RecData.push(res[i]);
                         }
-                        if(res[i].beOver ==='n')
-                        {
-                        }else{
+                        else{
                             this.CompleteData.push(res[i]);
                         }
                     }
                 },
-
                 /* 查看详情 */
                 async handleClick(row, type) {
-                    const { data: res } = await this.$http.post("OrderDetail", row.id);
+                    this.temprowid=row.orderID;
+                    const { data: res } = await this.$http.post("OrderDetail", this.temprowid);
                     this.detailDataVisible = true;
                     this.detailData = res;
                 },
-
                 /* 收货 */
                 async handleRec(row, type) {
-                    const {data: res} = await this.$http.post("Receipt", row.id);
+                    console.log(row);
+
+                    this.temprowid=row.orderID;
+                    const {data: res} = await this.$http.post("Receipt", this.temprowid);
                     if (res === "ok") {
                         await this.getList();
                         this.$message({
@@ -205,7 +201,6 @@
                     }
                 }
             },
-
         created() {
             this.getList();
         },
@@ -218,7 +213,6 @@
     {
         height: 100%;
     }
-
     /* 头部样式 */
     .el-header
     {

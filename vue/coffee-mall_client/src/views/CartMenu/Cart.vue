@@ -70,8 +70,13 @@
             return{
                 username:'',
                 param:{
-                    username:'',
-                    foodid:''
+                    username:'d',
+                    foodid:'d'
+                },
+                par_ano:{
+                    username:'d',
+                    foodid:'d',
+                    num:0
                 },
                 checkedAll: false,
                 checkedGoods: [],
@@ -195,7 +200,15 @@
                 this.goods.forEach(function (item1, index) {
                     if(item.id === item1.id)
                     {
+                        //console.log(item.id);
                         item1.num = arg[0];
+                        console.log(this.param);
+                        console.log(this.par_ano);
+                        this.par_ano.username=window.sessionStorage.getItem("username");
+                        this.par_ano.foodid=item.id;
+                        this.par_ano.num=item1.num;
+                        // this.$http.post("addnum",this.par_ano);
+                        console.log(item1.num);
                     }
                 })
             },

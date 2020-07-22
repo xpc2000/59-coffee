@@ -3,6 +3,7 @@ package com.code59.caffemall.controller.Order;
 import com.alibaba.fastjson.JSON;
 import com.code59.caffemall.bean.*;
 import com.code59.caffemall.controller.Discount.DiscountController;
+import com.code59.caffemall.controller.Order.ClientAndShop.OrderTemp;
 import com.code59.caffemall.controller.Order.staticVar.OrderFinal;
 import com.code59.caffemall.controller.Order.staticVar.OrdersAll;
 import com.code59.caffemall.controller.Order.tempVar.NameAndId;
@@ -105,6 +106,37 @@ public class ClientClient {
             tempShopList.add(ts);
         });
         return JSON.toJSONString(tempShopList);
+    }
+    @RequestMapping("/SearchShopOrderClient")
+    public String SearchShopOrderClient(@RequestBody String guestid)
+    {
+        guestid=guestid.substring(0,guestid.length()-1);
+        List<Order_shop>order_shops=orderServices.showOrderShopsClient(guestid);
+        List<OrderTemp>orderTemps=convertToOrderTemp(order_shops);
+        return JSON.toJSONString(orderTemps);
+    }
+    @RequestMapping("/Receipt")
+    public String Receipt(@RequestBody String orderId)
+    {
+        orderId = orderId.substring(0, orderId.length() - 1);
+        Order_shop orderShopTemp = orderServices.get(orderId);
+        if (orderShopTemp != null) {
+            orderShopTemp.setBeOver("y");
+        }
+        if (orderServices.update(orderShopTemp) == 1)
+            return "ok";
+        else
+            return "fail";
+    }
+    public List<OrderTemp> convertToOrderTemp(List<Order_shop> orderdetails) {
+        List<OrderTemp> orderTemps = new ArrayList<>();
+        orderdetails.forEach(order_shop -> {
+            String guestName = userService.get(order_shop.getIdGuest()).getName();
+            OrderTemp ot = new OrderTemp(order_shop.getId(), order_shop.getTime(), guestName, order_shop.getDeliverAddress(), order_shop.getPhone(),
+                    order_shop.getTotalPrice(), order_shop.getBeDeliver(), order_shop.getBeOver());
+            orderTemps.add(ot);
+        });
+        return orderTemps;
     }
 }
 class TempShop{
