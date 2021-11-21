@@ -1,0 +1,50 @@
+{
+  "name": "mingqui",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "async-validator": "^3.5.2",
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "dayjs": "^1.10.6",
+    "echarts": "^5.1.2",
+    "element-plus": "^1.0.2-beta.55",
+    "js-base64": "^3.6.1",
+    "vue": "^3.0.0",
+    "vue-router": "^4.0.10",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^5.0.0-beta.2",
+    "@vue/cli-plugin-eslint": "^5.0.0-beta.2",
+    "@vue/cli-service": "^5.0.0-beta.2",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.0.0-rc.0",
+    "eslint-plugin-vue": "^7.0.0",
+    "webpack": "^5.45.1",
+    "webpack-cli": "^4.7.2"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "Chrome > 80"
+  ]
+}

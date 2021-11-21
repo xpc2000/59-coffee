@@ -1,0 +1,102 @@
+      <el-card>
+        <!-- 这是主帖子 -->
+        <el-container class="post clearfix">
+          <el-container>
+            <el-container>{{postData.post.postSection}}</el-container>
+            <el-container class="title">{{postData.post.postTitle}}</el-container>
+            <el-tag>{{postData.post.postTag}}</el-tag>
+          </el-container>
+          <el-container>
+            {{ '这里应该是postData.post.postContent，后台没有给传过来' }}
+          </el-container>
+          <el-row>
+            <el-button type="danger">点赞</el-button>
+            <el-button type="warning">举报</el-button>
+          </el-row>
+        </el-container>
+        <el-input
+          class="maininput"
+          type="textarea"
+          :rows="2"
+          placeholder="请输入回复内容"
+          v-model="yourReply"
+          @focus="mainfocus"
+          @blur="mainblur"
+        >
+        </el-input>
+        <el-button v-if="isMainInputFocused">发布</el-button>
+        <!-- 这是回复的帖子 -->
+        <el-container class="replyposts">
+          <!-- 这是回复的每一条帖子 -->
+          <el-container
+            class="replypost"
+            v-for="(post, index) in postData.postLayer"
+            :key="index"
+          >
+            <!-- 头像和回复内容、回复和举报图标 -->
+            <el-container
+              class="replypost-reply"
+              @mouseover="showIcon(index)"
+              @mouseleave="hideIcon(index)"
+            >
+              <!-- 头像和回复内容 -->
+              <el-container>
+                <span>{{post.uname}}</span>
+              </el-container>
+              <el-container>
+                <span>{{post.floor}}</span>
+                <span style="float: right;width: 25%;">{{post.replyTime}}</span>
+              </el-container>
+              <el-container>{{ post.content }}</el-container>
+              <!-- 回复、举报、赞图标 -->
+              <el-container class="icons-box" v-if="isReplyFocused[index]">
+                <a
+                  href="javascript:;"
+                  @click="showReplySection(index)"
+                  class="button"
+                  ><span>{{
+                    isReplySectionShowing[index] == false ? "回复" : "取消回复"
+                  }}</span
+                  ><i class="iconfont">&#xe609;</i>
+                </a>
+                <a href="javascript:;" class="button"
+                  ><span>举报</span><i class="iconfont">&#xe609;</i>
+                </a>
+                <a href="javascript:;" class="button"
+                  ><span>赞</span><i class="iconfont">&#xe600;</i>
+                </a>
+              </el-container>
+              <!-- 回复框，平时隐藏 -->
+              <el-container v-if="isReplySectionShowing[index]">
+                <el-input
+                  type="textarea"
+                  :rows="2"
+                  placeholder="请输入内容"
+                  v-model="textarea"
+                  style="width: 80%;"
+                >
+                </el-input>
+                <el-button @click="replyReplyFunc(index)">回复</el-button>
+              </el-container>
+            </el-container>           
+            <div v-if="post.interLayers"
+                class="innerpost">
+              <el-container
+                v-for="(innerItem, index) in item.interLayers"
+                :key="index"
+              >
+                <el-container>
+                  {{innerItem.uname}}
+                </el-container>
+                <el-container>
+                  {{innerItem.replyUname}}
+                </el-container>
+                <el-container>
+                  {{ innerItem.content }}
+                </el-container>
+              </el-container>
+              <el-row v-if="post.interLayers.length>2"><a class="more" href="javascript:;">查看更多</a></el-row>
+            </div>
+          </el-container>
+        </el-container>
+      </el-card>
